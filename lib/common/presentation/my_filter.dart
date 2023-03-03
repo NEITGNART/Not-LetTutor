@@ -1,6 +1,7 @@
+import 'package:beatiful_ui/common/presentation/group_button.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/tutor/tutor_home_page.dart';
+import '../../features/tutor/presentation/tutor_home_page.dart';
 import '../constants.dart';
 import 'my_date_picker.dart';
 import 'my_time_picker.dart';
@@ -93,31 +94,32 @@ class MyFilter extends StatelessWidget {
               ),
             ],
           ),
-          Wrap(
-            children: <Widget>[
-              ...allSkillFilter.map(
-                (title) => Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          // change blue color
-                          logger.i('You just selected $title');
-                        },
-                        // border for button
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 228, 230, 235),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: Text(title,
-                            style: kSearchTextStyle.copyWith(
-                                color: const Color.fromARGB(
-                                    255, 100, 100, 100))))),
-              ),
-            ],
-          ),
+          GroupButton(titles: allSkillFilter),
+          // Wrap(
+          //   children: <Widget>[
+          //     ...allSkillFilter.map(
+          //       (title) => Padding(
+          //           padding: const EdgeInsets.all(5.0),
+          //           child: ElevatedButton(
+          //               onPressed: () {
+          //                 // change blue color
+          //                 logger.i('You just selected $title');
+          //               },
+          //               // border for button
+          //               style: ElevatedButton.styleFrom(
+          //                 backgroundColor:
+          //                     const Color.fromARGB(255, 228, 230, 235),
+          //                 shape: RoundedRectangleBorder(
+          //                   borderRadius: BorderRadius.circular(30),
+          //                 ),
+          //               ),
+          //               child: Text(title,
+          //                   style: kSearchTextStyle.copyWith(
+          //                       color: const Color.fromARGB(
+          //                           255, 100, 100, 100))))),
+          //     ),
+          //   ],
+          // ),
           const SizedBox(
             height: 10,
           ),

@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  chewie: ^1.4.0
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -38,11 +39,13 @@ dependencies:
   intl: ^0.18.0
   logger: ^1.2.2
   shimmer: ^2.0.0
+  video_player: ^2.5.3
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
@@ -65,7 +68,6 @@ flutter:
         - asset: asset/fonts/SFProText-Regular.ttf
         - asset: asset/fonts/SFProText-Bold.ttf
           weight: 800
-
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

@@ -5,8 +5,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logger/logger.dart';
 
-import '../../common/presentation/app_bar.dart';
-import '../../common/presentation/up_coming_lesson.dart';
+import '../../../common/presentation/app_bar.dart';
+import '../../../common/presentation/up_coming_lesson.dart';
 
 var fruits = ['Apple', 'Banana', 'Mango', 'Orange'];
 

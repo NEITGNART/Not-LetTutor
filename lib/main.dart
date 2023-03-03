@@ -1,12 +1,12 @@
 import 'dart:ui';
-
 import 'package:beatiful_ui/features/authentication/login_page.dart';
 import 'package:beatiful_ui/features/sidebar/presentation/sidebar_screen.dart';
-import 'package:beatiful_ui/features/tutor/tutor_home_page.dart';
+
+import 'package:beatiful_ui/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import './features/tutor/presentation/tutor_detail_page.dart';
 import 'home.dart';
 import 'profile.dart';
 import 'route/route.dart';
@@ -35,6 +35,7 @@ void main() {
   //   ..userInteractions = false;
 
   runApp(const ProviderScope(child: MyApp()));
+  // runApp(const ChewieDemo());
 }
 
 class MyApp extends StatelessWidget {
@@ -65,7 +66,7 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  var _currentPageIndex = 2;
+  var _currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +75,7 @@ class _RootPageState extends State<RootPage> {
       //   title: const Text('Home Page'),
       // ),
       body: const [
+        TutorDetailPage(),
         HomePage(),
         ProfilePage(),
         LoginPage(),
@@ -86,6 +88,12 @@ class _RootPageState extends State<RootPage> {
       ),
       bottomNavigationBar: NavigationBar(
         destinations: const [
+          NavigationDestination(
+              icon: Icon(
+                Icons.details,
+                color: Colors.blue,
+              ),
+              label: 'Tutor details'),
           NavigationDestination(
               icon: Icon(
                 Icons.home,
@@ -108,7 +116,7 @@ class _RootPageState extends State<RootPage> {
           ),
           NavigationDestination(
             icon: Icon(
-              Icons.chat,
+              Icons.people,
               color: Colors.blue,
             ),
             label: 'TutorList',
