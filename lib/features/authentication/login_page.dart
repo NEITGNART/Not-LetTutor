@@ -11,6 +11,8 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           color: Colors.white,
@@ -20,50 +22,52 @@ class LoginPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const MyAppBar(),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (MediaQuery.of(context).size.width > 800) ...[
-                    Row(
-                      children: [
-                        Flexible(
-                            child: Container(
-                                padding: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  // boder radius
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(30),
-                                    // color grey
+            Flexible(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if (MediaQuery.of(context).size.width > 800) ...[
+                      Row(
+                        children: [
+                          Flexible(
+                              child: Container(
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    // boder radius
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(30),
+                                      // color grey
+                                    ),
+                                    border: Border.all(
+                                        color: Colors.grey, width: 1),
                                   ),
-                                  border:
-                                      Border.all(color: Colors.grey, width: 1),
-                                ),
-                                child: const LoginForm())),
-                        Flexible(
-                          child: Image.network(
-                              fit: BoxFit.cover,
-                              'https://sandbox.app.lettutor.com/static/media/login.8d01124a.png'),
-                        )
-                      ],
-                    ),
-                  ] else ...[
-                    Image.network(
-                        // height and width
-                        // fit image
-                        height: MediaQuery.of(context).size.height * 0.35,
-                        fit: BoxFit.cover,
-                        'https://sandbox.app.lettutor.com/static/media/login.8d01124a.png'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(child: Container(child: const LoginForm())),
-                      ],
-                    ),
+                                  child: const LoginForm())),
+                          Flexible(
+                            child: Image.network(
+                                fit: BoxFit.cover,
+                                'https://sandbox.app.lettutor.com/static/media/login.8d01124a.png'),
+                          )
+                        ],
+                      ),
+                    ] else ...[
+                      Image.network(
+                          // height and width
+                          // fit image
+                          height: MediaQuery.of(context).size.height * 0.35,
+                          fit: BoxFit.cover,
+                          'https://sandbox.app.lettutor.com/static/media/login.8d01124a.png'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(child: Container(child: const LoginForm())),
+                        ],
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
           ],
