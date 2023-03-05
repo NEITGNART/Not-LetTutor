@@ -13,6 +13,10 @@ class Sizes {
   static const p64 = 64.0;
 }
 
+class ScheduleColorPage {
+  static const background = Color.fromARGB(255, 222, 220, 220);
+}
+
 /// Constant gap widths
 const gapW4 = SizedBox(width: Sizes.p4);
 const gapW8 = SizedBox(width: Sizes.p8);
@@ -34,3 +38,6 @@ const gapH24 = SizedBox(height: Sizes.p24);
 const gapH32 = SizedBox(height: Sizes.p32);
 const gapH48 = SizedBox(height: Sizes.p48);
 const gapH64 = SizedBox(height: Sizes.p64);
+
+// Constant color of the app
+const scheduleBackground = ScheduleColorPage.background;
