@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:beatiful_ui/features/authentication/login_page.dart';
 import 'package:beatiful_ui/features/booking/presentation/schedule_page.dart';
+import 'package:beatiful_ui/features/history/presentation/history_page.dart';
 import 'package:beatiful_ui/features/sidebar/presentation/sidebar_screen.dart';
 
 import 'package:beatiful_ui/features/tutor/presentation/tutor_home_page.dart';
@@ -76,6 +77,7 @@ class _RootPageState extends State<RootPage> {
       //   title: const Text('Home Page'),
       // ),
       body: const [
+        HistoryPage(),
         SchedulePage(),
         TutorDetailPage(),
         HomePage(),
@@ -90,6 +92,12 @@ class _RootPageState extends State<RootPage> {
       ),
       bottomNavigationBar: NavigationBar(
         destinations: const [
+          NavigationDestination(
+              icon: Icon(
+                Icons.phone,
+                color: Colors.blue,
+              ),
+              label: 'History'),
           NavigationDestination(
               icon: Icon(
                 Icons.schedule,

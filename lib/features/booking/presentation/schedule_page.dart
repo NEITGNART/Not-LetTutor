@@ -17,9 +17,9 @@ class SchedulePage extends StatelessWidget {
         child: const Column(children: [
           ScheduleBanner(),
           gapH16,
-          // Expanded(
-          //   child: ScheduleList(),
-          // ),
+          Expanded(
+            child: ScheduleList(),
+          ),
         ]),
       ),
     );
@@ -34,11 +34,14 @@ class ScheduleList extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: ListView.builder(
-        itemCount: 1,
+        itemCount: 2,
         itemBuilder: (context, index) {
-          return ScheduleLessonCard(
-            date: 'Fri, 30, Sep 22',
-            lesson: index + 1,
+          return Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            child: ScheduleLessonCard(
+              date: 'Fri, 30, Sep 22',
+              lesson: index + 1,
+            ),
           );
         },
       ),
@@ -54,6 +57,7 @@ class ScheduleBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(
           width: 120,
