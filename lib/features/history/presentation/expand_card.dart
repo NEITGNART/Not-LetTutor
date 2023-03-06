@@ -36,6 +36,8 @@ class HistoryExpandCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var review =
+        'Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. Currently there are no requests for this class. Please write down any requests for the teacher. ';
     return Container(
       color: historyBackground,
       margin: const EdgeInsets.only(bottom: 16),
@@ -74,14 +76,18 @@ class HistoryExpandCard extends StatelessWidget {
                 // ),
                 backgroundColor: historyBackground,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                    ),
-                    child: Text(
-                        'Currently there are no requests for this class. Please write down any requests for the teacher.',
-                        style: kSearchPlaceholderStyle.copyWith(fontSize: 15)),
+                  Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: Text(review,
+                            style:
+                                kSearchPlaceholderStyle.copyWith(fontSize: 15)),
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -17,7 +17,9 @@ class HistoryPage extends StatelessWidget {
         child: const Column(children: [
           HistoryBanner(),
           gapH16,
-          Expanded(child: HistoryList()),
+          Expanded(
+            child: HistoryList(),
+          ),
         ]),
       ),
     );
@@ -93,20 +95,15 @@ class _HistoryLessonState extends State<HistoryLessonCard> {
                   )
                 ],
               )
-            : SizedBox(
-                height: 560,
-                child: Column(
-                  children: [
-                    DateLesson(
-                      date: widget.date,
-                      lesson: widget.lesson,
-                    ),
-                    gapH32,
-                    const TutorInfoLessonCard(),
-                    gapH32,
-                    const ReviewHistoryCard()
-                  ],
-                ),
+            : Column(
+                children: [
+                  DateLesson(
+                    date: widget.date,
+                    lesson: widget.lesson,
+                  ),
+                  const TutorInfoLessonCard(),
+                  const ReviewHistoryCard()
+                ],
               ));
   }
 }

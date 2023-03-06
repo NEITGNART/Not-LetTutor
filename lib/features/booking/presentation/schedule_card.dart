@@ -58,20 +58,17 @@ class _ScheduleLessonState extends State<ScheduleLessonCard> {
                 )
               ],
             )
-          : SizedBox(
-              height: MediaQuery.of(context).size.height * 0.48,
-              child: Column(
-                children: [
-                  DateLesson(
-                    date: widget.date,
-                    lesson: widget.lesson,
-                  ),
-                  gapH32,
-                  const TutorInfoLessonCard(),
-                  gapH32,
-                  Expanded(child: RequestLessonCard(isExpanded: isExpanded)),
-                ],
-              ),
+          : Column(
+              children: [
+                DateLesson(
+                  date: widget.date,
+                  lesson: widget.lesson,
+                ),
+                gapH32,
+                const TutorInfoLessonCard(),
+                gapH32,
+                RequestLessonCard(isExpanded: isExpanded),
+              ],
             ),
     );
   }
