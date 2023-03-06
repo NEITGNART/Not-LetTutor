@@ -2,26 +2,21 @@ import 'package:flutter/material.dart';
 
 import '../../../common/app_sizes.dart';
 import '../../../common/constants.dart';
+import '../domain/history.dart';
 import 'expand_card.dart';
 
 class ReviewHistoryCard extends StatefulWidget {
-  const ReviewHistoryCard({super.key});
-
+  final HistoryInfo historyInfo;
+  const ReviewHistoryCard({super.key, required this.historyInfo});
   @override
   State<ReviewHistoryCard> createState() => _ReviewHistoryCardState();
 }
 
 class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
-  final Map<String, String> _review = {
-    'review': 'This is a review',
-    'rating': '5',
-  };
-
   bool isExpanded = true;
-
   @override
   Widget build(BuildContext context) {
-    var lessonTime = 'Lesson time: 18:30 - 18:55';
+    var lessonTime = 'Lesson time: ${widget.historyInfo.lessonTime}';
     return Container(
         child: Container(
       decoration: const BoxDecoration(
@@ -67,7 +62,8 @@ class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               gapH16,
               // expansion panel
-              HistoryExpandCard(isExpanded: isExpanded),
+              HistoryExpandCard(
+                  isExpanded: isExpanded, historyInfo: widget.historyInfo),
             ]),
           ),
           Row(

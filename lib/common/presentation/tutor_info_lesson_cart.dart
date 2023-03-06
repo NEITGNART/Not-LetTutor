@@ -1,7 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../common/constants.dart';
+
+class TutorInfo {
+  final String name;
+  final String avatarUrl;
+  final String iconUrl;
+  final String country;
+  TutorInfo({
+    required this.name,
+    required this.avatarUrl,
+    required this.iconUrl,
+    required this.country,
+  });
+}
 
 class TutorInfoLessonCard extends StatelessWidget {
   const TutorInfoLessonCard({

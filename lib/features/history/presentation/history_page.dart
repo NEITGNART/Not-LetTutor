@@ -1,8 +1,12 @@
+import 'package:beatiful_ui/common/presentation/async_value_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../common/app_sizes.dart';
 import '../../../common/presentation/date_lesson.dart';
 import '../../../common/presentation/tutor_info_lesson_cart.dart';
+import '../data/history_repository.dart';
+import '../domain/history.dart';
 import 'banner.dart';
 import 'review_card.dart';
 
@@ -26,40 +30,35 @@ class HistoryPage extends StatelessWidget {
   }
 }
 
-class HistoryList extends StatelessWidget {
+class HistoryList extends ConsumerWidget {
   const HistoryList({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      child: ListView.builder(
-        itemCount: 2,
-        itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            child: HistoryLessonCard(
-              date: 'Fri, 30, Sep 22',
-              lesson: index + 1,
-            ),
-          );
-        },
-      ),
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final historyValue = ref.watch(historyProvider);
+
+    return AsyncValueWidget<List<HistoryInfo>>(
+        value: historyValue,
+        data: (historyInfo) => Container(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView.builder(
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    child: HistoryLessonCard(
+                      historyInfo: historyInfo[index],
+                    ),
+                  );
+                },
+              ),
+            ));
   }
 }
 
 class HistoryLessonCard extends StatefulWidget {
-  final String date;
-  final int lesson;
-  final String requestContent;
-
-  const HistoryLessonCard(
-      {super.key,
-      required this.date,
-      required this.lesson,
-      this.requestContent =
-          'Currently there are no requests for this class. Please write down any requests for the teacher.'});
+  final HistoryInfo historyInfo;
+  const HistoryLessonCard({super.key, required this.historyInfo});
 
   @override
   State<HistoryLessonCard> createState() => _HistoryLessonState();
@@ -81,28 +80,34 @@ class _HistoryLessonState extends State<HistoryLessonCard> {
                   Flexible(
                     flex: 1,
                     child: DateLesson(
-                      date: widget.date,
-                      lesson: widget.lesson,
+                      date: widget.historyInfo.date,
+                      lesson: widget.historyInfo.lesson,
                     ),
                   ),
                   const Flexible(
                     flex: 1,
                     child: TutorInfoLessonCard(),
                   ),
-                  const Flexible(
+                  Flexible(
                     flex: 2,
-                    child: ReviewHistoryCard(),
+                    child: ReviewHistoryCard(
+                      historyInfo: widget.historyInfo,
+                    ),
                   )
                 ],
               )
             : Column(
                 children: [
                   DateLesson(
-                    date: widget.date,
-                    lesson: widget.lesson,
+                    date: widget.historyInfo.date,
+                    lesson: widget.historyInfo.lesson,
                   ),
+                  gapH32,
                   const TutorInfoLessonCard(),
-                  const ReviewHistoryCard()
+                  gapH32,
+                  ReviewHistoryCard(
+                    historyInfo: widget.historyInfo,
+                  ),
                 ],
               ));
   }
