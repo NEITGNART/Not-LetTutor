@@ -12,15 +12,17 @@ class SchedulePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: const Column(children: [
-          ScheduleBanner(),
-          gapH16,
-          Expanded(
-            child: ScheduleList(),
-          ),
-        ]),
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: const Column(children: [
+            ScheduleBanner(),
+            gapH16,
+            Expanded(
+              child: ScheduleList(),
+            ),
+          ]),
+        ),
       ),
     );
   }

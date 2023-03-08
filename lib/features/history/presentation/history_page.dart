@@ -16,15 +16,17 @@ class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: const Column(children: [
-          HistoryBanner(),
-          gapH16,
-          Expanded(
-            child: HistoryList(),
-          ),
-        ]),
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: const Column(children: [
+            HistoryBanner(),
+            gapH16,
+            Expanded(
+              child: HistoryList(),
+            ),
+          ]),
+        ),
       ),
     );
   }
