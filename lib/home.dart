@@ -1,10 +1,8 @@
-
 import 'package:beatiful_ui/common/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'features/course/presentation/recent_course_list.dart';
-
+import 'features/course/temp/presentation/recent_course_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

@@ -17,17 +17,27 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          child: const Column(children: [
-            HistoryBanner(),
-            gapH16,
-            Expanded(
-              child: HistoryList(),
-            ),
-          ]),
-        ),
-      ),
+          // child: SingleChildScrollView(
+          //   child: Container(
+          //     padding: const EdgeInsets.all(16.0),
+          //     child: Column(children: [
+          //       const HistoryBanner(),
+          //       gapH16,
+          //       SizedBox(
+          //         height: MediaQuery.of(context).size.height,
+          //         child: const HistoryList(),
+          //       ),
+          //     ]),
+          //   ),
+          // ),
+          child: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: const Column(children: [
+          HistoryBanner(),
+          gapH16,
+          Expanded(child: HistoryList()),
+        ]),
+      )),
     );
   }
 }

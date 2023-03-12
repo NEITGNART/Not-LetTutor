@@ -13,7 +13,7 @@ class ReviewHistoryCard extends StatefulWidget {
 }
 
 class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
-  bool isExpanded = true;
+  bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
     var lessonTime = 'Lesson time: ${widget.historyInfo.lessonTime}';

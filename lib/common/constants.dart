@@ -94,3 +94,5 @@ var kCaptionLabelStyle = const TextStyle(
   fontFamily: 'SF Pro Text',
   decoration: TextDecoration.none,
 );
+
+String apiUrl = 'sandbox.api.lettutor.com';

@@ -1,9 +1,9 @@
 import 'dart:ui';
-import 'package:beatiful_ui/features/authentication/login_page.dart';
+import 'package:beatiful_ui/features/authentication/presentation/login_page.dart';
 import 'package:beatiful_ui/features/booking/presentation/schedule_page.dart';
-import 'package:beatiful_ui/features/course/presentation/discover/representation/discovery_page.dart';
+import 'package:beatiful_ui/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/features/history/presentation/history_page.dart';
-import 'package:beatiful_ui/features/sidebar/presentation/sidebar_screen.dart';
+import 'package:beatiful_ui/common/presentation/sidebar/presentation/sidebar_screen.dart';
 
 import 'package:beatiful_ui/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
