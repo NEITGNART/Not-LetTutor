@@ -1,14 +1,22 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import '../../../../common/constants.dart';
-
 import 'package:http/http.dart' as http;
 
+import '../../../../common/constants.dart';
 import '../model/Ebook.dart';
 import '../model/course.dart';
 import '../model/course_category.dart';
+
+final dioProvider = Provider<Dio>((ref) {
+  return Dio();
+});
+
+const String temporaryToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2Nzg3MjUxMDEsImV4cCI6MTY3ODgxMTUwMSwidHlwZSI6ImFjY2VzcyJ9.S1kWoutrj9cEmbdn4IZFDl7PulqUQ6Uahs7XeOlypoo";
 
 class CourseFunctions {
   static Future<List<Course>?> getListCourseWithPagination(
@@ -19,8 +27,7 @@ class CourseFunctions {
   }) async {
     var storage = const FlutterSecureStorage();
     // String? token = await storage.read(key: 'accessToken');
-    String? token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2Nzg1OTcwMTIsImV4cCI6MTY3ODY4MzQxMiwidHlwZSI6ImFjY2VzcyJ9.nJPNDhajTXaDWpIJf6JIWtHUHAJRiawBL3SUYsMM5b8";
+    String? token = temporaryToken;
 
     final queryParameters = {
       'page': '$page',
@@ -58,10 +65,10 @@ class CourseFunctions {
     var storage = const FlutterSecureStorage();
     // String? token = await storage.read(key: 'accessToken');
 
-    String? token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2Nzg1OTcwMTIsImV4cCI6MTY3ODY4MzQxMiwidHlwZSI6ImFjY2VzcyJ9.nJPNDhajTXaDWpIJf6JIWtHUHAJRiawBL3SUYsMM5b8";
+    String? token = temporaryToken;
 
     var url = Uri.https(apiUrl, 'content-category');
+
     var response = await http.get(
       url,
       headers: {
@@ -69,6 +76,8 @@ class CourseFunctions {
         'Authorization': 'Bearer $token'
       },
     );
+
+    //
 
     if (response.statusCode == 200) {
       final res = json.decode(response.body);
@@ -83,8 +92,7 @@ class CourseFunctions {
   static getCourseById(String courseId) async {
     // var storage = const FlutterSecureStorage();
     // String? token = await storage.read(key: 'accessToken');
-    String? token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2Nzg1OTcwMTIsImV4cCI6MTY3ODY4MzQxMiwidHlwZSI6ImFjY2VzcyJ9.nJPNDhajTXaDWpIJf6JIWtHUHAJRiawBL3SUYsMM5b8";
+    String? token = temporaryToken;
 
     var url = Uri.https(apiUrl, 'course/$courseId');
     var response = await http.get(
@@ -113,8 +121,7 @@ class EbookFunctions {
   }) async {
     // var storage = const FlutterSecureStorage();
     // String? token = await storage.read(key: 'accessToken');
-    String? token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2Nzg1OTcwMTIsImV4cCI6MTY3ODY4MzQxMiwidHlwZSI6ImFjY2VzcyJ9.nJPNDhajTXaDWpIJf6JIWtHUHAJRiawBL3SUYsMM5b8";
+    String? token = temporaryToken;
 
     final queryParameters = {
       'page': '$page',

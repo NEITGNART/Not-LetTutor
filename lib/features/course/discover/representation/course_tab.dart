@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:beatiful_ui/common/app_sizes.dart';
 import 'package:beatiful_ui/common/breakpoint.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../data/repository.dart';
 import '../model/course.dart';
 import '../model/course_category.dart';
+import 'grid_card_course.dart';
+import 'list_card_course.dart';
 
 class CourseTab extends StatefulWidget {
   const CourseTab({Key? key}) : super(key: key);
@@ -41,12 +42,19 @@ class _CourseTabState extends State<CourseTab> {
   CourseCategory? currentCategory;
 
   void getCategories() async {
-    final response = await CourseFunctions.getAllCourseCategories();
-    if (mounted) {
-      setState(() {
-        categories = response!;
-        isLoadingCategories = false;
-      });
+    try {
+      final response = await CourseFunctions.getAllCourseCategories();
+      if (response != null && mounted) {
+        setState(() {
+          categories = response;
+          isLoadingCategories = false;
+        });
+      }
+    } catch (e) {
+      final snackBar = SnackBar(
+        content: Text(e.toString()),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -120,14 +128,21 @@ class _CourseTabState extends State<CourseTab> {
   }
 
   void getListCourse(int page, int size) async {
-    List<Course>? response = await CourseFunctions.getListCourseWithPagination(
-        page, size,
-        categoryId: category, q: search);
-    if (mounted) {
-      setState(() {
-        _results.addAll(response!);
-        isLoading = false;
-      });
+    try {
+      List<Course>? response =
+          await CourseFunctions.getListCourseWithPagination(page, size,
+              categoryId: category, q: search);
+      if (mounted) {
+        setState(() {
+          _results.addAll(response!);
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      const snackBar = SnackBar(
+        content: Text('Không thể tải thêm nữa'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 
@@ -149,8 +164,8 @@ class _CourseTabState extends State<CourseTab> {
           });
         }
       } catch (e) {
-        const snackBar = SnackBar(
-          content: Text('Không thể tải thêm nữa'),
+        final snackBar = SnackBar(
+          content: Text(e.toString()),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
@@ -224,7 +239,7 @@ class _CourseTabState extends State<CourseTab> {
                   ),
                 ),
                 onPressed: () {
-                  showModal(context);
+                  showCategoryModel(context);
                 },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
@@ -245,7 +260,7 @@ class _CourseTabState extends State<CourseTab> {
                   ),
                 ),
                 onPressed: () {
-                  showModal(context);
+                  showCategoryModel(context);
                 },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
@@ -266,7 +281,7 @@ class _CourseTabState extends State<CourseTab> {
                   ),
                 ),
                 onPressed: () {
-                  showModal(context);
+                  showCategoryModel(context);
                 },
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
@@ -280,7 +295,8 @@ class _CourseTabState extends State<CourseTab> {
           ],
         ),
         gapH12,
-        Row(
+        Wrap(
+          runSpacing: 10,
           children: [
             MyInputChip(label: 'Any Level', onDeleted: () {}),
             gapW12,
@@ -335,7 +351,63 @@ class _CourseTabState extends State<CourseTab> {
     );
   }
 
-  void showModal(context) {
+  void showCategoryModel(context) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        barrierColor: const Color(0x00ffffff),
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              height: MediaQuery.of(context).size.height * 0.3,
+              alignment: Alignment.center,
+              child: Wrap(
+                children: [
+                  ..._generateChips(categories, () {
+                    Navigator.pop(context);
+                  })
+                ],
+              ));
+        });
+  }
+
+  void showLevelModal(context) {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        barrierColor: const Color(0x00ffffff),
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return Container(
+              padding: const EdgeInsets.all(8),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              height: MediaQuery.of(context).size.height * 0.3,
+              alignment: Alignment.center,
+              child: Wrap(
+                children: [
+                  ..._generateChips(categories, () {
+                    Navigator.pop(context);
+                  })
+                ],
+              ));
+        });
+  }
+
+  void showSortLevelModal(context) {
     showModalBottomSheet(
         isScrollControlled: true,
         barrierColor: const Color(0x00ffffff),
@@ -400,248 +472,6 @@ class _MyInputChipState extends State<MyInputChip> {
       onDeleted: () {
         widget.onDeleted();
       },
-    );
-  }
-}
-
-class GridViewCard extends StatelessWidget {
-  const GridViewCard({
-    super.key,
-    required List<Course> results,
-    required ScrollController scrollController,
-    required this.listLevels,
-    this.gridNum = 2,
-  })  : _results = results,
-        _scrollController = scrollController;
-
-  final List<Course> _results;
-  final ScrollController _scrollController;
-  final Map<String, String> listLevels;
-  final int gridNum;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: _results.length,
-      controller: _scrollController,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: gridNum,
-        childAspectRatio: 0.8,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      itemBuilder: (context, index) =>
-          CourseCard(results: _results, listLevels: listLevels, index: index),
-    );
-  }
-}
-
-class CourseCard extends StatelessWidget {
-  const CourseCard({
-    super.key,
-    required List<Course> results,
-    required this.listLevels,
-    required this.index,
-  }) : _results = results;
-
-  final List<Course> _results;
-  final Map<String, String> listLevels;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => CourseDetailScreen(
-        //             courseId: _results[index].id)));
-      },
-      child: Card(
-        elevation: 5,
-        shape: const RoundedRectangleBorder(
-          side: BorderSide(color: Colors.white70, width: 1),
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-        child: SizedBox(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                flex: 3,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: CachedNetworkImage(
-                    imageUrl: _results[index].imageUrl,
-                    fit: BoxFit.cover,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) =>
-                            CircularProgressIndicator(
-                                value: downloadProgress.progress),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
-              ),
-              Flexible(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _results[index].name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.bold),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 8, bottom: 15),
-                        child: Text(
-                          _results[index].description,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style:
-                              TextStyle(fontSize: 12, color: Colors.grey[800]),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              listLevels[_results[index].level] as String,
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.grey[800]),
-                            ),
-                            Text(
-                              '${_results[index].topics.length}',
-                              style: TextStyle(
-                                  fontSize: 12, color: Colors.grey[800]),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ListViewCard extends StatelessWidget {
-  const ListViewCard({
-    super.key,
-    required List<Course> results,
-    required ScrollController scrollController,
-    required this.listLevels,
-  })  : _results = results,
-        _scrollController = scrollController;
-
-  final List<Course> _results;
-  final ScrollController _scrollController;
-  final Map<String, String> listLevels;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: _results.length,
-      controller: _scrollController,
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: GestureDetector(
-          onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => CourseDetailScreen(
-            //             courseId: _results[index].id)));
-          },
-          child: Card(
-            elevation: 5,
-            shape: const RoundedRectangleBorder(
-              side: BorderSide(color: Colors.white70, width: 1),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-            child: SizedBox(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(
-                      imageUrl: _results[index].imageUrl,
-                      fit: BoxFit.cover,
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) =>
-                              CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _results[index].name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 8, bottom: 15),
-                          child: Text(
-                            _results[index].description,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 12, color: Colors.grey[800]),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                listLevels[_results[index].level] as String,
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.grey[800]),
-                              ),
-                              Text(
-                                '${_results[index].topics.length}',
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.grey[800]),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
