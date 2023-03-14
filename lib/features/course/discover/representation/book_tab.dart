@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:beatiful_ui/features/course/discover/representation/course_tab.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -215,29 +216,7 @@ class _BookTabState extends State<BookTab> {
                 child: CircularProgressIndicator(),
               )
             : Expanded(
-                child: _results.isEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.5,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                'asset/svg/ic_notfound.svg',
-                                width: 200,
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                child: Text(
-                                  'No data',
-                                  style: TextStyle(color: Colors.grey[700]),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : getCourseCard(),
+                child: _results.isEmpty ? const EmptyData() : getCourseCard(),
               ),
         if (isLoadMore)
           const SizedBox(

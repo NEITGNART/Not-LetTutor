@@ -84,56 +84,27 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
         slivers: [
           SliverList(
             delegate: SliverChildListDelegate([
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 10, top: 10),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 10),
-                          decoration: const BoxDecoration(
-                            color: Colors.black26,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(1000),
-                            ),
-                          ),
-                          child: const Icon(
-                            Icons.arrow_back,
-                            color: Colors.blue,
-                          ),
-                        ),
+              Container(
+                padding: const EdgeInsets.all(16),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: DetailCourseCard()),
+                    gapW32,
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        children: [
+                          OverviewInfo(),
+                          gapH16,
+                          // create listviewbuilder wrap inside expanded
+                          // to make it scrollable
+                        ],
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(child: DetailCourseCard()),
-                        gapW32,
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            children: [
-                              OverviewInfo(),
-                              gapH16,
-                              // create listviewbuilder wrap inside expanded
-                              // to make it scrollable
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               )
             ]),
           ),

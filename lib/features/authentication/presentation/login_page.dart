@@ -11,8 +11,6 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
         body: SingleChildScrollView(
       child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           color: Colors.white,

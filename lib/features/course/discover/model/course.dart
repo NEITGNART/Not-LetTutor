@@ -17,7 +17,6 @@ class Course {
   late String updatedAt;
   List<CourseTopic> topics = [];
   List<CourseCategory> categories = [];
-
   Course({
     required this.id,
     required this.name,

@@ -19,6 +19,7 @@ class CourseTab extends StatefulWidget {
 class _CourseTabState extends State<CourseTab> {
   List<Course> _results = [];
   final TextEditingController _controller = TextEditingController();
+  final CourseRepository courseRepository = MyCourseRepository();
   final listLevels = {
     "0": "Any level",
     "1": "Beginner",
@@ -129,15 +130,21 @@ class _CourseTabState extends State<CourseTab> {
 
   void getListCourse(int page, int size) async {
     try {
-      List<Course>? response =
-          await CourseFunctions.getListCourseWithPagination(page, size,
-              categoryId: category, q: search);
-      if (mounted) {
-        setState(() {
-          _results.addAll(response!);
-          isLoading = false;
-        });
-      }
+      final courses =
+          await courseRepository.getListCourseWithPagination(page, size);
+      setState(() {
+        _results.addAll(courses!);
+        isLoading = false;
+      });
+      // List<Course>? response =
+      //     await CourseFunctions.getListCourseWithPagination(page, size,
+      //         categoryId: category, q: search);
+      // if (response != null && mounted) {
+      //   setState(() {
+      //     _results.addAll(response);
+      //     isLoading = false;
+      //   });
+      // }
     } catch (e) {
       const snackBar = SnackBar(
         content: Text('Không thể tải thêm nữa'),
@@ -157,9 +164,9 @@ class _CourseTabState extends State<CourseTab> {
         List<Course>? response =
             await CourseFunctions.getListCourseWithPagination(page, perPage,
                 categoryId: category, q: search);
-        if (mounted) {
+        if (response != null && mounted) {
           setState(() {
-            _results.addAll(response!);
+            _results.addAll(response);
             isLoadMore = false;
           });
         }
@@ -317,29 +324,7 @@ class _CourseTabState extends State<CourseTab> {
                 child: CircularProgressIndicator(),
               )
             : Expanded(
-                child: _results.isEmpty
-                    ? SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.5,
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                "asset/svg/ic_notfound.svg",
-                                width: 200,
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                child: Text(
-                                  "No data",
-                                  style: TextStyle(color: Colors.grey[700]),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : getCourseCard()),
+                child: _results.isEmpty ? const EmptyData() : getCourseCard()),
         if (isLoadMore)
           const SizedBox(
             height: 50,
@@ -452,6 +437,37 @@ class _CourseTabState extends State<CourseTab> {
         scrollController: _scrollController,
         listLevels: listLevels,
         gridNum: 3);
+  }
+}
+
+class EmptyData extends StatelessWidget {
+  const EmptyData({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.maxFinite,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            "asset/svg/ic_notfound.svg",
+            width: 200,
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            child: Text(
+              "No data",
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

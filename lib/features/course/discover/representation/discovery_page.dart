@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'book_tab.dart';
 import 'course_tab.dart';
+import 'interactive_tab.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -58,8 +59,7 @@ class _DiscoverPageState extends State<DiscoverPage>
                     children: const [
                       CourseTab(),
                       BookTab(),
-                      Text('')
-                      // InteractiveTab(),
+                      InteractiveTab(),
                     ],
                   ),
                 ),
@@ -71,56 +71,3 @@ class _DiscoverPageState extends State<DiscoverPage>
     );
   }
 }
-
-
-
-// CustomScrollView(
-//           slivers: <Widget>[
-//             SliverPadding(
-//               padding: const EdgeInsets.all(8),
-//               sliver: SliverList(
-//                 delegate: SliverChildListDelegate(
-//                   [
-//                     const DiscoveryBanner(),
-//                     SizedBox(
-//                       height: 50,
-//                       width: double.maxFinite,
-//                       child: Align(
-//                         alignment: Alignment.centerLeft,
-//                         child: TabBar(
-//                           unselectedLabelColor: Colors.grey,
-//                           labelPadding:
-//                               const EdgeInsets.only(left: 20, right: 20),
-//                           labelColor: Colors.blue,
-//                           controller: tabController,
-//                           isScrollable: true,
-//                           // indicator: const CircleTabIndicator(
-//                           //   color: Color.fromARGB(255, 16, 136, 235),
-//                           // ),
-//                           tabs: const [
-//                             Tab(text: 'Course'),
-//                             Tab(text: 'E-book'),
-//                             Tab(text: 'Interactive Ebook'),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//             SliverFillRemaining(
-//               child: Expanded(
-//                 child: TabBarView(
-//                   controller: tabController,
-//                   children: const [
-//                     CourseTab(),
-//                     BookTab(),
-//                     Text('')
-//                     // InteractiveTab(),
-//                   ],
-//                 ),
-//               ),
-//             )
-//           ],
-//         )
