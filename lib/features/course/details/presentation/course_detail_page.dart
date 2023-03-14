@@ -38,7 +38,9 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.arrow_back),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
                 Expanded(
                   child: AnimatedOpacity(

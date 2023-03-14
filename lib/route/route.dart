@@ -6,10 +6,13 @@ import 'package:beatiful_ui/features/profile/presentation/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/course/details/presentation/lesson_detail_page.dart';
+
 enum AppRoute {
   courseDetail,
   home,
   discovery,
+  topicPdf,
 }
 
 final configRouter = GoRouter(
@@ -68,6 +71,18 @@ final configRouter = GoRouter(
             //   child: const DiscoverPage(),
             //   fullscreenDialog: true,
             // ),
+          ),
+          GoRoute(
+            name: AppRoute.topicPdf.name,
+            path: 'topic_pdf/:link',
+            pageBuilder: (context, state) {
+              final link = state.params['link'] ?? '';
+              return MaterialPage<void>(
+                key: state.pageKey,
+                child: MyPdfViewer(link: link),
+                fullscreenDialog: true,
+              );
+            },
           ),
         ]),
   ],

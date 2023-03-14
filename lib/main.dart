@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:beatiful_ui/features/authentication/presentation/login_page.dart';
 import 'package:beatiful_ui/features/booking/presentation/schedule_page.dart';
-import 'package:beatiful_ui/features/course/details/presentation/course_detail_page.dart';
+import 'package:beatiful_ui/features/course/details/presentation/lesson_detail_page.dart';
 import 'package:beatiful_ui/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/features/history/presentation/history_page.dart';
 import 'package:beatiful_ui/common/presentation/sidebar/presentation/sidebar_screen.dart';
@@ -79,7 +79,7 @@ class _RootPageState extends State<RootPage> {
       //   title: const Text('Home Page'),
       // ),
       body: const [
-        DetailCourseScreen(courseId: '123'),
+        LessonDetailScreen(),
         DiscoverPage(),
         HistoryPage(),
         SchedulePage(),
@@ -101,7 +101,7 @@ class _RootPageState extends State<RootPage> {
                 Icons.search,
                 color: Colors.blue,
               ),
-              label: 'Course Details'),
+              label: 'Lesson'),
           NavigationDestination(
               icon: Icon(
                 Icons.search,

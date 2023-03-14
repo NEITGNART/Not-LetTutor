@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../common/constants.dart';
+import '../../../route/route.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -87,7 +89,9 @@ class LoginForm extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(AppRoute.discovery.name);
+                },
                 child: Text('LOG IN',
                     style: kTitle1Style.copyWith(
                       color: Colors.white,

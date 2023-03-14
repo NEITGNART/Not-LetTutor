@@ -43,9 +43,9 @@ class _BookTabState extends State<BookTab> {
 
   void getCategories() async {
     final response = await CourseFunctions.getAllCourseCategories();
-    if (mounted) {
+    if (response != null && mounted) {
       setState(() {
-        categories = response!;
+        categories = response;
         isLoadingCategories = false;
       });
     }
