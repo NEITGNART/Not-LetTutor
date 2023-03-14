@@ -12,7 +12,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import './features/tutor/presentation/tutor_detail_page.dart';
 import 'home.dart';
-import 'profile.dart';
+import 'features/profile/presentation/profile.dart';
 import 'route/route.dart';
 
 class AppScrollBehavior extends MaterialScrollBehavior {

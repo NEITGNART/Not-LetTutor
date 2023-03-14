@@ -2,7 +2,7 @@ import 'package:beatiful_ui/features/course/details/presentation/course_detail_p
 import 'package:beatiful_ui/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/home.dart';
 import 'package:beatiful_ui/main.dart';
-import 'package:beatiful_ui/profile.dart';
+import 'package:beatiful_ui/features/profile/presentation/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

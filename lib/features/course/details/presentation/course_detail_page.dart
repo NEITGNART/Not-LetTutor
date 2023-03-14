@@ -27,13 +27,7 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final scrollController = PrimaryScrollController.of(context);
     return Scaffold(
-      // appBar: CustomAppBar(
-      //   title: 'Detail Course',
-      //   onBackButtonPressed: () {},
-      //   scrollController: scrollController,
-      // ),
       appBar: PreferredSize(
         preferredSize: widget.preferredSize,
         child: AnimatedContainer(
@@ -66,13 +60,6 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
           ),
         ),
       ),
-
-      // body: SafeArea(
-      //   child: buildReponsiveLayout(
-      //     context,
-      //   ),
-      // ),
-
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           if (scrollNotification is ScrollUpdateNotification) {
