@@ -1,3 +1,4 @@
+import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -42,8 +43,7 @@ class MyAppBar extends StatelessWidget {
             ),
           ),
           // breakpoint
-
-          MediaQuery.of(context).size.width >= 880
+          MediaQuery.of(context).size.width >= Breakpoint.desktop
               ? Align(
                   alignment: Alignment.center,
                   child: Padding(

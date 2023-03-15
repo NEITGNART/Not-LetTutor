@@ -1,13 +1,41 @@
-import 'package:beatiful_ui/src/common/presentation/group_button.dart';
+import 'package:beatiful_ui/src/common/app_sizes.dart';
+import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/tutor/presentation/tutor_home_page.dart';
 import '../constants.dart';
 import 'my_date_picker.dart';
-import 'my_time_picker.dart';
 
-class MyFilter extends StatelessWidget {
+class MyFilter extends StatefulWidget {
   const MyFilter({super.key});
+
+  @override
+  State<MyFilter> createState() => _MyFilterState();
+}
+
+class _MyFilterState extends State<MyFilter> {
+  List<String> nationalityTutor = [];
+  List<String> options = [
+    'Forein Tutor',
+    'Vietnamese Tutor',
+    'Native English Tutor',
+  ];
+
+  List<String> specialities = [
+    'All categories',
+    'English for kids',
+    'English for Business',
+    'Conversational',
+    'Starters',
+    'Movers',
+    'Flyers',
+    'KET/PET',
+    'TOEIC',
+    'IELTS',
+    'TOEFL',
+  ];
+
+  int speciality = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -22,79 +50,129 @@ class MyFilter extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            children: [
-              SizedBox(
-                width: 250,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    // radius: 10,
-                    labelText: 'Enter your tutor name...',
-                  ),
-                ),
+          TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
-              Expanded(
-                child: _autoCompleteTextField(),
-              ),
-            ],
+              // radius: 10,
+              labelText: 'Enter your tutor name...',
+            ),
           ),
           const SizedBox(
             height: 10,
           ),
-          Text('Select available tutoring time:',
-              style: kTitle2Style.copyWith(
-                // fontsize
-                fontSize: 14,
-              )),
-          Row(
+          Text(
+            'Choose tutor nationality',
+            style: kTitle1Style,
+          ),
+          gapH12,
+          ChipsChoice<String>.multiple(
+            padding: const EdgeInsets.all(0),
+            value: nationalityTutor,
+            onChanged: (val) => setState(() {
+              logger.i('You just selected $val');
+              nationalityTutor = val;
+            }),
+            choiceItems: C2Choice.listFrom<String, String>(
+              source: options,
+              value: (i, v) => v,
+              label: (i, v) => v,
+            ),
+            wrapped: true,
+            // choiceCheckmark: true,
+            choiceStyle: C2ChipStyle.outlined(
+              color: Colors.blue,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(25),
+              ),
+              selectedStyle: C2ChipStyle.filled(
+                  color: Colors.blue, foregroundColor: Colors.white),
+            ),
+          ),
+          gapH12,
+          Text(
+            'Select available tutoring time:',
+            style: kTitle2Style.copyWith(
+              // fontsize
+              fontSize: 14,
+            ),
+          ),
+          gapH12,
+          Wrap(
             children: [
               Container(
-                  width: 150,
-                  height: 51,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
                     border: Border.all(color: Colors.grey, width: 1),
                   ),
                   child: const MyDatePicker()),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Colors.grey, width: 1),
-                      ),
-                      child: const MyTimePicker(
-                        title: 'Start time:',
-                      ),
-                    )),
-                    const Icon(Icons.turn_right_rounded),
-                    Expanded(
-                      child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(color: Colors.grey, width: 1),
-                          ),
-                          child: const MyTimePicker(
-                            title: 'End time:',
-                          )),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
             ],
           ),
-          GroupButton(titles: allSkillFilter),
+          gapH12,
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: Colors.grey, width: 1),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text('Start time:',
+                        style: kSearchPlaceholderStyle.copyWith(
+                          // fontsize
+                          fontSize: 16,
+                        )),
+                  ),
+                ),
+                const Icon(Icons.turn_right_rounded),
+                Flexible(
+                  flex: 1,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text('End time:',
+                        style: kSearchPlaceholderStyle.copyWith(
+                          // fontsize
+                          fontSize: 16,
+                        )),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          gapH12,
+          ChipsChoice<int>.single(
+              padding: const EdgeInsets.all(0),
+              value: speciality,
+              choiceItems: C2Choice.listFrom<int, String>(
+                source: specialities,
+                value: (i, v) => i,
+                label: (i, v) => v,
+                // tooltip: (i, v) => v,
+              ),
+              wrapped: true,
+              // choiceCheckmark: true,
+              choiceStyle: C2ChipStyle.outlined(
+                // color: CustomColor.shadowBlue,
+                color: Colors.blue,
+                // color: Theme.of(context).primaryColor,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25),
+                ),
+                selectedStyle: C2ChipStyle.filled(
+                    color: Colors.blue, foregroundColor: Colors.white),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  speciality = value;
+                });
+              }),
+          // GroupButton(titles: allSkillFilter),
           // Wrap(
           //   children: <Widget>[
           //     ...allSkillFilter.map(
@@ -136,7 +214,12 @@ class MyFilter extends StatelessWidget {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  nationalityTutor = [];
+                  speciality = -1;
+                });
+              },
               child: Text(
                 'Reset Filters',
                 style: kCalloutLabelStyle.copyWith(color: Colors.blue),

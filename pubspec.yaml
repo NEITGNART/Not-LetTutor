@@ -30,6 +30,7 @@ environment:
 dependencies:
   cached_network_image: ^3.2.3
   chewie: ^1.4.0
+  chips_choice: ^3.0.0
   cupertino_icons: ^1.0.2
   dio: ^5.0.2
   flutter:

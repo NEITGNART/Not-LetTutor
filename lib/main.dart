@@ -12,7 +12,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'src/features/tutor/presentation/tutor_detail_page.dart';
 import 'src/features/course/temp/presentation/home.dart';
-import 'src/features/profile/presentation/profile.dart';
 import 'src/route/app_route.dart';
 
 class AppScrollBehavior extends MaterialScrollBehavior {
@@ -85,7 +84,6 @@ class _RootPageState extends State<RootPage> {
         SchedulePage(),
         TutorDetailPage(),
         HomePage(),
-        ProfilePage(),
         LoginPage(),
         TutorHomePage(),
         SideBarScreen(),
@@ -132,13 +130,6 @@ class _RootPageState extends State<RootPage> {
                 color: Colors.blue,
               ),
               label: 'Home'),
-          NavigationDestination(
-            icon: Icon(
-              Icons.person,
-              color: Colors.blue,
-            ),
-            label: 'Profile',
-          ),
           NavigationDestination(
             icon: Icon(
               Icons.chat,

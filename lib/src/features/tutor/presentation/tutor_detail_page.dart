@@ -26,21 +26,17 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const Wrap(
                 children: [
-                  Expanded(child: ReviewCard()),
-                  Expanded(
-                    child: Placeholder(
-                      fallbackHeight: 300,
-                      fallbackWidth: 300,
-                    ),
+                  ReviewCard(),
+                  Placeholder(
+                    fallbackHeight: 300,
+                    fallbackWidth: 300,
                   )
                 ],
               ),
               const SizedBox(height: 20.0),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Wrap(
                 children: [
                   const Expanded(
                     child: TutorInfoCard(
@@ -67,7 +63,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
+                        Wrap(
                           children: [
                             SizedBox(
                               height: 32,

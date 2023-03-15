@@ -16,7 +16,7 @@ final dioProvider = Provider<Dio>((ref) {
 });
 
 const String temporaryToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2Nzg3MjUxMDEsImV4cCI6MTY3ODgxMTUwMSwidHlwZSI6ImFjY2VzcyJ9.S1kWoutrj9cEmbdn4IZFDl7PulqUQ6Uahs7XeOlypoo";
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNTY5YzIwMi03YmJmLTQ2MjAtYWY3Ny1lY2MxNDE5YTZiMjgiLCJpYXQiOjE2Nzg4ODk3NzQsImV4cCI6MTY3ODk3NjE3NCwidHlwZSI6ImFjY2VzcyJ9.GMHJDnCLKWcnE5aEBDtaaq-E9Xd_UriHUA3payZ8-lo";
 
 abstract class CourseRepository {
   Future<List<Course>?> getListCourseWithPagination(
