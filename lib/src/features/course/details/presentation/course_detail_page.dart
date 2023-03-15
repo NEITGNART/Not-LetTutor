@@ -198,7 +198,7 @@ class MobileDetailScreen extends StatelessWidget {
     return CustomScrollView(
       slivers: <Widget>[
         SliverPadding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
@@ -220,59 +220,34 @@ class MobileDetailScreen extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        // purple
-                        Color(0xFF5B86E5),
-                        Color(0xFF36D1DC),
+                  margin: const EdgeInsets.only(bottom: 10, top: 10),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xFF00AEFF),
+                          Color(0xFF0076FF),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '$index.',
+                          style: kCardSubtitleStyle,
+                        ),
+                        gapH12,
+                        Text(
+                          'The title',
+                          style: kCardTitleStyle,
+                        ),
                       ],
                     ),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('$index.',
-                          style: kSubtitleStyle.copyWith(
-                            // gradient green
-                            foreground: Paint()
-                              ..shader = const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  // yellow
-                                  Color(0xFFFFBF69),
-                                  Color(0xFFFF9F1C),
-                                ],
-                              ).createShader(
-                                const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
-                              ),
-                          )),
-                      Text(
-                        'The title',
-                        style: kTitle2Style.copyWith(
-                          fontSize: 18,
-                          // gradient orange
-                          foreground: Paint()
-                            ..shader = const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                // bright orange
-                                Color(0xFFFF9F1C),
-                                Color(0xFFFFBF69),
-                              ],
-                            ).createShader(
-                              const Rect.fromLTWH(0.0, 0.0, 200.0, 70.0),
-                            ),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               );

@@ -1,3 +1,4 @@
+import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -82,6 +83,7 @@ class ReviewCard extends StatelessWidget {
                 ),
               ],
             ),
+            gapH12,
             Text(
                 'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.',
                 style: kSearchPlaceholderStyle),

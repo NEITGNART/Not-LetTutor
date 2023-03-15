@@ -15,7 +15,7 @@ class RequestLessonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: scheduleBackground,
+        color: scheduleBackgroundColor,
       ),
       child: Column(
         children: [
@@ -91,8 +91,7 @@ class RequestLessonCard extends StatelessWidget {
                                       //     color: const Color.fromARGB(255, 196, 195, 195),
                                       //     width: 1),
                                       border: Border.all(
-                                        color: const Color.fromARGB(
-                                            255, 196, 195, 195),
+                                        color: const Color(0xff00b4d8),
                                         width: 0.5,
                                       )),
                                   child: Text(

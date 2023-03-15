@@ -34,7 +34,6 @@ class ScheduleList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
       child: ListView.builder(
         itemCount: 2,
         itemBuilder: (context, index) {

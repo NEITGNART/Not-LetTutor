@@ -20,7 +20,7 @@ class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
     return Container(
         child: Container(
       decoration: const BoxDecoration(
-        color: scheduleBackground,
+        color: scheduleBackgroundColor,
       ),
       child: Column(
         children: [

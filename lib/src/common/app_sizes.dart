@@ -14,12 +14,23 @@ class Sizes {
 }
 
 class ScheduleColorPage {
-  static const background = Color.fromARGB(255, 222, 220, 220);
-  static const backgroundButton = Color.fromARGB(249, 228, 225, 225);
+  // static const backgroundColor = Color.fromARGB(255, 222, 220, 220);
+  static const backgroundColor = Color(0xffcaf0f8);
+  static const background = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF00AEFF),
+      Color(0xFF0076FF),
+    ],
+  );
+
+  static const backgroundButton = Color(0xFF90e0ef);
 }
 
 class HistoryColorPage {
-  static const background = Color(0xfffafafa);
+  static const background = Color(0xffb7d7e7);
+  // static const background = Color(0xfffafafa);
 }
 
 /// Constant gap widths
@@ -46,7 +57,7 @@ const gapH48 = SizedBox(height: Sizes.p48);
 const gapH64 = SizedBox(height: Sizes.p64);
 
 // Constant color of the app
-const scheduleBackground = ScheduleColorPage.background;
+const scheduleBackgroundColor = ScheduleColorPage.backgroundColor;
 const scheduleReviewBackground = ScheduleColorPage.backgroundButton;
 
 const historyBackground = HistoryColorPage.background;

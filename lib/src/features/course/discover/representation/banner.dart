@@ -54,13 +54,13 @@ class SearchWithIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Text('Discovery Course', style: kTitle1Style),
+        // Text('Discovery Course', style: kTitle1Style),
         gapH12,
-        const BlockQuote(
+        BlockQuote(
           blockColor: Colors.grey,
           child: Text(
               'LiveTutor has built the most quality, methodical and scientific courses in the fields of life for those who are in need of improving their knowledge of the fields.'),

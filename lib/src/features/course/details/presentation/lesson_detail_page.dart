@@ -60,8 +60,7 @@ class _MobileDetailLessonScreenState extends State<MobileDetailLessonScreen> {
   var src =
       'https://camblycurriculumicons.s3.amazonaws.com/5e0e8b212ac750e7dc9886ac?h=d41d8cd98f00b204e9800998ecf8427e';
   var data = 'Life in the Internet Age';
-  var data2 =
-      'By default, the thumb will fade in and out as the child scroll view scrolls. When thumbVisibility is true, the scrollbar thumb will remain visible without the fade animation. This requires that the ScrollController associated with the Scrollable widget is provided to controller, or that the PrimaryScrollController is being used by that Scrollable widget.';
+  var data2 = "Let's discuss how technology is changing the way we live";
 
   void changeLesson(lessonLink, lessonIndex) {
     if (lessonLink.isNotEmpty && currentLessonIndex != lessonIndex) {
@@ -77,55 +76,46 @@ class _MobileDetailLessonScreenState extends State<MobileDetailLessonScreen> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Container(
-                  child: TopicInfo(
-                    src: src,
-                    data: data,
-                    data2: data2,
-                    currentLessonLink: currentLessonLink,
-                    currentLessonIndex: currentLessonIndex,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SliverFillRemaining(
-            child: Container(
-              color: Colors.white,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: TopicList(
-                                onTap: (String link, int index) {
-                                  context.goNamed(
-                                    AppRoute.topicPdf.name,
-                                    params: {
-                                      'link': link,
-                                    },
-                                  );
-                                },
-                                urls: urls,
-                                currentLessonIndex: currentLessonIndex),
-                          ),
-                        ],
-                      ),
+          SliverPadding(
+            padding: const EdgeInsets.all(20.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Container(
+                    child: TopicInfo(
+                      src: src,
+                      data: data,
+                      data2: data2,
+                      currentLessonLink: currentLessonLink,
+                      currentLessonIndex: currentLessonIndex,
                     ),
                   ),
-                  gapW32,
                 ],
               ),
             ),
-          )
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.all(10.0),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [Text('List Topics', style: kTitle1Style)],
+              ),
+            ),
+          ),
+          SliverPadding(
+            sliver: TopicSliverList(
+                onTap: (String link, int index) {
+                  context.goNamed(
+                    AppRoute.topicPdf.name,
+                    params: {
+                      'link': link,
+                    },
+                  );
+                },
+                urls: urls,
+                currentLessonIndex: currentLessonIndex),
+            padding: const EdgeInsets.all(20.0),
+          ),
         ],
       ),
     );
@@ -184,8 +174,7 @@ class _DesktopDetailLessonScreenState extends State<DesktopDetailLessonScreen> {
   var src =
       'https://camblycurriculumicons.s3.amazonaws.com/5e0e8b212ac750e7dc9886ac?h=d41d8cd98f00b204e9800998ecf8427e';
   var data = 'Life in the Internet Age';
-  var data2 =
-      'By default, the thumb will fade in and out as the child scroll view scrolls. When thumbVisibility is true, the scrollbar thumb will remain visible without the fade animation. This requires that the ScrollController associated with the Scrollable widget is provided to controller, or that the PrimaryScrollController is being used by that Scrollable widget.';
+  var data2 = "Let's discuss how technology is changing the way we live";
 
   static const List<String> urls = [
     "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileSocial Media.pdf",
@@ -207,18 +196,6 @@ class _DesktopDetailLessonScreenState extends State<DesktopDetailLessonScreen> {
     }
   }
 
-  // Widget buildResponsive(BuildContext context) {
-  //   return LayoutBuilder(
-  //     builder: (context, constraints) {
-  //       if (constraints.maxWidth < Breakpoint.tablet) {
-  //         return Container();
-  //       } else {
-  //         return ;
-  //       }
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -235,6 +212,7 @@ class _DesktopDetailLessonScreenState extends State<DesktopDetailLessonScreen> {
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TopicInfo(
                             src: src,
@@ -243,6 +221,9 @@ class _DesktopDetailLessonScreenState extends State<DesktopDetailLessonScreen> {
                             currentLessonLink: currentLessonLink,
                             currentLessonIndex: currentLessonIndex,
                           ),
+                          gapH12,
+                          Text('List Topics', style: kTitle1Style),
+                          gapH12,
                           Expanded(
                             child: TopicList(
                                 onTap: changeLesson,
@@ -315,8 +296,26 @@ class TopicInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
-      color: Colors.white,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+
+          //             background: const LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          //   colors: [
+          //     Color(0xFF00AEFF),
+          //     Color(0xFF0076FF),
+          //   ],
+          // )
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF00AEFF).withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,18 +330,97 @@ class TopicInfo extends StatelessWidget {
               ),
             ),
           ),
-          Column(
-            children: [
-              Text(data, style: kCardTitleStyle.copyWith(color: Colors.black)),
-              gapH12,
-              Text(
-                data2,
-                style: kSearchTextStyle,
-              ),
-            ],
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(data,
+                    style: kCardTitleStyle.copyWith(color: Colors.black)),
+                gapH12,
+                Text(
+                  // gap between two lines
+                  data2,
+                  style: kCalloutLabelStyle,
+                ),
+              ],
+            ),
           ),
           gapH12,
         ],
+      ),
+    );
+  }
+}
+
+class TopicSliverList extends StatelessWidget {
+  const TopicSliverList({
+    super.key,
+    required this.onTap,
+    required this.urls,
+    required this.currentLessonIndex,
+  });
+
+  final Function onTap;
+  final List<String> urls;
+  final int currentLessonIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return Material(
+            child: InkWell(
+              highlightColor: Colors.blue.withOpacity(0.4),
+              splashColor: Colors.green.withOpacity(0.5),
+              onTap: () {
+                onTap(urls[index], index);
+              },
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 10, top: 10),
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    gradient: currentLessonIndex != index
+                        ? const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFF00AEFF),
+                              Color(0xFF0076FF),
+                            ],
+                          )
+                        : const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFFFD504F),
+                              Color(0xFFFF8181),
+                            ],
+                          ),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$index.',
+                        style: kCardSubtitleStyle,
+                      ),
+                      gapH12,
+                      Text(
+                        'The title',
+                        style: kCardTitleStyle,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        childCount: urls.length,
       ),
     );
   }

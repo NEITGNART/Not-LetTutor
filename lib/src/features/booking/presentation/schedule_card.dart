@@ -28,7 +28,10 @@ class _ScheduleLessonState extends State<ScheduleLessonCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      decoration: const BoxDecoration(color: scheduleBackground),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        color: scheduleBackgroundColor,
+      ),
       child: MediaQuery.of(context).size.width >= 1000
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +52,7 @@ class _ScheduleLessonState extends State<ScheduleLessonCard> {
                   flex: 2,
                   child: Container(
                     decoration: const BoxDecoration(
-                      color: scheduleBackground,
+                      color: scheduleBackgroundColor,
                     ),
                     child: Column(
                       children: [RequestLessonCard(isExpanded: isExpanded)],

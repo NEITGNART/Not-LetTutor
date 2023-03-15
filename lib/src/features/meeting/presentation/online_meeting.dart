@@ -32,18 +32,18 @@ class MeetingPage extends StatelessWidget {
                 ],
               ),
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                margin: const EdgeInsets.only(top: 10, left: 10),
-                child: const CircleAvatar(
-                  radius: 30,
-                  // https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4
-                  backgroundImage: NetworkImage(
-                      'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4'),
-                ),
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment.topRight,
+            //   child: Container(
+            //     margin: const EdgeInsets.only(top: 10, left: 10),
+            //     child: const CircleAvatar(
+            //       radius: 30,
+            //       // https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4
+            //       backgroundImage: NetworkImage(
+            //           'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4'),
+            //     ),
+            //   ),
+            // ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(

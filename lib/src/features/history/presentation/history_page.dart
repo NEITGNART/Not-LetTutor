@@ -83,7 +83,7 @@ class _HistoryLessonState extends State<HistoryLessonCard> {
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.all(16.0),
-        decoration: const BoxDecoration(color: scheduleBackground),
+        decoration: const BoxDecoration(color: scheduleBackgroundColor),
         child: MediaQuery.of(context).size.width >= 1000
             ? Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
