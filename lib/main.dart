@@ -1,19 +1,19 @@
 import 'dart:ui';
-import 'package:beatiful_ui/features/authentication/presentation/login_page.dart';
-import 'package:beatiful_ui/features/booking/presentation/schedule_page.dart';
-import 'package:beatiful_ui/features/course/details/presentation/lesson_detail_page.dart';
-import 'package:beatiful_ui/features/course/discover/representation/discovery_page.dart';
-import 'package:beatiful_ui/features/history/presentation/history_page.dart';
-import 'package:beatiful_ui/common/presentation/sidebar/presentation/sidebar_screen.dart';
+import 'package:beatiful_ui/src/features/authentication/presentation/login_page.dart';
+import 'package:beatiful_ui/src/features/booking/presentation/schedule_page.dart';
+import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
+import 'package:beatiful_ui/src/features/history/presentation/history_page.dart';
+import 'package:beatiful_ui/src/common/presentation/sidebar/presentation/sidebar_screen.dart';
+import 'package:beatiful_ui/src/features/meeting/presentation/online_meeting.dart';
 
-import 'package:beatiful_ui/features/tutor/presentation/tutor_home_page.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import './features/tutor/presentation/tutor_detail_page.dart';
-import 'home.dart';
-import 'features/profile/presentation/profile.dart';
-import 'route/route.dart';
+import 'src/features/tutor/presentation/tutor_detail_page.dart';
+import 'src/features/course/temp/presentation/home.dart';
+import 'src/features/profile/presentation/profile.dart';
+import 'src/route/app_route.dart';
 
 class AppScrollBehavior extends MaterialScrollBehavior {
   @override
@@ -79,7 +79,7 @@ class _RootPageState extends State<RootPage> {
       //   title: const Text('Home Page'),
       // ),
       body: const [
-        LessonDetailScreen(),
+        MeetingPage(),
         DiscoverPage(),
         HistoryPage(),
         SchedulePage(),
@@ -90,18 +90,18 @@ class _RootPageState extends State<RootPage> {
         TutorHomePage(),
         SideBarScreen(),
       ][_currentPageIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   child: const Icon(Icons.add),
+      // ),
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(
               icon: Icon(
-                Icons.search,
+                Icons.meeting_room_outlined,
                 color: Colors.blue,
               ),
-              label: 'Lesson'),
+              label: 'Meeting'),
           NavigationDestination(
               icon: Icon(
                 Icons.search,
