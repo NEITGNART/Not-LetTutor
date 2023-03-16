@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../features/course/temp/models/sidebar.dart';
+import '../../../../features/course/details/temp/models/sidebar.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

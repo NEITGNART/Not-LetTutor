@@ -305,10 +305,10 @@ class _CourseTabState extends State<CourseTab> {
         Wrap(
           runSpacing: 10,
           children: [
-            MyInputChip(label: 'Any Level', onDeleted: () {}),
-            gapW12,
-            MyInputChip(label: 'Level increasing', onDeleted: () {}),
-            gapW12,
+            // MyInputChip(label: 'Any Level', onDeleted: () {}),
+            // gapW12,
+            // MyInputChip(label: 'Level increasing', onDeleted: () {}),
+            // gapW12,
             currentCategory != null && currentCategory!.id != ""
                 ? MyInputChip(
                     label: currentCategory!.title,

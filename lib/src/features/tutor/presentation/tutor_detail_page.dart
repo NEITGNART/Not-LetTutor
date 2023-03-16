@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:beatiful_ui/src/common/app_sizes.dart';
+import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_info_card.dart';
 import 'package:flutter/material.dart';
 
@@ -26,74 +27,152 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Wrap(
-                children: [
-                  ReviewCard(),
-                  Placeholder(
-                    fallbackHeight: 300,
-                    fallbackWidth: 300,
-                  )
-                ],
-              ),
+              const TutorInfo(),
               const SizedBox(height: 20.0),
-              Wrap(
-                children: [
-                  const Expanded(
-                    child: TutorInfoCard(
-                      languages: ['English', 'Vietnamese'],
-                      // English for Business, English for Travel, English for Kids
-                      specialties: [
-                        'English for Business',
-                        'English for Conversation',
-                        'English for Kids',
-                        'IELTS',
-                        'TOIEC'
-                      ],
-                      suggestedCourses: [
-                        'English for Business',
-                        'English for Travel',
-                      ],
-                      interests:
-                          'I loved the weather, the scenery and the laid-back lifestyle of the locals.',
-                      teachingExperience:
-                          'I have more than 10 years of teaching english experience',
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Wrap(
-                          children: [
-                            SizedBox(
-                              height: 32,
-                              child: ElevatedButton(
-                                  onPressed: () {}, child: const Text('Today')),
-                            ),
-                            gapW12,
-                            IconButton(
-                                padding: const EdgeInsets.all(0.0),
-                                onPressed: () {},
-                                icon: const Icon(Icons.arrow_back_ios)),
-                            gapW12,
-                            IconButton(
-                                padding: const EdgeInsets.all(0.0),
-                                onPressed: () {},
-                                icon: const Icon(Icons.arrow_forward_ios)),
-                            const Text('Monday, 1st January 2021')
-                          ],
-                        ),
-                        gapH12,
-                        BookingTable(),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+              buildReponsive(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildReponsive() {
+    if (MediaQuery.of(context).size.width < Breakpoint.desktop) {
+      return const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TutorInfoCard(
+            languages: ['English', 'Vietnamese'],
+            // English for Business, English for Travel, English for Kids
+            specialties: [
+              'English for Business',
+              'English for Conversation',
+              'English for Kids',
+              'IELTS',
+              'TOIEC'
+            ],
+            suggestedCourses: [
+              'English for Business',
+              'English for Travel',
+            ],
+            interests:
+                'I loved the weather, the scenery and the laid-back lifestyle of the locals.',
+            teachingExperience:
+                'I have more than 10 years of teaching english experience',
+          ),
+          MyBookingTable()
+        ],
+      );
+    }
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(
+          flex: 1,
+          child: TutorInfoCard(
+            languages: ['English', 'Vietnamese'],
+            // English for Business, English for Travel, English for Kids
+            specialties: [
+              'English for Business',
+              'English for Conversation',
+              'English for Kids',
+              'IELTS',
+              'TOIEC'
+            ],
+            suggestedCourses: [
+              'English for Business',
+              'English for Travel',
+            ],
+            interests:
+                'I loved the weather, the scenery and the laid-back lifestyle of the locals.',
+            teachingExperience:
+                'I have more than 10 years of teaching english experience',
+          ),
+        ),
+        Flexible(
+          flex: 2,
+          child: MyBookingTable(),
+        )
+      ],
+    );
+  }
+}
+
+class MyBookingTable extends StatelessWidget {
+  const MyBookingTable({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Wrap(
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            SizedBox(
+              height: 32,
+              child:
+                  ElevatedButton(onPressed: () {}, child: const Text('Today')),
+            ),
+            gapW12,
+            IconButton(
+                padding: const EdgeInsets.all(0.0),
+                onPressed: () {},
+                icon: const Icon(Icons.arrow_back_ios)),
+            gapW12,
+            IconButton(
+                padding: const EdgeInsets.all(0.0),
+                onPressed: () {},
+                icon: const Icon(Icons.arrow_forward_ios)),
+            const Text('Monday, 1st January 2021')
+          ],
+        ),
+        gapH12,
+        BookingTable(),
+      ],
+    );
+  }
+}
+
+class TutorInfo extends StatelessWidget {
+  const TutorInfo({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return buildReponsive(context);
+  }
+
+  Widget buildReponsive(BuildContext context) {
+    if (MediaQuery.of(context).size.width < Breakpoint.desktop) {
+      return Column(
+        children: [
+          const ReviewCard(),
+          gapH20,
+          SizedBox(
+            height: 300,
+            child: Image.network(
+                'https://media.istockphoto.com/id/1299533315/vector/video-player-interface-isolated-on-white-background-video-streaming-template-design-for.jpg?s=612x612&w=0&k=20&c=PLv8Wc5gpJ_6qd_mXGZgPJ0Q6XZ90PzzdPJrh831PGI='),
+          )
+        ],
+      );
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const Flexible(flex: 1, child: ReviewCard()),
+        Flexible(
+            flex: 2,
+            child: Image.network(
+                fit: BoxFit.cover,
+                'https://media.istockphoto.com/id/1299533315/vector/video-player-interface-isolated-on-white-background-video-streaming-template-design-for.jpg?s=612x612&w=0&k=20&c=PLv8Wc5gpJ_6qd_mXGZgPJ0Q6XZ90PzzdPJrh831PGI=')),
+      ],
     );
   }
 }

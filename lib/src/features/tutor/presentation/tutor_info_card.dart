@@ -28,19 +28,19 @@ class TutorInfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Languages', style: kHeadlineLabelStyle),
-          gapH24,
+          Text('Languages', style: kTitle1Style),
+          gapH12,
           GroupButtonColor(
             titles: languages,
           ),
           const SizedBox(height: 10),
           gapH12,
-          Text('Specialties', style: kHeadlineLabelStyle),
-          gapH24,
+          Text('Specialties', style: kTitle1Style),
+          gapH12,
           GroupButtonColor(titles: specialties),
           gapH12,
-          Text('Suggested Courses', style: kHeadlineLabelStyle),
-          gapH24,
+          Text('Suggested Courses', style: kTitle1Style),
+          gapH12,
           Column(
             children: [
               Column(
@@ -78,8 +78,8 @@ class TutorInfoCard extends StatelessWidget {
             ],
           ),
           gapH12,
-          Text('Interests', style: kHeadlineLabelStyle),
-          gapH24,
+          Text('Interests', style: kTitle1Style),
+          gapH12,
           Text(
             interests,
             style: kSearchPlaceholderStyle.copyWith(
@@ -87,8 +87,8 @@ class TutorInfoCard extends StatelessWidget {
             ),
           ),
           gapH12,
-          Text('Teaching Experience', style: kHeadlineLabelStyle),
-          gapH24,
+          Text('Teaching Experience', style: kTitle1Style),
+          gapH12,
           Text(
             teachingExperience,
             style: kSearchPlaceholderStyle.copyWith(

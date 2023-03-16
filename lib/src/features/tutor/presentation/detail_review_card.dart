@@ -32,63 +32,75 @@ class ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            // color: const Color(0xFF00AEFF).withOpacity(0.5),
+            // purple
+            color: const Color(0xFF6F35A5).withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
       padding: const EdgeInsets.all(10.0),
       margin: const EdgeInsets.only(right: 10.0),
-      child: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                    radius: 50.0,
-                    // width: 100,
-                    // height: 100,
-                    backgroundImage: NetworkImage(
-                      'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4',
-                    )),
-                const SizedBox(width: 15.0),
-                IntrinsicWidth(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const CircleAvatar(
+                  radius: 50.0,
+                  // width: 100,
+                  // height: 100,
+                  backgroundImage: NetworkImage(
+                    'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4',
+                  )),
+              const SizedBox(width: 15.0),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'John Pham',
+                    style: kHeadlineLabelStyle,
+                  ),
+                  const SizedBox(height: 5.0),
+                  Row(
                     children: [
-                      Text(
-                        'John Pham',
-                        style: kHeadlineLabelStyle,
-                      ),
-                      const SizedBox(height: 5.0),
-                      Row(
-                        children: [
-                          getStarsWidget(5, 5),
-                          Text('(88)', style: kSearchPlaceholderStyle),
-                        ],
-                      ),
-                      const SizedBox(height: 5.0),
-                      Row(
-                        children: [
-                          SvgPicture.network(
-                            'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
-                            width: 20,
-                          ),
-                          const SizedBox(width: 5.0),
-                          Text('Viet Nam', style: kSearchPlaceholderStyle),
-                          const SizedBox(width: 5.0),
-                        ],
-                      ),
-                      const SizedBox(height: 5.0),
+                      getStarsWidget(5, 5),
+                      Text('(88)', style: kSearchPlaceholderStyle),
                     ],
                   ),
-                ),
-              ],
-            ),
-            gapH12,
-            Text(
-                'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.',
-                style: kSearchPlaceholderStyle),
-            const SizedBox(height: 10.0),
-            Row(
+                  const SizedBox(height: 5.0),
+                  Row(
+                    children: [
+                      SvgPicture.network(
+                        'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
+                        width: 20,
+                      ),
+                      const SizedBox(width: 5.0),
+                      Text('Viet Nam', style: kSearchPlaceholderStyle),
+                      const SizedBox(width: 5.0),
+                    ],
+                  ),
+                  const SizedBox(height: 5.0),
+                ],
+              ),
+            ],
+          ),
+          gapH12,
+          Text(
+              'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching podcasts on Youtube. My most memorable life experience would be living in and traveling around Southeast Asia.',
+              style: kSearchPlaceholderStyle),
+          const SizedBox(height: 10.0),
+          Container(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
@@ -140,8 +152,8 @@ class ReviewCard extends StatelessWidget {
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

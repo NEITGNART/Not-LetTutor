@@ -297,25 +297,26 @@ class TopicInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
 
-          //             background: const LinearGradient(
-          //   begin: Alignment.topLeft,
-          //   end: Alignment.bottomRight,
-          //   colors: [
-          //     Color(0xFF00AEFF),
-          //     Color(0xFF0076FF),
-          //   ],
-          // )
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF00AEFF).withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3), // changes position of shadow
-            ),
-          ]),
+        //             background: const LinearGradient(
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.bottomRight,
+        //   colors: [
+        //     Color(0xFF00AEFF),
+        //     Color(0xFF0076FF),
+        //   ],
+        // )
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF00AEFF).withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

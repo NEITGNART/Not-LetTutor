@@ -1,6 +1,6 @@
 import 'package:beatiful_ui/src/features/course/details/presentation/course_detail_page.dart';
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
-import 'package:beatiful_ui/src/features/course/temp/presentation/home.dart';
+import 'package:beatiful_ui/src/features/course/details/temp/presentation/home.dart';
 import 'package:beatiful_ui/main.dart';
 import 'package:beatiful_ui/src/features/profile/presentation/profile.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,4 @@
+import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/presentation/app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -57,6 +58,7 @@ class LoginPage extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * 0.35,
                           fit: BoxFit.cover,
                           'https://sandbox.app.lettutor.com/static/media/login.8d01124a.png'),
+                      gapH12,
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

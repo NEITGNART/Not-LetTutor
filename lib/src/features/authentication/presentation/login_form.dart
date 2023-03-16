@@ -1,3 +1,4 @@
+import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +24,7 @@ class LoginForm extends StatelessWidget {
                 'Say hello to your English tutors',
                 style: kTitle1Style.copyWith(color: Colors.blue, fontSize: 30),
               ),
-              const SizedBox(height: 10),
+              gapH12,
               Container(
                 child: Text(
                     'Become fluent faster through one on one video chat lessons tailored to your goals.',

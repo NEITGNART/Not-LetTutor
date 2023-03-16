@@ -5,13 +5,14 @@ import 'package:beatiful_ui/src/features/course/details/presentation/lesson_deta
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/src/features/history/presentation/history_page.dart';
 import 'package:beatiful_ui/src/common/presentation/sidebar/presentation/sidebar_screen.dart';
+import 'package:beatiful_ui/src/features/meeting/presentation/online_meeting.dart';
 
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'src/features/tutor/presentation/tutor_detail_page.dart';
-import 'src/features/course/temp/presentation/home.dart';
+import 'src/features/course/details/temp/presentation/home.dart';
 import 'src/route/app_route.dart';
 
 class AppScrollBehavior extends MaterialScrollBehavior {
@@ -36,7 +37,6 @@ void main() {
   //   ..backgroundColor = Color.fromARGB(255, 7, 199, 238)
   //   ..indicatorColor = Colors.white
   //   ..userInteractions = false;
-
   runApp(const ProviderScope(child: MyApp()));
   // runApp(const ChewieDemo());
 }
@@ -78,6 +78,7 @@ class _RootPageState extends State<RootPage> {
       //   title: const Text('Home Page'),
       // ),
       body: const [
+        MeetingPage(),
         LessonDetailScreen(),
         DiscoverPage(),
         HistoryPage(),
@@ -94,6 +95,12 @@ class _RootPageState extends State<RootPage> {
       // ),
       bottomNavigationBar: NavigationBar(
         destinations: const [
+          NavigationDestination(
+              icon: Icon(
+                Icons.meeting_room_outlined,
+                color: Colors.blue,
+              ),
+              label: 'Meetings'),
           NavigationDestination(
               icon: Icon(
                 Icons.meeting_room_outlined,

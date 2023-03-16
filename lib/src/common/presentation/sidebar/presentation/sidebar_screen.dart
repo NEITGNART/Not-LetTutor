@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
-import '../../../../features/course/temp/models/sidebar.dart';
+import '../../../../features/course/details/temp/models/sidebar.dart';
 import '../data/sidebar_repository.dart';
 
 class SideBarScreen extends StatelessWidget {

@@ -62,51 +62,52 @@ class MyAppBar extends StatelessWidget {
                   ),
                 )
               : Container(),
-          Expanded(
+          const Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const IconButton(
+                IconButton(
                   icon: Icon(Icons.language),
                   onPressed: null,
                 ),
-                Container(
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      // add border color
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 2.0,
-                      ),
-                    ),
-                    child: MediaQuery.of(context).size.width > 500
-                        ? const Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text('John Pham'),
-                                  IconButton(
-                                      onPressed: null, icon: Icon(Icons.face)),
-                                ],
-                              ),
-                              Expanded(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(
-                                    'You have 391 lessons left',
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ],
-                              )),
-                            ],
-                          )
-                        : IconButton(
-                            icon: const Icon(Icons.more_vert),
-                            // icon more
-                            onPressed: () {},
-                          ))
+                // Container(
+                //   padding: const EdgeInsets.all(3),
+                //   decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(10.0),
+                //     // add border color
+                //     border: Border.all(
+                //       color: Colors.grey,
+                //       width: 2.0,
+                //     ),
+                //   ),
+                //   child: MediaQuery.of(context).size.width > 500
+                //       ? const Column(
+                //           children: [
+                //             Row(
+                //               children: [
+                //                 Text('John Pham'),
+                //                 IconButton(
+                //                     onPressed: null, icon: Icon(Icons.face)),
+                //               ],
+                //             ),
+                //             Expanded(
+                //                 child: Column(
+                //               mainAxisAlignment: MainAxisAlignment.end,
+                //               children: [
+                //                 Text(
+                //                   'You have 391 lessons left',
+                //                   textAlign: TextAlign.justify,
+                //                 ),
+                //               ],
+                //             )),
+                //           ],
+                //         )
+                //       : IconButton(
+                //           icon: const Icon(Icons.more_vert),
+                //           // icon more
+                //           onPressed: () {},
+                //         ),
+                // )
               ],
             ),
           ),

@@ -1,4 +1,4 @@
-import 'package:beatiful_ui/src/features/course/temp/models/course.dart';
+import 'package:beatiful_ui/src/features/course/details/temp/models/course.dart';
 import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:flutter/material.dart';
 

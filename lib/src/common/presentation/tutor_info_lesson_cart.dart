@@ -61,11 +61,12 @@ class TutorInfoLessonCard extends StatelessWidget {
               ElevatedButton.icon(
                   // set elevation to 0
                   style: ButtonStyle(
-                      elevation: MaterialStateProperty.all<double>(0),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(0)),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromARGB(255, 222, 220, 220))),
+                    elevation: MaterialStateProperty.all<double>(0),
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        const EdgeInsets.all(0)),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.transparent),
+                  ),
                   onPressed: () {},
                   icon: const Icon(Icons.chat, color: Colors.blue),
                   label: Text('Direct Message',
