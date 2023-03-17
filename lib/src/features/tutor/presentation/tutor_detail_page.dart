@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'detail_review_card.dart';
 
 class TutorDetailPage extends StatefulWidget {
-  const TutorDetailPage({super.key});
+  const TutorDetailPage({super.key, required String tutorId});
 
   @override
   State<TutorDetailPage> createState() => _TutorDetailPageState();
@@ -17,6 +17,9 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tutor Detail'),
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(20.0),

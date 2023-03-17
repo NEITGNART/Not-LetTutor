@@ -21,7 +21,7 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(AppRoute.courseDetail.name, params: {
+        context.pushNamed(AppRoute.detailCourse.name, params: {
           'courseId': _results[index].id,
         });
         // Navigator.push(

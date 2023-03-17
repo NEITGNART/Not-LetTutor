@@ -2,7 +2,7 @@ import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:flutter/material.dart';
 
 class MeetingPage extends StatelessWidget {
-  const MeetingPage({super.key});
+  const MeetingPage({super.key, required String tutorId});
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +100,9 @@ class MeetingPage extends StatelessWidget {
                       ),
                       child: IconButton(
                         icon: const Icon(Icons.call_end, color: Colors.white),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
                   ],

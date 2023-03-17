@@ -1,18 +1,14 @@
 import 'dart:ui';
 import 'package:beatiful_ui/src/features/authentication/presentation/login_page.dart';
 import 'package:beatiful_ui/src/features/booking/presentation/schedule_page.dart';
-import 'package:beatiful_ui/src/features/course/details/presentation/lesson_detail_page.dart';
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/src/features/history/presentation/history_page.dart';
 import 'package:beatiful_ui/src/common/presentation/sidebar/presentation/sidebar_screen.dart';
-import 'package:beatiful_ui/src/features/meeting/presentation/online_meeting.dart';
 
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'src/features/tutor/presentation/tutor_detail_page.dart';
-import 'src/features/course/details/temp/presentation/home.dart';
 import 'src/route/app_route.dart';
 
 class AppScrollBehavior extends MaterialScrollBehavior {
@@ -78,13 +74,10 @@ class _RootPageState extends State<RootPage> {
       //   title: const Text('Home Page'),
       // ),
       body: const [
-        MeetingPage(),
-        LessonDetailScreen(),
         DiscoverPage(),
         HistoryPage(),
         SchedulePage(),
-        TutorDetailPage(),
-        HomePage(),
+        // HomePage(),
         LoginPage(),
         TutorHomePage(),
         SideBarScreen(),
@@ -95,18 +88,6 @@ class _RootPageState extends State<RootPage> {
       // ),
       bottomNavigationBar: NavigationBar(
         destinations: const [
-          NavigationDestination(
-              icon: Icon(
-                Icons.meeting_room_outlined,
-                color: Colors.blue,
-              ),
-              label: 'Meetings'),
-          NavigationDestination(
-              icon: Icon(
-                Icons.meeting_room_outlined,
-                color: Colors.blue,
-              ),
-              label: 'Lesson'),
           NavigationDestination(
               icon: Icon(
                 Icons.search,
@@ -125,18 +106,13 @@ class _RootPageState extends State<RootPage> {
                 color: Colors.blue,
               ),
               label: 'Schedule'),
-          NavigationDestination(
-              icon: Icon(
-                Icons.details,
-                color: Colors.blue,
-              ),
-              label: 'Tutor details'),
-          NavigationDestination(
-              icon: Icon(
-                Icons.home,
-                color: Colors.blue,
-              ),
-              label: 'Home'),
+
+          // NavigationDestination(
+          //     icon: Icon(
+          //       Icons.home,
+          //       color: Colors.blue,
+          //     ),
+          //     label: 'Home'),
           NavigationDestination(
             icon: Icon(
               Icons.chat,

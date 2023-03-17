@@ -3,10 +3,12 @@ import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:beatiful_ui/src/common/presentation/my_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
 import '../../../common/presentation/app_bar.dart';
 import '../../../common/presentation/up_coming_lesson.dart';
+import '../../../route/app_route.dart';
 import '../model/tutor_profile.dart';
 
 var fruits = ['Apple', 'Banana', 'Mango', 'Orange'];
@@ -159,140 +161,150 @@ class MyTutorCardReview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue.withOpacity(0.3),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 100,
-            child: Row(
-              children: [
-                CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage: NetworkImage(tutor.avatarUrl)),
-                const SizedBox(width: 15.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'John Pham',
-                      style: kHeadlineLabelStyle,
-                    ),
-                    const SizedBox(height: 5.0),
-                    Row(
-                      children: [
-                        SvgPicture.network(
-                          tutor.flagUrl,
-                          width: 20,
-                        ),
-                        const SizedBox(width: 5.0),
-                        Text(tutor.country, style: kSearchPlaceholderStyle),
-                        const SizedBox(width: 5.0),
-                      ],
-                    ),
-                    const SizedBox(height: 5.0),
-                    Row(
-                      children: [
-                        ...List.generate(
-                            5,
-                            (i) => const Icon(
-                                  Icons.star,
-                                  color: Colors.yellow,
-                                  size: 15,
-                                )),
-                      ],
-                    )
-                  ],
-                ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: tutor.hasFavorite
-                          ? const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            )
-                          : const Icon(
-                              Icons.favorite_border,
-                              color: Colors.blue,
-                            ),
+    return GestureDetector(
+      onTap: () {
+        context.goNamed(
+          AppRoute.tutorDetail.name,
+          params: {
+            'id': '12312',
+          },
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.blue.withOpacity(0.3),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 100,
+              child: Row(
+                children: [
+                  CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage: NetworkImage(tutor.avatarUrl)),
+                  const SizedBox(width: 15.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'John Pham',
+                        style: kHeadlineLabelStyle,
+                      ),
+                      const SizedBox(height: 5.0),
+                      Row(
+                        children: [
+                          SvgPicture.network(
+                            tutor.flagUrl,
+                            width: 20,
+                          ),
+                          const SizedBox(width: 5.0),
+                          Text(tutor.country, style: kSearchPlaceholderStyle),
+                          const SizedBox(width: 5.0),
+                        ],
+                      ),
+                      const SizedBox(height: 5.0),
+                      Row(
+                        children: [
+                          ...List.generate(
+                              5,
+                              (i) => const Icon(
+                                    Icons.star,
+                                    color: Colors.yellow,
+                                    size: 15,
+                                  )),
+                        ],
+                      )
+                    ],
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Align(
+                        alignment: Alignment.topRight,
+                        child: tutor.hasFavorite
+                            ? const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              )
+                            : const Icon(
+                                Icons.favorite_border,
+                                color: Colors.blue,
+                              ),
+                      ),
                     ),
                   ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Wrap(
+              children: <Widget>[
+                ...?tutor.specialities?.map(
+                  (title) => Padding(
+                      padding: const EdgeInsets.only(right: 5.0, bottom: 5.0),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            // change blue color
+                            logger.i('You just selected $title');
+                          },
+                          // border for button
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 221, 234, 255),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: Text(title,
+                              style: kSearchTextStyle.copyWith(
+                                  color: const Color.fromARGB(
+                                      255, 0, 113, 240))))),
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 10.0),
-          Wrap(
-            children: <Widget>[
-              ...?tutor.specialities?.map(
-                (title) => Padding(
-                    padding: const EdgeInsets.only(right: 5.0, bottom: 5.0),
-                    child: ElevatedButton(
-                        onPressed: () {
-                          // change blue color
-                          logger.i('You just selected $title');
-                        },
-                        // border for button
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 221, 234, 255),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: Text(title,
-                            style: kSearchTextStyle.copyWith(
-                                color:
-                                    const Color.fromARGB(255, 0, 113, 240))))),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10.0),
-          Text(tutor.introduce, style: kSearchPlaceholderStyle),
-          const SizedBox(height: 10.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    // foreroundColor: Colors.white,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      // border
-                      side: const BorderSide(color: Colors.blue),
+            const SizedBox(height: 10.0),
+            Text(tutor.introduce, style: kSearchPlaceholderStyle),
+            const SizedBox(height: 10.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      // foreroundColor: Colors.white,
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        // border
+                        side: const BorderSide(color: Colors.blue),
+                      ),
                     ),
-                  ),
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.calendar_month,
-                    color: Colors.blue,
-                    size: 15,
-                  ),
-                  label: Text('Book',
-                      style: kCalloutLabelStyle.copyWith(
-                          color: Colors.blue, fontSize: 13)))
-            ],
-          ),
-        ],
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.calendar_month,
+                      color: Colors.blue,
+                      size: 15,
+                    ),
+                    label: Text('Book',
+                        style: kCalloutLabelStyle.copyWith(
+                            color: Colors.blue, fontSize: 13)))
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2,17 +2,22 @@ import 'package:beatiful_ui/src/features/course/details/presentation/course_deta
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/src/features/course/details/temp/presentation/home.dart';
 import 'package:beatiful_ui/main.dart';
+import 'package:beatiful_ui/src/features/meeting/presentation/online_meeting.dart';
 import 'package:beatiful_ui/src/features/profile/presentation/profile.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/tutor_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../features/course/details/presentation/lesson_detail_page.dart';
+import '../features/course/details/presentation/detail_lesson_page.dart';
 
 enum AppRoute {
-  courseDetail,
+  detailCourse,
   home,
   discovery,
   topicPdf,
+  courseDiscovery,
+  tutorDetail,
+  meeting,
 }
 
 final configRouter = GoRouter(
@@ -34,19 +39,55 @@ final configRouter = GoRouter(
             ),
           ),
           GoRoute(
-            name: AppRoute.courseDetail.name,
+            name: AppRoute.detailCourse.name,
             path: 'detail_course/:courseId',
-            // builder: (context, state) {
-            //   final courseId = state.params['courseId'] ?? '';
-            //   return DetailCourseScreen(
-            //     courseId: courseId,
-            //   );
-            // },
             pageBuilder: (context, state) {
               final courseId = state.params['courseId'] ?? '';
               return MaterialPage<void>(
                 key: state.pageKey,
                 child: DetailCourseScreen(
+                  courseId: courseId,
+                ),
+                fullscreenDialog: true,
+              );
+            },
+          ),
+          GoRoute(
+            name: AppRoute.tutorDetail.name,
+            path: 'tutor_detail/:id',
+            pageBuilder: (context, state) {
+              final tutorId = state.params['id'] ?? '';
+              return MaterialPage<void>(
+                key: state.pageKey,
+                child: TutorDetailPage(
+                  tutorId: tutorId,
+                ),
+                fullscreenDialog: true,
+              );
+            },
+          ),
+          GoRoute(
+            name: AppRoute.meeting.name,
+            path: 'meeting/:id',
+            pageBuilder: (context, state) {
+              final meetingId = state.params['id'] ?? '';
+              return MaterialPage<void>(
+                key: state.pageKey,
+                child: MeetingPage(
+                  tutorId: meetingId,
+                ),
+                fullscreenDialog: true,
+              );
+            },
+          ),
+          GoRoute(
+            name: AppRoute.courseDiscovery.name,
+            path: 'discovery_course/:courseId',
+            pageBuilder: (context, state) {
+              final courseId = state.params['courseId'] ?? '';
+              return MaterialPage<void>(
+                key: state.pageKey,
+                child: DetailLessonPage(
                   courseId: courseId,
                 ),
                 fullscreenDialog: true,

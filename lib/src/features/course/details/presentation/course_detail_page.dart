@@ -3,6 +3,9 @@ import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../route/app_route.dart';
 
 class DetailCourseScreen extends StatefulWidget implements PreferredSizeWidget {
   const DetailCourseScreen({super.key, required String courseId});
@@ -449,8 +452,13 @@ class DetailCourseCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Start Course'),
+                          onPressed: () {
+                            context.goNamed(AppRoute.courseDiscovery.name,
+                                params: {
+                                  'courseId': '5e0e8b212ac750e7dc9886ac',
+                                });
+                          },
+                          child: const Text('Discovery'),
                         ),
                       ),
                     ],

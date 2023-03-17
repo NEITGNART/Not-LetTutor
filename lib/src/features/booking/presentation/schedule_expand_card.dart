@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../common/app_sizes.dart';
 import '../../../common/constants.dart';
+import '../../../route/app_route.dart';
 
 class RequestLessonCard extends StatelessWidget {
   const RequestLessonCard({
@@ -113,7 +115,12 @@ class RequestLessonCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.goNamed(
+                    AppRoute.meeting.name,
+                    params: {'id': '1234567'},
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: scheduleReviewBackground,
                 ),

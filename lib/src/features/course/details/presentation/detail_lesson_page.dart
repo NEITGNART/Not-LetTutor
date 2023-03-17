@@ -12,8 +12,12 @@ import '../../../../common/constants.dart';
 import '../../../../route/app_route.dart';
 import '../../../tutor/presentation/tutor_home_page.dart';
 
-class LessonDetailScreen extends StatelessWidget {
-  const LessonDetailScreen({super.key});
+class DetailLessonPage extends StatelessWidget {
+  const DetailLessonPage({
+    Key? key,
+    required this.courseId,
+  }) : super(key: key);
+  final String courseId;
 
   @override
   Widget build(BuildContext context) {
