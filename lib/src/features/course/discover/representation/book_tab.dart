@@ -114,9 +114,9 @@ class _BookTabState extends State<BookTab> {
   void getListEbook(int page, int size) async {
     final response = await EbookFunctions.getListEbookWithPagination(page, size,
         categoryId: category, q: search);
-    if (mounted) {
+    if (response != null && mounted) {
       setState(() {
-        _results.addAll(response!);
+        _results.addAll(response);
         isLoading = false;
       });
     }
@@ -128,7 +128,6 @@ class _BookTabState extends State<BookTab> {
         isLoadMore = true;
         page++;
       });
-
       try {
         List<Ebook>? response = await EbookFunctions.getListEbookWithPagination(
             page, perPage,
