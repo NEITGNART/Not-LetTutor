@@ -1,15 +1,15 @@
 import 'dart:ui';
-import 'package:beatiful_ui/features/authentication/login_page.dart';
-import 'package:beatiful_ui/features/sidebar/presentation/sidebar_screen.dart';
+import 'package:beatiful_ui/src/features/authentication/presentation/login_page.dart';
+import 'package:beatiful_ui/src/features/booking/presentation/schedule_page.dart';
+import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
+import 'package:beatiful_ui/src/features/history/presentation/history_page.dart';
+import 'package:beatiful_ui/src/common/presentation/sidebar/presentation/sidebar_screen.dart';
 
-import 'package:beatiful_ui/features/tutor/presentation/tutor_home_page.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import './features/tutor/presentation/tutor_detail_page.dart';
-import 'home.dart';
-import 'profile.dart';
-import 'route/route.dart';
+import 'src/route/app_route.dart';
 
 class AppScrollBehavior extends MaterialScrollBehavior {
   @override
@@ -33,7 +33,6 @@ void main() {
   //   ..backgroundColor = Color.fromARGB(255, 7, 199, 238)
   //   ..indicatorColor = Colors.white
   //   ..userInteractions = false;
-
   runApp(const ProviderScope(child: MyApp()));
   // runApp(const ChewieDemo());
 }
@@ -75,38 +74,45 @@ class _RootPageState extends State<RootPage> {
       //   title: const Text('Home Page'),
       // ),
       body: const [
-        TutorDetailPage(),
-        HomePage(),
-        ProfilePage(),
+        DiscoverPage(),
+        HistoryPage(),
+        SchedulePage(),
+        // HomePage(),
         LoginPage(),
         TutorHomePage(),
         SideBarScreen(),
       ][_currentPageIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   child: const Icon(Icons.add),
+      // ),
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(
               icon: Icon(
-                Icons.details,
+                Icons.search,
                 color: Colors.blue,
               ),
-              label: 'Tutor details'),
+              label: 'Discovery'),
           NavigationDestination(
               icon: Icon(
-                Icons.home,
+                Icons.phone,
                 color: Colors.blue,
               ),
-              label: 'Home'),
+              label: 'History'),
           NavigationDestination(
-            icon: Icon(
-              Icons.person,
-              color: Colors.blue,
-            ),
-            label: 'Profile',
-          ),
+              icon: Icon(
+                Icons.schedule,
+                color: Colors.blue,
+              ),
+              label: 'Schedule'),
+
+          // NavigationDestination(
+          //     icon: Icon(
+          //       Icons.home,
+          //       color: Colors.blue,
+          //     ),
+          //     label: 'Home'),
           NavigationDestination(
             icon: Icon(
               Icons.chat,
