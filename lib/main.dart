@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:beatiful_ui/src/features/authentication/presentation/login_page.dart';
 import 'package:beatiful_ui/src/features/booking/presentation/schedule_page.dart';
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/src/features/history/presentation/history_page.dart';
@@ -78,7 +77,6 @@ class _RootPageState extends State<RootPage> {
         HistoryPage(),
         SchedulePage(),
         // HomePage(),
-        LoginPage(),
         TutorHomePage(),
         SideBarScreen(),
       ][_currentPageIndex],
@@ -113,13 +111,7 @@ class _RootPageState extends State<RootPage> {
           //       color: Colors.blue,
           //     ),
           //     label: 'Home'),
-          NavigationDestination(
-            icon: Icon(
-              Icons.chat,
-              color: Colors.blue,
-            ),
-            label: 'Login',
-          ),
+
           NavigationDestination(
             icon: Icon(
               Icons.people,

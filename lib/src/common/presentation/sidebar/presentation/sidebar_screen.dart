@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../route/app_route.dart';
 import '../../../constants.dart';
 import '../../../../features/course/details/temp/models/sidebar.dart';
 import '../data/sidebar_repository.dart';
@@ -57,31 +59,36 @@ class SideBarScreen extends StatelessWidget {
                     ))
                 .toList(),
             const Spacer(),
-            Row(
-              children: [
-                Container(
-                  width: 50.0,
-                  height: 50.0,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF7349FE), Color(0xFF643FDB)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+            GestureDetector(
+              onTap: () {
+                context.goNamed(AppRoute.logIn.name);
+              },
+              child: Row(
+                children: [
+                  Container(
+                    width: 50.0,
+                    height: 50.0,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF7349FE), Color(0xFF643FDB)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.exit_to_app,
+                      color: Colors.white,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.exit_to_app,
-                    color: Colors.white,
-                  ),
-                ),
-                const SizedBox(width: 10.0),
-                Text(
-                  'Log Out',
-                  style: kCalloutLabelStyle,
-                )
-              ],
+                  const SizedBox(width: 10.0),
+                  Text(
+                    'Log Out',
+                    style: kCalloutLabelStyle,
+                  )
+                ],
+              ),
             ),
           ],
         ),

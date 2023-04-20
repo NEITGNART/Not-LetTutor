@@ -22,7 +22,7 @@ class UpComingLesson extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 20),
-      height: 200,
+      height: 250,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
