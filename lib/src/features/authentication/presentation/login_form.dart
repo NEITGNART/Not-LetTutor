@@ -18,8 +18,12 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final LoginPageController c = Get.find();
+  // TextEditingController userController =
+  //     TextEditingController(text: 'teacher@lettutor.com');
+  // TextEditingController passwordController =
+  //     TextEditingController(text: '123456');
   TextEditingController userController =
-      TextEditingController(text: 'teacher@lettutor.com');
+      TextEditingController(text: 'phhai@ymail.com');
   TextEditingController passwordController =
       TextEditingController(text: '123456');
 
@@ -111,11 +115,15 @@ class _LoginFormState extends State<LoginForm> {
         }),
 
         TextButton(
-            child: Text('Forgot Password?',
-                style: kSubtitleStyle.copyWith(
-                  color: Colors.blue,
-                )),
-            onPressed: () {}),
+            child: Text(
+              'Forgot Password?',
+              style: kSubtitleStyle.copyWith(
+                color: Colors.blue,
+              ),
+            ),
+            onPressed: () {
+              context.goNamed(AppRoute.forgotPassword.name);
+            }),
         const SizedBox(height: 10),
 
         Row(

@@ -96,3 +96,9 @@ var kCaptionLabelStyle = const TextStyle(
 );
 
 String apiUrl = 'sandbox.api.lettutor.com';
+
+class ButtonType {
+  static const outlinedButton = "outlinedButton";
+  static const filledButton = "filledButton";
+  static const filledWhiteButton = "filledWhiteButton";
+}

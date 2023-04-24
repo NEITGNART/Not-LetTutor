@@ -6,8 +6,10 @@ import 'package:beatiful_ui/src/features/meeting/presentation/online_meeting.dar
 import 'package:beatiful_ui/src/features/profile/presentation/profile.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
+import '../features/authentication/presentation/forget_password.dart';
 import '../features/authentication/presentation/register.dart';
 import '../features/course/details/presentation/detail_lesson_page.dart';
 
@@ -21,16 +23,20 @@ enum AppRoute {
   meeting,
   signUp,
   logIn,
+  forgotPassword,
 }
 
 final configRouter = GoRouter(
   initialLocation: '/',
+  navigatorKey: Get.key,
   debugLogDiagnostics: true,
   routes: [
     GoRoute(
       path: '/',
       name: AppRoute.logIn.name,
-      builder: (context, state) => const LoginPage(),
+      builder: (context, state) {
+        return const LoginPage();
+      },
       routes: [
         GoRoute(
           path: 'profile',
@@ -136,6 +142,17 @@ final configRouter = GoRouter(
             return MaterialPage<void>(
               key: state.pageKey,
               child: const RegisterScreen(),
+              fullscreenDialog: true,
+            );
+          },
+        ),
+        GoRoute(
+          name: AppRoute.forgotPassword.name,
+          path: 'forgot_password',
+          pageBuilder: (context, state) {
+            return MaterialPage<void>(
+              key: state.pageKey,
+              child: const ForgotPasswordPage(),
               fullscreenDialog: true,
             );
           },

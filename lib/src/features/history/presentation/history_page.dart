@@ -48,23 +48,23 @@ class HistoryList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final historyValue = ref.watch(historyProvider);
-
     return AsyncValueWidget<List<HistoryInfo>>(
-        value: historyValue,
-        data: (historyInfo) => Container(
-              padding: const EdgeInsets.all(16.0),
-              child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    child: HistoryLessonCard(
-                      historyInfo: historyInfo[index],
-                    ),
-                  );
-                },
+      value: historyValue,
+      data: (historyInfo) => Container(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.builder(
+          itemCount: 4,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              child: HistoryLessonCard(
+                historyInfo: historyInfo[index],
               ),
-            ));
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 

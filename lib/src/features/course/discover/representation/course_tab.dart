@@ -19,7 +19,6 @@ class CourseTab extends StatefulWidget {
 class _CourseTabState extends State<CourseTab> {
   List<Course> _results = [];
   final TextEditingController _controller = TextEditingController();
-  final CourseRepository courseRepository = MyCourseRepository();
   final listLevels = {
     "0": "Any level",
     "1": "Beginner",
@@ -130,7 +129,7 @@ class _CourseTabState extends State<CourseTab> {
   void getListCourse(int page, int size) async {
     try {
       final courses =
-          await courseRepository.getListCourseWithPagination(page, size);
+          await CourseFunctions.getListCourseWithPagination(page, size);
       setState(() {
         _results.addAll(courses!);
         isLoading = false;
@@ -148,7 +147,7 @@ class _CourseTabState extends State<CourseTab> {
       const snackBar = SnackBar(
         content: Text('Không thể tải thêm nữa'),
       );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 

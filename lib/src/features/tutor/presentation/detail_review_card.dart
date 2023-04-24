@@ -4,30 +4,30 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../common/constants.dart';
 
-class ReviewCard extends StatelessWidget {
-  Widget getStarsWidget(int totalStart, int goldenStars) {
-    assert(totalStart >= goldenStars);
-    return Row(
-      children: [
-        ...List.generate(
-            goldenStars,
-            (i) => const Icon(
-                  Icons.star,
-                  color: Colors.yellow,
-                  size: 15,
-                )),
-        ...List.generate(
-            totalStart - goldenStars,
-            (i) => const Icon(
-                  Icons.star,
-                  color: Colors.grey,
-                  size: 15,
-                )),
-        const SizedBox(width: 5.0),
-      ],
-    );
-  }
+Widget getStarsWidget(int totalStart, int goldenStars) {
+  assert(totalStart >= goldenStars);
+  return Row(
+    children: [
+      ...List.generate(
+          goldenStars,
+          (i) => const Icon(
+                Icons.star,
+                color: Colors.yellow,
+                size: 15,
+              )),
+      ...List.generate(
+          totalStart - goldenStars,
+          (i) => const Icon(
+                Icons.star,
+                color: Colors.grey,
+                size: 15,
+              )),
+      const SizedBox(width: 5.0),
+    ],
+  );
+}
 
+class ReviewCard extends StatelessWidget {
   const ReviewCard({super.key});
   @override
   Widget build(BuildContext context) {
