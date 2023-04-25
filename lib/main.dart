@@ -73,11 +73,11 @@ class _RootPageState extends State<RootPage> {
       //   title: const Text('Home Page'),
       // ),
       body: const [
+        TutorHomePage(),
         DiscoverPage(),
         HistoryPage(),
         SchedulePage(),
         // HomePage(),
-        TutorHomePage(),
         SideBarScreen(),
       ][_currentPageIndex],
       // floatingActionButton: FloatingActionButton(
@@ -86,6 +86,13 @@ class _RootPageState extends State<RootPage> {
       // ),
       bottomNavigationBar: NavigationBar(
         destinations: const [
+          NavigationDestination(
+            icon: Icon(
+              Icons.people,
+              color: Colors.blue,
+            ),
+            label: 'Overview',
+          ),
           NavigationDestination(
               icon: Icon(
                 Icons.search,
@@ -112,13 +119,6 @@ class _RootPageState extends State<RootPage> {
           //     ),
           //     label: 'Home'),
 
-          NavigationDestination(
-            icon: Icon(
-              Icons.people,
-              color: Colors.blue,
-            ),
-            label: 'TutorList',
-          ),
           NavigationDestination(
             icon: Icon(
               Icons.person,

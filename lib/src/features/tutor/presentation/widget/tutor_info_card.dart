@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../../common/app_sizes.dart';
-import '../../../common/constants.dart';
-import '../../../common/presentation/group_button_ui.dart';
+import '../../../../common/app_sizes.dart';
+import '../../../../common/constants.dart';
+import '../../../../common/presentation/group_button_ui.dart';
 
 class TutorInfoCard extends StatelessWidget {
   const TutorInfoCard({

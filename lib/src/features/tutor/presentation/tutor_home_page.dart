@@ -1,5 +1,5 @@
 import 'package:beatiful_ui/src/common/constants.dart';
-import 'package:beatiful_ui/src/features/tutor/presentation/detail_review_card.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/widget/detail_review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -7,7 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
 import '../../../common/presentation/app_bar.dart';
-import '../../../common/presentation/up_coming_lesson.dart';
+import '../../../common/presentation/my_filter.dart';
+import '../../../utils/learning_topics.dart';
+import 'widget/up_coming_lesson.dart';
 import '../../../route/app_route.dart';
 import '../../../utils/countries_list.dart';
 import '../model/tutor.dart';
@@ -27,69 +29,12 @@ var fruits = ['Apple', 'Banana', 'Mango', 'Orange'];
 // IELTS
 // TOEFL
 // TOEIC
-var allSkillFilter = [
-  'All',
-  'English for kids',
-  'English for Business',
-  'Conversational',
-  'STARTERS',
-  'MOVERS',
-  'FLYERS',
-  'KET',
-  'PET',
-  'IELTS',
-  'TOEFL',
-  'TOEIC'
-];
-
-var tutorSkillFilter = [
-  'All',
-  'English for kids',
-  'English for Business',
-  'Conversational',
-  'STARTERS',
-  'MOVERS',
-];
 
 var logger = Logger();
 
 class TutorHomePage extends StatelessWidget {
   const TutorHomePage({super.key});
 
-  // static final List<TutorProfile> tutors = [
-  //   TutorProfile(
-  //     avatarUrl:
-  //         'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4',
-  //     flagUrl:
-  //         'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
-  //     country: 'Viet Nam',
-  //     introduce:
-  //         'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching',
-  //     hasFavorite: true,
-  //     specialities: allSkillFilter,
-  //   ),
-  //   TutorProfile(
-  //       avatarUrl:
-  //           'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4',
-  //       flagUrl:
-  //           'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
-  //       country: 'Viet Nam',
-  //       introduce:
-  //           'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching',
-  //       hasFavorite: true,
-  //       specialities: []),
-  //   TutorProfile(
-  //       avatarUrl:
-  //           'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4',
-  //       flagUrl:
-  //           'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
-  //       country: 'Viet Nam',
-  //       introduce:
-  //           'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching',
-  //       hasFavorite: true,
-  //       specialities: [],
-  //       ),
-  // ];
   static final List<Tutor> tutors = [];
 
   @override
@@ -111,19 +56,16 @@ class TutorHomePage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const UpComingLesson(),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     Container(
                       padding: const EdgeInsets.all(30),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // const MyFilter(),
-                          const Divider(
-                            color: Colors.grey,
-                            thickness: 1,
-                          ),
+                          const MyFilter(),
+                          // const Divider(
+                          //   color: Colors.grey,
+                          //   thickness: 1,
+                          // ),
                           Text('Recommended Tutors', style: kTitle1Style),
                           const SizedBox(
                             height: 10,
@@ -256,7 +198,7 @@ class MyTutorCardReview extends StatelessWidget {
                       Row(
                         children: [
                           SvgPicture.network(
-                            'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
+                            'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/${"vn"}.svg',
                             width: 20,
                           ),
                           const SizedBox(width: 5.0),
@@ -297,31 +239,38 @@ class MyTutorCardReview extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            Wrap(
-              children: <Widget>[
-                ...?tutor.specialties?.split(',').map(
-                      (title) => Padding(
-                          padding:
-                              const EdgeInsets.only(right: 5.0, bottom: 5.0),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                // change blue color
-                                logger.i('You just selected $title');
-                              },
-                              // border for button
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromARGB(255, 221, 234, 255),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                              child: Text(title,
-                                  style: kSearchTextStyle.copyWith(
-                                      color: const Color.fromARGB(
-                                          255, 0, 113, 240))))),
+            // make row scrollable by horizontal
+
+            SizedBox(
+              height: 40,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: tutor.specialties?.split(',').length,
+                itemBuilder: (context, index) {
+                  String title = tutor.specialties!.split(',')[index];
+                  String specialty = listLearningTopics[title] ?? title;
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 10.0, bottom: 5.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // change blue color
+                        logger.i('You just selected $title');
+                      },
+                      // border for button
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 221, 234, 255),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Text(specialty,
+                          style: kSearchTextStyle.copyWith(
+                              color: const Color.fromARGB(255, 0, 113, 240))),
                     ),
-              ],
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 10.0),
             Text(tutor.bio ?? "", style: kSearchPlaceholderStyle),

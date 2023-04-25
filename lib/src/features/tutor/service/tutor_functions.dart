@@ -86,7 +86,7 @@ class TutorFunctions {
     }
   }
 
-  static Future<List<Tutor>?> searchTutor(
+  static Future<List<Tutor>> searchTutor(
     int page,
     int perPage, {
     String search = '',
@@ -115,10 +115,10 @@ class TutorFunctions {
         final List<dynamic> tutors = jsonRes["rows"];
         return tutors.map((tutor) => Tutor.fromJson(tutor)).toList();
       } else {
-        return null;
+        return [];
       }
     } on Error catch (_) {
-      return null;
+      return [];
     }
   }
 }

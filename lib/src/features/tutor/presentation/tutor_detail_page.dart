@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
-import 'package:beatiful_ui/src/features/tutor/presentation/tutor_info_card.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/widget/tutor_info_card.dart';
 import 'package:flutter/material.dart';
 
-import 'detail_review_card.dart';
+import 'widget/detail_review_card.dart';
 
 class TutorDetailPage extends StatefulWidget {
   const TutorDetailPage({super.key, required String tutorId});
