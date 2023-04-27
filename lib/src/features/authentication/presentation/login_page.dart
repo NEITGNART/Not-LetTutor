@@ -48,7 +48,7 @@ class LoginPage extends StatelessWidget {
                                       border: Border.all(
                                           color: Colors.grey, width: 1),
                                     ),
-                                    child: LoginForm())),
+                                    child: const LoginForm())),
                             Flexible(
                               child: Image.network(
                                   fit: BoxFit.cover,
@@ -64,7 +64,7 @@ class LoginPage extends StatelessWidget {
                             fit: BoxFit.cover,
                             'https://sandbox.app.lettutor.com/static/media/login.8d01124a.png'),
                         gapH12,
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(child: LoginForm()),

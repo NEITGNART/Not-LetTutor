@@ -1,6 +1,5 @@
 import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import 'recent_course_list.dart';
 
@@ -30,44 +29,42 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        child: SafeArea(
-          child: Column(
-            children: [
-              // PageView.builder(itemBuilder: (context, index) {
-              //   return CourseCard(course: recentCourses[index]);
-              // }),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'Recent Courses',
-                      style: kLargeTitleStyle,
-                    ),
-                  ],
-                ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            // PageView.builder(itemBuilder: (context, index) {
+            //   return CourseCard(course: recentCourses[index]);
+            // }),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, top: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Recent Courses',
+                    style: kLargeTitleStyle,
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 340,
-                width: double.infinity,
-                child: RecentCourseList(),
+            ),
+            const SizedBox(
+              height: 340,
+              width: double.infinity,
+              child: RecentCourseList(),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0, top: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Rices',
+                    style: kLargeTitleStyle,
+                  ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0, top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'Rices',
-                      style: kLargeTitleStyle,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

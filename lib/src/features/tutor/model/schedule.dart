@@ -48,4 +48,10 @@ class Schedule {
           json['tutorInfo'] != null ? Tutor.fromJson(json['tutorInfo']) : null,
     );
   }
+
+  // tostring
+  @override
+  String toString() {
+    return 'Schedule{id: $id, tutorId: $tutorId, startTime: $startTime, endTime: $endTime, startTimestamp: $startTimestamp, endTimestamp: $endTimestamp, createdAt: $createdAt, isBooked: $isBooked, scheduleDetails: $scheduleDetails, tutorInfo: $tutorInfo}';
+  }
 }

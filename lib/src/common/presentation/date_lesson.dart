@@ -16,14 +16,15 @@ class DateLesson extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(date, style: kCalloutLabelStyle),
+        Text(date, style: kCalloutLabelStyle.copyWith(fontSize: 18)),
         gapH4,
-        Text('${lesson} lesson', style: kSearchPlaceholderStyle),
+        Text(lesson == 1 ? '1 lesson' : '$lesson consecutive lessons',
+            style: kSearchPlaceholderStyle.copyWith(
+                color: Colors.black, fontSize: 16)),
       ],
-    ));
+    );
   }
 }

@@ -4,25 +4,24 @@ import 'package:flutter/material.dart';
 
 import '../../../../common/constants.dart';
 
-class Time {
-  final int? hour;
-  final int? minute;
-
-  const Time({this.hour, this.minute});
-}
-
 class UpComingLesson extends StatelessWidget {
   final bool isUpComingLesson;
-  final totalLessonTime;
+  final Duration totalLessonTime;
+  final String formatDate;
+  final String countDown;
 
   const UpComingLesson(
-      {super.key, this.isUpComingLesson = true, this.totalLessonTime = 290});
+      {super.key,
+      this.isUpComingLesson = true,
+      this.totalLessonTime = const Duration(),
+      this.formatDate = 'Sat, 29 Apr 23 01:30 - 01:55',
+      this.countDown = ''});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 20),
-      height: 250,
+      padding: const EdgeInsets.only(top: 10),
+      height: 260,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -44,10 +43,11 @@ class UpComingLesson extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               buildEnterRoomResponsive(context),
-              const SizedBox(height: 30),
+              const SizedBox(height: 15),
               Expanded(
                 child: Text(
-                  'Total lesson time is $totalLessonTime hours 25 minutes',
+                  // 'Total lesson time is ${totalLessonTime.inHours} hours ${totalLessonTime.} minutes',
+                  'Total lesson time is ${totalLessonTime.inHours} hours ${totalLessonTime.inMinutes - (totalLessonTime.inHours * 60)} minutes',
                   style: kBodyLabelStyle.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
@@ -57,10 +57,10 @@ class UpComingLesson extends StatelessWidget {
                 child: Text('You have no upcoming lesson.',
                     style: kTitle1Style.copyWith(color: Colors.white)),
               ),
-              const SizedBox(height: 30),
+              gapH16,
               Expanded(
                 child: Text(
-                  'Total lesson time is 290 hours 25 minutes',
+                  'Total lesson time is ${totalLessonTime.inHours} hours ${totalLessonTime.inMinutes - (totalLessonTime.inHours * 60)} minutes',
                   style: kBodyLabelStyle.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
@@ -81,12 +81,14 @@ class UpComingLesson extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: 'Fri, 30 Sep 22 18:20 - 18:55',
-                  style: kSearchTextStyle.copyWith(color: Colors.white),
+                  text: formatDate,
+                  style: kSearchTextStyle.copyWith(
+                      color: Colors.white, fontSize: 20),
                 ),
                 TextSpan(
-                  text: '(starts in 65: 43: 51)',
-                  style: kSearchTextStyle.copyWith(color: Colors.amber),
+                  text: '\n(starts in $countDown)',
+                  style: kSearchTextStyle.copyWith(
+                      color: Colors.amber.shade300, fontSize: 20),
                 ),
               ],
             ),
@@ -129,7 +131,8 @@ class UpComingLesson extends StatelessWidget {
                 ),
                 TextSpan(
                   text: '(starts in 65: 43: 51)',
-                  style: kSearchTextStyle.copyWith(color: Colors.amber),
+                  style:
+                      kSearchTextStyle.copyWith(color: Colors.amber.shade300),
                 ),
               ],
             ),

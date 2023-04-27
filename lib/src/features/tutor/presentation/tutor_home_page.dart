@@ -9,28 +9,33 @@ import 'package:logger/logger.dart';
 import '../../../common/presentation/app_bar.dart';
 import '../../../common/presentation/my_filter.dart';
 import '../../../utils/learning_topics.dart';
+import 'controller/tutor_detail_controller.dart';
 import 'widget/up_coming_lesson.dart';
 import '../../../route/app_route.dart';
 import '../../../utils/countries_list.dart';
 import '../model/tutor.dart';
 import 'controller/tutor_controller.dart';
 
-var fruits = ['Apple', 'Banana', 'Mango', 'Orange'];
-
-// All
-// English for kids
-// English for Business
-// Conversational
-// STARTERS
-// MOVERS
-// FLYERS
-// KET
-// PET
-// IELTS
-// TOEFL
-// TOEIC
-
 var logger = Logger();
+
+String getCountry(String? country) {
+  return country != null
+      ? countryList[country] != null
+          ? countryList[country]!
+          : country
+      : '';
+}
+
+String getAvatar(String? avatar) {
+  const errorUrl =
+      "https://www.alliancerehabmed.com/wp-content/uploads/icon-avatar-default.png";
+  const fallbackUrl =
+      "https://lh3.googleusercontent.com/a/AGNmyxYXM6_Y1arArTV3OlHJ-QZaY5M3hInrQHTYLvtVGg=s192-c-rg-br100";
+  String? avatarUrl =
+      avatar != null && avatar == errorUrl ? fallbackUrl : avatar;
+  return avatarUrl ??
+      "https://lh3.googleusercontent.com/a/AGNmyxYXM6_Y1arArTV3OlHJ-QZaY5M3hInrQHTYLvtVGg=s192-c-rg-br100";
+}
 
 class TutorHomePage extends StatelessWidget {
   const TutorHomePage({super.key});
@@ -41,6 +46,7 @@ class TutorHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Init Tutor controller
     final tutorController = Get.put(TutorController());
+    Get.put(DetailTutorController());
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -55,9 +61,17 @@ class TutorHomePage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const UpComingLesson(),
+                    Obx(
+                      () => UpComingLesson(
+                        isUpComingLesson: true,
+                        totalLessonTime: tutorController.hoursTotal.value,
+                        formatDate: tutorController.formatDate.value,
+                        countDown: tutorController.countDown.value,
+                      ),
+                    ),
                     Container(
-                      padding: const EdgeInsets.all(30),
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: 30, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -142,16 +156,11 @@ class MyTutorCardReview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const errorUrl =
-        "https://www.alliancerehabmed.com/wp-content/uploads/icon-avatar-default.png";
-    const fallbackUrl =
-        "https://lh3.googleusercontent.com/a/AGNmyxYXM6_Y1arArTV3OlHJ-QZaY5M3hInrQHTYLvtVGg=s192-c-rg-br100";
-    final String? avatarUrl = tutor.avatar != null && tutor.avatar == errorUrl
-        ? fallbackUrl
-        : tutor.avatar;
+    final String avatarUrl = getAvatar(tutor.avatar);
 
     return GestureDetector(
       onTap: () {
+        Get.put(tutor.feedbacks, tag: tutor.userId);
         context.pushNamed(
           AppRoute.tutorDetail.name,
           params: {
@@ -182,9 +191,9 @@ class MyTutorCardReview extends StatelessWidget {
               child: Row(
                 children: [
                   CircleAvatar(
-                      radius: 30.0,
-                      backgroundImage: NetworkImage(avatarUrl ??
-                          "https://lh3.googleusercontent.com/a/AGNmyxYXM6_Y1arArTV3OlHJ-QZaY5M3hInrQHTYLvtVGg=s192-c-rg-br100")),
+                    radius: 30.0,
+                    backgroundImage: NetworkImage(avatarUrl),
+                  ),
                   const SizedBox(width: 15.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,12 +211,7 @@ class MyTutorCardReview extends StatelessWidget {
                             width: 20,
                           ),
                           const SizedBox(width: 5.0),
-                          Text(
-                              tutor.country != null
-                                  ? countryList[tutor.country] != null
-                                      ? countryList[tutor.country]!
-                                      : tutor.country!
-                                  : '',
+                          Text(getCountry(tutor.country),
                               style: kSearchPlaceholderStyle),
                           const SizedBox(width: 5.0),
                         ],
@@ -220,7 +224,8 @@ class MyTutorCardReview extends StatelessWidget {
                   ),
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.all(10.0),
+                      padding:
+                          const EdgeInsets.only(right: 10.0, left: 10, top: 15),
                       child: Align(
                         alignment: Alignment.topRight,
                         child: tutor.isFavorite ?? false

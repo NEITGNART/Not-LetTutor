@@ -1,8 +1,12 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/presentation/blockquote.dart';
 import 'package:beatiful_ui/src/features/booking/presentation/schedule_card.dart';
+import 'package:beatiful_ui/src/features/schedule/presentation/controller/booking_controller.dart';
+import 'package:beatiful_ui/src/utils/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 
 import '../../../common/constants.dart';
 
@@ -11,17 +15,12 @@ class SchedulePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScheduleController c = Get.put(ScheduleController());
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(16.0),
-          child: const Column(children: [
-            ScheduleBanner(),
-            gapH16,
-            Expanded(
-              child: ScheduleList(),
-            ),
-          ]),
+          padding: const EdgeInsets.all(8.0),
+          child: ScheduleList(c: c),
         ),
       ),
     );
@@ -29,24 +28,37 @@ class SchedulePage extends StatelessWidget {
 }
 
 class ScheduleList extends StatelessWidget {
-  const ScheduleList({super.key});
+  const ScheduleList({super.key, required this.c});
+  final ScheduleController c;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView.builder(
-        itemCount: 2,
+    return Obx(() {
+      if (c.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
+      if (c.upcomingClasses.isEmpty) {
+        return const Center(child: Text('No booked classes'));
+      }
+
+      Logger().e(c.upcomingClasses.length);
+
+      return ListView.builder(
+        itemCount: c.upcomingClasses.length,
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.only(bottom: 16),
             child: ScheduleLessonCard(
-              date: 'Fri, 30, Sep 22',
+              date: changeDateFormat(c.upcomingClasses.value[index]
+                  .scheduleDetailInfo!.startPeriodTimestamp),
               lesson: index + 1,
+              times: const [],
             ),
           );
         },
-      ),
-    );
+      );
+    });
   }
 }
 

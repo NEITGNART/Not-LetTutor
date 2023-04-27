@@ -42,7 +42,7 @@ class _MyFilterState extends State<MyFilter> {
     for (var k in listLearningTopics.keys) listLearningTopics[k]: k
   };
 
-  int specialityIdx = -1;
+  int specialityIdx = 0;
 
   // text controller
 
@@ -60,6 +60,11 @@ class _MyFilterState extends State<MyFilter> {
           height: 10,
         ),
         TextField(
+          // unfocus
+          onTapOutside: (e) {
+            FocusScope.of(context).unfocus();
+          },
+          autofocus: false,
           controller: c.search,
           decoration: InputDecoration(
             fillColor: Colors.blueGrey.shade50,
@@ -249,8 +254,8 @@ class _MyFilterState extends State<MyFilter> {
             onPressed: () {
               setState(() {
                 nationalityTutor = [];
-                specialityIdx = -1;
-                c.search.clear();
+                specialityIdx = 0;
+                c.resetFilter();
               });
             },
             child: Text(
@@ -258,24 +263,6 @@ class _MyFilterState extends State<MyFilter> {
               style: kCalloutLabelStyle.copyWith(color: Colors.blue),
             )),
       ],
-    );
-  }
-
-  _autoCompleteTextField() {
-    return Autocomplete(
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text == '') {
-          return const Iterable<String>.empty();
-        }
-        return fruits.where((String option) {
-          return option
-              .toLowerCase()
-              .contains(textEditingValue.text.toLowerCase());
-        });
-      },
-      onSelected: (String selection) {
-        debugPrint('You just selected $selection');
-      },
     );
   }
 }

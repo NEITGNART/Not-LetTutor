@@ -77,7 +77,11 @@ class TutorFunctions {
           }));
 
       if (response.statusCode == 200) {
-        return true;
+        if (jsonDecode(response.body)['result'] == 1) {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }

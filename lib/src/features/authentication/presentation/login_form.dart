@@ -18,14 +18,14 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final LoginPageController c = Get.find();
-  // TextEditingController userController =
-  //     TextEditingController(text: 'teacher@lettutor.com');
-  // TextEditingController passwordController =
-  //     TextEditingController(text: '123456');
   TextEditingController userController =
-      TextEditingController(text: 'phhai@ymail.com');
+      TextEditingController(text: 'student@lettutor.com');
   TextEditingController passwordController =
       TextEditingController(text: '123456');
+  // TextEditingController userController =
+  //     TextEditingController(text: 'phhai@gmail.com');
+  // TextEditingController passwordController =
+  //     TextEditingController(text: '123456');
 
   bool isPasswordVisible = false;
 

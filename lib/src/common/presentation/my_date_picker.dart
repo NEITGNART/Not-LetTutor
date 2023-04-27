@@ -1,4 +1,6 @@
+import 'package:beatiful_ui/src/features/profile/presentation/controller/user_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../features/tutor/presentation/tutor_home_page.dart';
 
@@ -9,44 +11,53 @@ class MyDatePicker extends StatefulWidget {
 }
 
 class _MyDatePickerState extends State<MyDatePicker> {
-  TextEditingController dateInput = TextEditingController();
-
+  UserController c = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10.0),
-      child: TextField(
-        // hidden divider
-        controller: dateInput,
-        //editing controller of this TextField
-        decoration: const InputDecoration(
-            // adjust icon to the right
-            suffixIcon: Icon(Icons.calendar_today), //suffix icon of text field
-            labelText: "Select a day", //label text of field
-            border: InputBorder.none),
-        readOnly: true,
-        //set it true, so that user will not able to edit text
-        onTap: () async {
-          DateTime? pickedDate = await showDatePicker(
-              context: context,
-              initialDate: DateTime.now(),
-              firstDate: DateTime(1950),
-              //DateTime.now() - not to allow to choose before today.
-              lastDate: DateTime(2100));
-
-          if (pickedDate != null) {
-            logger.i(
-                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-            String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-            logger.i(
-                formattedDate); //formatted date output using intl package =>  2021-03-16
-            setState(() {
-              dateInput.text =
-                  formattedDate; //set output date to TextField value.
-            });
-          } else {}
-        },
+    return TextField(
+      controller: c.dateController,
+      decoration: InputDecoration(
+        fillColor: Colors.white,
+        filled: true,
+        contentPadding: const EdgeInsets.all(15),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blueGrey.shade50),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        suffixIcon: const Icon(Icons.calendar_today),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blueGrey.shade50),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.grey,
+            width: 2,
+          ),
+        ),
       ),
+      //set it true, so that user will not able to edit text
+      readOnly: true,
+      onTap: () async {
+        DateTime? pickedDate = await showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1950),
+            //DateTime.now() - not to allow to choose before today.
+            lastDate: DateTime(2100));
+
+        if (pickedDate != null) {
+          logger.i(
+              pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
+          String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+          logger.i(
+              formattedDate); //formatted date output using intl package =>  2021-03-16
+          setState(() {
+            c.dateController.text =
+                formattedDate; //set output date to TextField value.
+          });
+        } else {}
+      },
     );
   }
 }

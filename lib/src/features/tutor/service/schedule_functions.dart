@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 import '../../../common/constants.dart';
 import '../model/booking_info.dart';
@@ -110,9 +111,10 @@ class ScheduleFunctions {
 
       if (response.statusCode == 200) {
         final upcomingList = json.decode(response.body)['data']['rows'] as List;
-        final res = upcomingList
-            .map((schedule) => BookingInfo.fromJson(schedule))
-            .toList();
+        final res = upcomingList.map((schedule) {
+          Logger().e(BookingInfo.fromJson(schedule));
+          return BookingInfo.fromJson(schedule);
+        }).toList();
         return res;
       } else {
         return null;
@@ -169,7 +171,6 @@ class ScheduleFunctions {
         url,
         headers: {'Authorization': 'Bearer $token'},
       );
-
       return json.decode(response.body)['total'];
     } on Error catch (_) {
       return 0;

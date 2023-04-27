@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../app_sizes.dart';
 import '../constants.dart';
 
 class TutorInfo {
@@ -24,8 +25,11 @@ class TutorInfoLessonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 250,
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: const BoxDecoration(
+          color: scheduleReviewBackground,
+          borderRadius: BorderRadius.all(Radius.circular(8))),
       child: Row(
         children: [
           const CircleAvatar(
@@ -53,7 +57,10 @@ class TutorInfoLessonCard extends StatelessWidget {
                     width: 20,
                   ),
                   const SizedBox(width: 5.0),
-                  Text('Viet Nam', style: kSearchPlaceholderStyle),
+                  Text('Viet Nam',
+                      style: kSearchPlaceholderStyle.copyWith(
+                        color: Colors.black,
+                      )),
                   const SizedBox(width: 5.0),
                 ],
               ),

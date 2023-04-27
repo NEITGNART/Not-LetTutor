@@ -29,25 +29,30 @@ class SideBarScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage: NetworkImage(
-                        'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4')),
-                const SizedBox(width: 15.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'John Pham',
-                      style: kHeadlineLabelStyle,
-                    ),
-                    const SizedBox(height: 5.0),
-                    Text('Software Engineer', style: kSearchPlaceholderStyle),
-                  ],
-                )
-              ],
+            InkWell(
+              onTap: () {
+                context.pushNamed(AppRoute.profile.name);
+              },
+              child: Row(
+                children: [
+                  const CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage: NetworkImage(
+                          'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4')),
+                  const SizedBox(width: 15.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'John Pham',
+                        style: kHeadlineLabelStyle,
+                      ),
+                      const SizedBox(height: 5.0),
+                      Text('Software Engineer', style: kSearchPlaceholderStyle),
+                    ],
+                  )
+                ],
+              ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.1),
             ...sidebarItem

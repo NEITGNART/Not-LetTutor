@@ -3,7 +3,7 @@ import 'package:beatiful_ui/src/features/authentication/presentation/login_page.
 import 'package:beatiful_ui/src/features/course/details/presentation/course_detail_page.dart';
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/src/features/meeting/presentation/online_meeting.dart';
-import 'package:beatiful_ui/src/features/profile/presentation/profile.dart';
+import 'package:beatiful_ui/src/features/profile/presentation/profile_page.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import '../features/authentication/presentation/forget_password.dart';
 import '../features/authentication/presentation/register.dart';
 import '../features/course/details/presentation/detail_lesson_page.dart';
+import '../features/tutor/presentation/review_page.dart';
 
 enum AppRoute {
   detailCourse,
@@ -24,6 +25,8 @@ enum AppRoute {
   signUp,
   logIn,
   forgotPassword,
+  profile,
+  review,
 }
 
 final configRouter = GoRouter(
@@ -40,6 +43,7 @@ final configRouter = GoRouter(
       routes: [
         GoRoute(
           path: 'profile',
+          name: AppRoute.profile.name,
           // builder: (context, state) => const ProfilePage(),
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
@@ -56,6 +60,20 @@ final configRouter = GoRouter(
               key: state.pageKey,
               child: DetailCourseScreen(
                 courseId: courseId,
+              ),
+              fullscreenDialog: true,
+            );
+          },
+        ),
+        GoRoute(
+          name: AppRoute.review.name,
+          path: 'review/:tutorId',
+          pageBuilder: (context, state) {
+            final tutorId = state.params['tutorId'] ?? '';
+            return MaterialPage<void>(
+              key: state.pageKey,
+              child: ReviewPage(
+                tutorId: tutorId,
               ),
               fullscreenDialog: true,
             );

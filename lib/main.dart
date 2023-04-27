@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'package:beatiful_ui/src/features/booking/presentation/schedule_page.dart';
+import 'package:beatiful_ui/src/features/schedule/presentation/schedule_page.dart';
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/src/features/history/presentation/history_page.dart';
 import 'package:beatiful_ui/src/common/presentation/sidebar/presentation/sidebar_screen.dart';

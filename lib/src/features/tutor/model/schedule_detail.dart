@@ -52,4 +52,10 @@ class ScheduleDetails {
           : null,
     );
   }
+
+  // tostring
+  @override
+  String toString() {
+    return 'ScheduleDetails{startPeriodTimestamp: $startPeriodTimestamp, endPeriodTimestamp: $endPeriodTimestamp, id: $id, scheduleId: $scheduleId, startPeriod: $startPeriod, endPeriod: $endPeriod, createdAt: $createdAt, updatedAt: $updatedAt, bookingInfo: $bookingInfo, isBooked: $isBooked, scheduleInfo: $scheduleInfo}';
+  }
 }

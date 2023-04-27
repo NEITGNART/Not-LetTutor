@@ -3,6 +3,7 @@ import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 import '../data/repository.dart';
 import '../model/course.dart';
@@ -51,9 +52,7 @@ class _CourseTabState extends State<CourseTab> {
         });
       }
     } catch (e) {
-      final snackBar = SnackBar(
-        content: Text(e.toString()),
-      );
+      Get.snackbar("Error", e.toString());
     }
   }
 

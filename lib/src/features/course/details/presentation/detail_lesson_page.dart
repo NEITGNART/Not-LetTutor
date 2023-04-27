@@ -242,29 +242,27 @@ class _DesktopDetailLessonScreenState extends State<DesktopDetailLessonScreen> {
                   Flexible(
                     flex: 2,
                     child: (currentLessonLink.isNotEmpty)
-                        ? Container(
-                            child: Row(
-                              children: [
-                                if (currentLessonLink.isNotEmpty) ...{
-                                  FutureBuilder<File>(
-                                    future: DefaultCacheManager()
-                                        .getSingleFile(currentLessonLink),
-                                    builder: (context, snapshot) => snapshot
-                                            .hasData
-                                        ? Expanded(
-                                            child: PdfViewer.openFile(
-                                              snapshot.data!.path,
-                                              // params: const PdfViewerParams(
-                                              //     pageNumber: 1),
-                                            ),
-                                          )
-                                        : const Center(
-                                            child: CircularProgressIndicator()),
-                                  )
-                                } else
-                                  const Placeholder(),
-                              ],
-                            ),
+                        ? Row(
+                            children: [
+                              if (currentLessonLink.isNotEmpty) ...{
+                                FutureBuilder<File>(
+                                  future: DefaultCacheManager()
+                                      .getSingleFile(currentLessonLink),
+                                  builder: (context, snapshot) => snapshot
+                                          .hasData
+                                      ? Expanded(
+                                          child: PdfViewer.openFile(
+                                            snapshot.data!.path,
+                                            // params: const PdfViewerParams(
+                                            //     pageNumber: 1),
+                                          ),
+                                        )
+                                      : const Center(
+                                          child: CircularProgressIndicator()),
+                                )
+                              } else
+                                const Placeholder(),
+                            ],
                           )
                         : Center(
                             child: Image.network(

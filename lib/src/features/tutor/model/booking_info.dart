@@ -62,4 +62,9 @@ class BookingInfo {
           : null,
     );
   }
+  // toString
+  @override
+  String toString() {
+    return 'BookingInfo{createdAtTimeStamp: $createdAtTimeStamp, updatedAtTimeStamp: $updatedAtTimeStamp, id: $id, userId: $userId, scheduleDetailId: $scheduleDetailId, tutorMeetingLink: $tutorMeetingLink, studentMeetingLink: $studentMeetingLink, studentRequest: $studentRequest, tutorReview: $tutorReview, scoreByTutor: $scoreByTutor, createdAt: $createdAt, updatedAt: $updatedAt, recordUrl: $recordUrl, isDeleted: $isDeleted, showRecordUrl: $showRecordUrl, scheduleDetailInfo: $scheduleDetailInfo}';
+  }
 }

@@ -1,21 +1,25 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/widget/bottom_dialog.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/tutor_info_card.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../../utils/learning_topics.dart';
 import 'widget/detail_review_card.dart';
 
-class TutorDetailPage extends StatefulWidget {
-  const TutorDetailPage({super.key, required String tutorId});
+class TutorDetailPage extends StatelessWidget {
+  final String tutorId;
+  const TutorDetailPage({super.key, required this.tutorId});
 
-  @override
-  State<TutorDetailPage> createState() => _TutorDetailPageState();
-}
-
-class _TutorDetailPageState extends State<TutorDetailPage> {
   @override
   Widget build(BuildContext context) {
+    DetailTutorController c = Get.find();
+    c.getTutor(tutorId);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tutor Detail'),
@@ -32,69 +36,78 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
             children: [
               const TutorInfo(),
               const SizedBox(height: 20.0),
-              buildReponsive(),
+              Obx(() => buildReponsive(context, c))
             ],
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          c.getSchedules(tutorId);
+          showTutorDatePicker(context, c);
+        },
+        child: const Icon(Icons.calendar_today),
+      ),
     );
   }
 
-  Widget buildReponsive() {
+  Widget buildReponsive(BuildContext context, DetailTutorController c) {
+    if (c.tutorValue == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final specilities = (c.tutorValue?.specialties ?? "").split(',').map((e) {
+      return listLearningTopics[e] ?? e;
+    }).toList();
+
+    // final suggestedCourse = c.tutorValue
+    // String specialty = listLearningTopics[title] ?? title;
     if (MediaQuery.of(context).size.width < Breakpoint.desktop) {
-      return const Column(
+      return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TutorInfoCard(
-            languages: ['English', 'Vietnamese'],
-            // English for Business, English for Travel, English for Kids
-            specialties: [
-              'English for Business',
-              'English for Conversation',
-              'English for Kids',
-              'IELTS',
-              'TOIEC'
-            ],
-            suggestedCourses: [
-              'English for Business',
-              'English for Travel',
-            ],
-            interests:
-                'I loved the weather, the scenery and the laid-back lifestyle of the locals.',
-            teachingExperience:
-                'I have more than 10 years of teaching english experience',
-          ),
-          MyBookingTable()
+              languages: const ['English', 'Vietnamese'],
+              // English for Business, English for Travel, English for Kids
+              specialties: specilities,
+              suggestedCourses: c.tutorValue!.courses ?? [],
+              interests: c.tutorValue!.interests?.trim() ?? "",
+              teachingExperience: c.tutorValue!.experience ?? ""),
+          const MyBookingTable()
         ],
       );
     }
-    return const Row(
+
+    // dispose
+
+    @override
+    void dispose() {
+      Get.delete(tag: tutorId);
+    }
+
+    return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
           flex: 1,
           child: TutorInfoCard(
-            languages: ['English', 'Vietnamese'],
+            languages: const ['English', 'Vietnamese'],
             // English for Business, English for Travel, English for Kids
-            specialties: [
+            specialties: const [
               'English for Business',
               'English for Conversation',
               'English for Kids',
               'IELTS',
               'TOIEC'
             ],
-            suggestedCourses: [
-              'English for Business',
-              'English for Travel',
-            ],
-            interests:
-                'I loved the weather, the scenery and the laid-back lifestyle of the locals.',
+            suggestedCourses: const [],
+            interests: c.tutorValue!.interests ?? "",
             teachingExperience:
                 'I have more than 10 years of teaching english experience',
           ),
         ),
-        Flexible(
+        const Flexible(
           flex: 2,
           child: MyBookingTable(),
         )
@@ -260,19 +273,16 @@ class BookingTable extends StatelessWidget {
           // padding = 0
         ),
         columns: <DataColumn>[
-          DataColumn(
-            label: Container(
-              child: const Expanded(
-                child: Text(
-                  '',
-                ),
+          const DataColumn(
+            label: Expanded(
+              child: Text(
+                '',
               ),
             ),
           ),
           ...calender.map((e) {
             return DataColumn(
-                label: Container(
-                    child: Column(
+                label: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -280,7 +290,7 @@ class BookingTable extends StatelessWidget {
                 gapH4,
                 Text(e.nameOfDay),
               ],
-            )));
+            ));
           }),
         ],
         rows: <DataRow>[

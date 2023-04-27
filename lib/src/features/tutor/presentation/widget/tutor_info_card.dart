@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../common/app_sizes.dart';
 import '../../../../common/constants.dart';
 import '../../../../common/presentation/group_button_ui.dart';
+import '../../model/suggested_course.dart';
 
 class TutorInfoCard extends StatelessWidget {
   const TutorInfoCard({
@@ -17,7 +18,7 @@ class TutorInfoCard extends StatelessWidget {
 
   final List<String> languages;
   final List<String> specialties;
-  final List<String> suggestedCourses;
+  final List<Courses> suggestedCourses;
   final String interests;
   final String teachingExperience;
 
@@ -38,45 +39,37 @@ class TutorInfoCard extends StatelessWidget {
           Text('Specialties', style: kTitle1Style),
           gapH12,
           GroupButtonColor(titles: specialties),
-          gapH12,
-          Text('Suggested Courses', style: kTitle1Style),
-          gapH12,
-          Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // ...suggestedCourses.map((e) => Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: RichText(
-                  //         child: Text(e,
-                  //             style: kCardTitleStyle.copyWith(
-                  //                 fontSize: 16, color: Colors.black)),
-                  //       ),
-                  //     ))
-
-                  ...suggestedCourses.map((e) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RichText(
-                          text: TextSpan(
-                              text: e,
-                              style: kCardTitleStyle.copyWith(
-                                  fontSize: 16, color: Colors.black),
-                              children: [
-                            TextSpan(
-                                // onTap: () => launch('https://flutter.dev'),q
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {},
-                                text: ': Link',
-                                style: kSubtitleStyle.copyWith(
-                                  fontSize: 16,
-                                  color: Colors.blue,
-                                ))
-                          ]))))
-                ],
-              ),
-            ],
-          ),
+          if (suggestedCourses.isNotEmpty) ...{
+            Text('Suggested Courses', style: kTitle1Style),
+            gapH12,
+            Column(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ...suggestedCourses.map((e) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: RichText(
+                            text: TextSpan(
+                                text: e.name,
+                                style: kCardTitleStyle.copyWith(
+                                    fontSize: 16, color: Colors.black),
+                                children: [
+                              TextSpan(
+                                  // onTap: () => launch('https://flutter.dev'),q
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {},
+                                  text: ': Link',
+                                  style: kSubtitleStyle.copyWith(
+                                    fontSize: 16,
+                                    color: Colors.blue,
+                                  ))
+                            ]))))
+                  ],
+                ),
+              ],
+            ),
+          },
           gapH12,
           Text('Interests', style: kTitle1Style),
           gapH12,

@@ -1,4 +1,5 @@
 import 'feedback.dart';
+import 'suggested_course.dart';
 
 class Tutor {
   String userId;
@@ -14,6 +15,7 @@ class Tutor {
   double? rating;
   bool? isFavorite;
   List<FeedBack>? feedbacks;
+  List<Courses>? courses;
 
   Tutor(
       {required this.userId,
@@ -28,7 +30,8 @@ class Tutor {
       this.interests,
       this.country,
       this.isFavorite,
-      this.feedbacks});
+      this.feedbacks,
+      this.courses});
 
   factory Tutor.fromJson(Map<String, dynamic> json) {
     List<FeedBack> feedbacks = [];
@@ -52,19 +55,41 @@ class Tutor {
   }
 
   factory Tutor.fromJson2(Map<String, dynamic> json) {
+    List<Courses> courses = [];
+    if (json['User']['courses'] != null) {
+      for (var v in json['User']['courses']) {
+        courses.add(Courses.fromJson(v));
+      }
+    }
+
     return Tutor(
-      userId: json['User']['id'],
-      avatar: json['User']['avatar'],
-      name: json['User']['name'],
-      country: json['User']['country'],
-      bio: json['bio'],
-      specialties: json['specialties'],
-      rating: json['rating'],
-      video: json['video'],
-      experience: json['experience'],
-      languages: json['languages'],
-      interests: json['interests'],
-      isFavorite: json['isFavorite'],
+        userId: json['User']['id'],
+        avatar: json['User']['avatar'],
+        name: json['User']['name'],
+        country: json['User']['country'],
+        bio: json['bio'],
+        specialties: json['specialties'],
+        rating: json['rating'],
+        video: json['video'],
+        experience: json['experience'],
+        languages: json['languages'],
+        interests: json['interests'],
+        isFavorite: json['isFavorite'],
+        courses: courses);
+  }
+
+  // clone a new Tutor object
+  Tutor clone() {
+    return Tutor(
+      userId: userId,
+      avatar: avatar,
+      name: name,
+      bio: bio,
+      specialties: specialties,
+      rating: rating,
+      isFavorite: isFavorite,
+      country: country,
+      feedbacks: feedbacks,
     );
   }
 

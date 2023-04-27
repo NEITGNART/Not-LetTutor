@@ -18,7 +18,6 @@ class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
   Widget build(BuildContext context) {
     var lessonTime = 'Lesson time: ${widget.historyInfo.lessonTime}';
     return Container(
-        child: Container(
       decoration: const BoxDecoration(
         color: scheduleBackgroundColor,
       ),
@@ -58,14 +57,12 @@ class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
               ],
             ),
           ),
-          Container(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              gapH16,
-              // expansion panel
-              HistoryExpandCard(
-                  isExpanded: isExpanded, historyInfo: widget.historyInfo),
-            ]),
-          ),
+          Column(mainAxisSize: MainAxisSize.min, children: [
+            gapH16,
+            // expansion panel
+            HistoryExpandCard(
+                isExpanded: isExpanded, historyInfo: widget.historyInfo),
+          ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
@@ -80,6 +77,6 @@ class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
           )
         ],
       ),
-    ));
+    );
   }
 }

@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../utils/countries_list.dart';
+import '../../model/booking_info.dart';
 import '../../model/tutor.dart';
+import '../../service/schedule_functions.dart';
 import '../../service/tutor_functions.dart';
 
 const all = 'All';
@@ -16,18 +20,22 @@ class TutorController extends GetxController {
   var search = TextEditingController(text: '');
   RxString searchText = ''.obs;
   var specialty = all;
+  var hoursTotal = const Duration().obs;
+  Rx<BookingInfo?> nextClass = Rx<BookingInfo?>(null);
+  var formatDate = ''.obs;
+  var countDown = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
     fetchTutorList();
+    getTotalAndNextLesson();
     search.addListener(() {
-      Logger().d(search.text);
       searchText.value = search.text;
     });
     debounce(searchText, (_) {
       searchTutors(searchText.value);
-    }, time: const Duration(milliseconds: 300));
+    }, time: const Duration(milliseconds: 500));
   }
 
   Future<void> fetchTutorList() async {
@@ -119,4 +127,55 @@ class TutorController extends GetxController {
       isLoading(false);
     }
   }
+
+  void resetFilter() {
+    search.clear();
+    specialty = all;
+    filterBySpecialty(all);
+  }
+
+  void getTimeLeft(int t) {
+    final startTime = DateTime.fromMillisecondsSinceEpoch(t);
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      final difference = startTime.difference(DateTime.now());
+      countDown.value = _printDuration(difference);
+      if (difference <= const Duration(seconds: 0)) {
+        timer.cancel();
+      }
+    });
+  }
+
+  void getTotalAndNextLesson() async {
+    final total = await ScheduleFunctions.getTotalHourLesson();
+    final next = await ScheduleFunctions.getNextClass();
+    hoursTotal.value = Duration(minutes: total);
+    nextClass.value = next;
+
+    if (next == null) return;
+    final tmp = nextClass.value!;
+    final startTime = tmp.scheduleDetailInfo?.startPeriodTimestamp ?? 0;
+    final endTime = tmp.scheduleDetailInfo?.endPeriodTimestamp ?? 0;
+    final s = DateFormat('EEE, d MMM yyyy HH:mm')
+        .format(DateTime.fromMillisecondsSinceEpoch(startTime));
+    final se = DateFormat('HH:mm')
+        .format(DateTime.fromMillisecondsSinceEpoch(endTime));
+    var rest = '$s - $se';
+    formatDate.value = rest;
+    getTimeLeft(startTime);
+
+    // if (mounted) {
+    //   setState(() {
+    //     totalHourLesson = Duration(minutes: total);
+    //     nextClass = next;
+    //     isLoading = false;
+    //   });
+    // }
+  }
+}
+
+String _printDuration(Duration duration) {
+  String twoDigits(int n) => n.toString().padLeft(2, "0");
+  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+  String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+  return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
 }

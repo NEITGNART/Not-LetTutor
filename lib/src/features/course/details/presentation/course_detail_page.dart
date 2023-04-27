@@ -447,22 +447,20 @@ class DetailCourseCard extends StatelessWidget {
                   ),
                 ),
                 gapH12,
-                Container(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            context.goNamed(AppRoute.courseDiscovery.name,
-                                params: {
-                                  'courseId': '5e0e8b212ac750e7dc9886ac',
-                                });
-                          },
-                          child: const Text('Discovery'),
-                        ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          context
+                              .goNamed(AppRoute.courseDiscovery.name, params: {
+                            'courseId': '5e0e8b212ac750e7dc9886ac',
+                          });
+                        },
+                        child: const Text('Discovery'),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
