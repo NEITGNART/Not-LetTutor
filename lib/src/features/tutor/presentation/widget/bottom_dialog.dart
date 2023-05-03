@@ -67,16 +67,26 @@ Future showTutorTimePicker(BuildContext context, Schedule schedules) {
                                             .startPeriodTimestamp)
                                     .isAfter(DateTime.now())) {
                               try {
-                                final res = await ScheduleFunctions.bookAClass(
-                                    scheduleDetails[index].id);
-                                if (res) {
+                                final BookingResponse res =
+                                    await ScheduleFunctions.bookAClass(
+                                        scheduleDetails[index].id);
+                                if (res.success!) {
                                   scheduleDetails[index].isBooked = true;
                                   // ignore: use_build_context_synchronously
                                   Navigator.pop(context);
                                   // ignore: use_build_context_synchronously
                                   Navigator.pop(context);
-                                  Get.snackbar("OK", "OK",
-                                      backgroundColor: Colors.green);
+                                  Get.snackbar(
+                                    '${res.message}',
+                                    "Check email for more details",
+                                    backgroundColor: Colors.green,
+                                  );
+                                } else {
+                                  Get.snackbar(
+                                    '${res.message}',
+                                    "",
+                                    backgroundColor: Colors.red,
+                                  );
                                 }
                               } catch (e) {
                                 Get.snackbar("Error", e.toString(),
@@ -91,6 +101,12 @@ Future showTutorTimePicker(BuildContext context, Schedule schedules) {
                                 //       const Duration(milliseconds: 200),
                                 // );
                               }
+                            } else {
+                              Get.snackbar(
+                                'Error'.tr,
+                                'This time not avaiable due booked'.tr,
+                                backgroundColor: Colors.red,
+                              );
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -99,8 +115,8 @@ Future showTutorTimePicker(BuildContext context, Schedule schedules) {
                                             scheduleDetails[index]
                                                 .startPeriodTimestamp)
                                         .isBefore(DateTime.now())
-                                ? Colors.grey[200]
-                                : Colors.white,
+                                ? Colors.grey.shade200
+                                : Colors.blue.shade200,
                             shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),

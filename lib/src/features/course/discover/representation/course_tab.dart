@@ -17,19 +17,20 @@ class CourseTab extends StatefulWidget {
   State<CourseTab> createState() => _CourseTabState();
 }
 
+final listLevels = {
+  "0": "Any level",
+  "1": "Beginner",
+  "2": "High Beginner",
+  "3": "Pre-Intermediate",
+  "4": "Intermediate",
+  "5": "Upper-Intermediate",
+  "6": "Advanced",
+  "7": "Proficiency"
+};
+
 class _CourseTabState extends State<CourseTab> {
   List<Course> _results = [];
   final TextEditingController _controller = TextEditingController();
-  final listLevels = {
-    "0": "Any level",
-    "1": "Beginner",
-    "2": "High Beginner",
-    "3": "Pre-Intermediate",
-    "4": "Intermediate",
-    "5": "Upper-Intermediate",
-    "6": "Advanced",
-    "7": "Proficiency"
-  };
   Timer? _debounce;
   String category = "";
   String search = "";

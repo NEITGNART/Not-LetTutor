@@ -3,7 +3,7 @@ import 'package:beatiful_ui/src/common/presentation/blockquote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../common/constants.dart';
+import '../../../../common/constants.dart';
 
 class ScheduleBanner extends StatelessWidget {
   const ScheduleBanner({

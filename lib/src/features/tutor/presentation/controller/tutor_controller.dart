@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../utils/countries_list.dart';
+import '../../../../utils/date_format.dart';
 import '../../model/booking_info.dart';
 import '../../model/tutor.dart';
 import '../../service/schedule_functions.dart';
@@ -24,28 +25,38 @@ class TutorController extends GetxController {
   Rx<BookingInfo?> nextClass = Rx<BookingInfo?>(null);
   var formatDate = ''.obs;
   var countDown = ''.obs;
+  late final Worker worker;
 
   @override
-  void onInit() {
-    super.onInit();
-    fetchTutorList();
-    getTotalAndNextLesson();
+  void onReady() {
     search.addListener(() {
       searchText.value = search.text;
     });
-    debounce(searchText, (_) {
+    worker = debounce(searchText, (_) {
       searchTutors(searchText.value);
     }, time: const Duration(milliseconds: 500));
+  }
+
+  void init() {
+    fetchTutorList();
+    getTotalAndNextLesson();
+  }
+
+  @override
+  void onClose() {
+    search.dispose();
+    worker.dispose();
   }
 
   Future<void> fetchTutorList() async {
     try {
       isLoading(true);
-      var tutors =
-          await TutorFunctions.getTutorList(currentPage.value, perPage);
-      if (tutors != null) {
-        tutorList.assignAll(tutors);
-      }
+      var tutors = await TutorFunctions.searchTutor(currentPage.value, perPage,
+          search: '');
+
+      //   var tutors =
+      // await TutorFunctions.getTutorList(currentPage.value, perPage);
+      tutorList.assignAll(tutors);
     } finally {
       isLoading(false);
     }
@@ -138,7 +149,7 @@ class TutorController extends GetxController {
     final startTime = DateTime.fromMillisecondsSinceEpoch(t);
     Timer.periodic(const Duration(seconds: 1), (timer) {
       final difference = startTime.difference(DateTime.now());
-      countDown.value = _printDuration(difference);
+      countDown.value = printDuration(difference);
       if (difference <= const Duration(seconds: 0)) {
         timer.cancel();
       }
@@ -171,11 +182,4 @@ class TutorController extends GetxController {
     //   });
     // }
   }
-}
-
-String _printDuration(Duration duration) {
-  String twoDigits(int n) => n.toString().padLeft(2, "0");
-  String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-  String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-  return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/app_sizes.dart';
-import '../../../common/constants.dart';
+import '../../../../common/app_sizes.dart';
+import '../../../../common/constants.dart';
 import '../domain/history.dart';
 import 'expand_card.dart';
 
@@ -16,7 +16,7 @@ class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
   bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
-    var lessonTime = 'Lesson time: ${widget.historyInfo.lessonTime}';
+    var lessonTime = 'Lesson time: \n${widget.historyInfo.lessonTime}';
     return Container(
       decoration: const BoxDecoration(
         color: scheduleBackgroundColor,

@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import '../../../common/app_sizes.dart';
-import '../../../common/constants.dart';
+import '../../../../common/app_sizes.dart';
+import '../../../../common/constants.dart';
 import '../domain/history.dart';
 
 // create a data class has title and content for expand card

@@ -1,15 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class AvatarProfile extends StatelessWidget {
   final String imagePath;
   final bool isEdit;
   final VoidCallback onClicked;
-
+  final File? image;
   const AvatarProfile({
     Key? key,
     required this.imagePath,
     this.isEdit = false,
     required this.onClicked,
+    this.image,
   }) : super(key: key);
 
   @override
@@ -19,7 +22,17 @@ class AvatarProfile extends StatelessWidget {
     return Center(
       child: Stack(
         children: [
-          buildImage(),
+          image != null
+              ? GestureDetector(
+                  onTap: () {
+                    onClicked();
+                  },
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundImage: FileImage(image!),
+                  ),
+                )
+              : buildImage(),
           Positioned(
             bottom: 0,
             right: 4,
@@ -32,7 +45,6 @@ class AvatarProfile extends StatelessWidget {
 
   Widget buildImage() {
     final image = NetworkImage(imagePath);
-
     return ClipOval(
       child: Material(
         color: Colors.transparent,

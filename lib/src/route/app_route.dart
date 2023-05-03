@@ -4,6 +4,7 @@ import 'package:beatiful_ui/src/features/course/details/presentation/course_deta
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
 import 'package:beatiful_ui/src/features/meeting/presentation/online_meeting.dart';
 import 'package:beatiful_ui/src/features/profile/presentation/profile_page.dart';
+import 'package:beatiful_ui/src/features/tutor/model/booking_info.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,8 @@ import 'package:go_router/go_router.dart';
 import '../features/authentication/presentation/forget_password.dart';
 import '../features/authentication/presentation/register.dart';
 import '../features/course/details/presentation/detail_lesson_page.dart';
+import '../features/course/discover/model/course.dart';
+import '../features/schedule/history/presentation/history_page.dart';
 import '../features/tutor/presentation/review_page.dart';
 
 enum AppRoute {
@@ -27,6 +30,7 @@ enum AppRoute {
   forgotPassword,
   profile,
   review,
+  history,
 }
 
 final configRouter = GoRouter(
@@ -60,6 +64,7 @@ final configRouter = GoRouter(
               key: state.pageKey,
               child: DetailCourseScreen(
                 courseId: courseId,
+                course: state.extra as Course,
               ),
               fullscreenDialog: true,
             );
@@ -98,10 +103,12 @@ final configRouter = GoRouter(
           path: 'meeting/:id',
           pageBuilder: (context, state) {
             final meetingId = state.params['id'] ?? '';
+            final BookingInfo booking = state.extra as BookingInfo;
             return MaterialPage<void>(
               key: state.pageKey,
               child: MeetingPage(
-                tutorId: meetingId,
+                callUrl: meetingId,
+                booking: booking,
               ),
               fullscreenDialog: true,
             );
@@ -138,6 +145,16 @@ final configRouter = GoRouter(
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
             child: const DiscoverPage(),
+            fullscreenDialog: true,
+          ),
+        ),
+        GoRoute(
+          name: AppRoute.history.name,
+          path: 'history',
+          builder: (context, state) => const DiscoverPage(),
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            child: const HistoryPage(),
             fullscreenDialog: true,
           ),
         ),

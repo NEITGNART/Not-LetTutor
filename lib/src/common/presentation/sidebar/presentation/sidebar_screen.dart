@@ -1,10 +1,13 @@
+import 'package:beatiful_ui/src/common/app_sizes.dart';
+import 'package:beatiful_ui/src/features/authentication/presentation/controller/login_controller.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../route/app_route.dart';
 import '../../../constants.dart';
 import '../../../../features/course/details/temp/models/sidebar.dart';
-import '../data/sidebar_repository.dart';
 
 class SideBarScreen extends StatelessWidget {
   const SideBarScreen({
@@ -13,89 +16,213 @@ class SideBarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoginPageController c = Get.find();
+    final boxdecoration = BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(32.0),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black12,
+          offset: Offset(0, 2),
+          blurRadius: 32.0,
+        ),
+      ],
+    );
+
+    const icon = Icon(
+      Icons.arrow_forward_ios,
+      size: 16,
+    );
     return SafeArea(
-      child: Container(
-        decoration: const BoxDecoration(
-          color: kSidebarBackgroundColor,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(34.0),
+      child: SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: kSidebarBackgroundColor,
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(34.0),
+            ),
           ),
-        ),
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width * 0.85,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 30.0,
-        ),
-        child: Column(
-          children: [
-            InkWell(
-              onTap: () {
-                context.pushNamed(AppRoute.profile.name);
-              },
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                      radius: 30.0,
-                      backgroundImage: NetworkImage(
-                          'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4')),
-                  const SizedBox(width: 15.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'John Pham',
-                        style: kHeadlineLabelStyle,
+          // height: MediaQuery.of(context).size.height,
+          // width: MediaQuery.of(context).size.width * 0.85,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 30.0,
+          ),
+          child: Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  context.pushNamed(AppRoute.profile.name);
+                },
+                child: Row(
+                  children: [
+                    Obx(
+                      () => CircleAvatar(
+                        radius: 40.0,
+                        backgroundImage: NetworkImage(
+                          getAvatar(c.authUser.value!.avatar),
+                        ),
                       ),
-                      const SizedBox(height: 5.0),
-                      Text('Software Engineer', style: kSearchPlaceholderStyle),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            ...sidebarItem
-                .map((item) => Column(
+                    ),
+                    const SizedBox(width: 15.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SideBarRow(sideBarItem: item),
-                        const SizedBox(height: 20.0),
+                        Obx(() => Text(
+                              c.authUser.value!.name ?? "",
+                              style: kHeadlineLabelStyle.copyWith(
+                                fontSize: 17.0,
+                              ),
+                            )),
+                        const SizedBox(height: 5.0),
+                        Obx(
+                          () => Text(
+                            c.authUser.value!.email ?? "",
+                            style: kSearchPlaceholderStyle.copyWith(
+                                fontSize: 14.0),
+                          ),
+                        ),
                       ],
-                    ))
-                .toList(),
-            const Spacer(),
-            GestureDetector(
-              onTap: () {
-                context.goNamed(AppRoute.logIn.name);
-              },
-              child: Row(
-                children: [
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF7349FE), Color(0xFF643FDB)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.exit_to_app,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 10.0),
-                  Text(
-                    'Log Out',
-                    style: kCalloutLabelStyle,
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+
+              // build in widget that have in List
+
+              // ListTile(
+              //   leading: const Icon(Icons.history),
+              //   title: const Text('History'),
+              //   onTap: () {
+              //     // context.goNamed(AppRoute.history.name);
+              //   },
+              // ),
+              gapH64,
+              GestureDetector(
+                onTap: () {
+                  context.pushNamed(AppRoute.history.name);
+                },
+                child: Container(
+                  decoration: boxdecoration,
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.history),
+                      gapW12,
+                      Text('History', style: kCalloutLabelStyle),
+                      const Spacer(),
+                      icon
+                    ],
+                  ),
+                ),
+              ),
+              gapH12,
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  decoration: boxdecoration,
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.language),
+                      gapW12,
+                      Text('Language', style: kCalloutLabelStyle),
+                      const Spacer(),
+                      icon
+                    ],
+                  ),
+                ),
+              ),
+              gapH12,
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  decoration: boxdecoration,
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.settings_suggest),
+                      gapW12,
+                      Text('Advanced settings', style: kCalloutLabelStyle),
+                      const Spacer(),
+                      icon
+                    ],
+                  ),
+                ),
+              ),
+              gapH12,
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  decoration: boxdecoration,
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.history),
+                      gapW12,
+                      Text('History', style: kCalloutLabelStyle),
+                      const Spacer(),
+                      icon
+                    ],
+                  ),
+                ),
+              ),
+              // const Spacer(),
+              gapH64,
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  decoration: boxdecoration,
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.people),
+                      gapW12,
+                      Text('Our website', style: kCalloutLabelStyle),
+                      const Spacer(),
+                      icon
+                    ],
+                  ),
+                ),
+              ),
+              gapH12,
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  decoration: boxdecoration,
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.app_registration),
+                      gapW12,
+                      Text('Register to teacher', style: kCalloutLabelStyle),
+                      const Spacer(),
+                      icon
+                    ],
+                  ),
+                ),
+              ),
+              gapH64,
+              GestureDetector(
+                onTap: () {
+                  context.goNamed(AppRoute.logIn.name);
+                },
+                child: Container(
+                  decoration: boxdecoration.copyWith(
+                    color: Colors.blue.shade200,
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.exit_to_app),
+                      gapW12,
+                      Text('Log Out', style: kCalloutLabelStyle),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

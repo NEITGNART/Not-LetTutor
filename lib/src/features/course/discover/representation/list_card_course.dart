@@ -26,7 +26,7 @@ class ListViewCard extends StatelessWidget {
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: MyCourseCard(
-            results: _results, listLevels: listLevels, index: index),
+            results: _results[index], listLevels: listLevels, index: index),
       ),
     );
   }
@@ -35,12 +35,12 @@ class ListViewCard extends StatelessWidget {
 class MyCourseCard extends StatelessWidget {
   const MyCourseCard({
     super.key,
-    required List<Course> results,
+    required Course results,
     required this.listLevels,
     required this.index,
   }) : _results = results;
 
-  final List<Course> _results;
+  final Course _results;
   final Map<String, String> listLevels;
   final int index;
 
@@ -48,9 +48,11 @@ class MyCourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(AppRoute.detailCourse.name, params: {
-          'courseId': _results[index].id,
-        });
+        context.pushNamed(AppRoute.detailCourse.name,
+            params: {
+              'courseId': _results.id,
+            },
+            extra: _results);
       },
       child: Card(
         elevation: 5,
@@ -67,7 +69,7 @@ class MyCourseCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: CachedNetworkImage(
-                  imageUrl: _results[index].imageUrl,
+                  imageUrl: _results.imageUrl,
                   fit: BoxFit.cover,
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       CircularProgressIndicator(
@@ -81,7 +83,7 @@ class MyCourseCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _results[index].name,
+                      _results.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -90,7 +92,7 @@ class MyCourseCard extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(top: 8, bottom: 15),
                       child: Text(
-                        _results[index].description,
+                        _results.description,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(fontSize: 12, color: Colors.grey[800]),
@@ -102,12 +104,12 @@ class MyCourseCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            listLevels[_results[index].level] as String,
+                            listLevels[_results.level] as String,
                             style: TextStyle(
                                 fontSize: 15, color: Colors.grey[800]),
                           ),
                           Text(
-                            '${_results[index].topics.length}',
+                            '${_results.topics.length}',
                             style: TextStyle(
                                 fontSize: 12, color: Colors.grey[800]),
                           ),

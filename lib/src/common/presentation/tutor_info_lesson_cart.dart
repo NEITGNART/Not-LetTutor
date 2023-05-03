@@ -1,26 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../features/tutor/model/tutor.dart';
 import '../app_sizes.dart';
 import '../constants.dart';
 
-class TutorInfo {
-  final String name;
-  final String avatarUrl;
-  final String iconUrl;
-  final String country;
-  TutorInfo({
-    required this.name,
-    required this.avatarUrl,
-    required this.iconUrl,
-    required this.country,
-  });
-}
-
 class TutorInfoLessonCard extends StatelessWidget {
+  final Tutor tutor;
   const TutorInfoLessonCard({
     super.key,
+    required this.tutor,
   });
 
   @override
@@ -32,10 +23,12 @@ class TutorInfoLessonCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(8))),
       child: Row(
         children: [
-          const CircleAvatar(
-              radius: 30.0,
-              backgroundImage: NetworkImage(
-                  'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4')),
+          CircleAvatar(
+            radius: 30.0,
+            backgroundImage: NetworkImage(
+              getAvatar(tutor.avatar),
+            ),
+          ),
           const SizedBox(width: 15.0),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +37,7 @@ class TutorInfoLessonCard extends StatelessWidget {
               SizedBox(
                 width: 150,
                 child: Text(
-                  'John Pham',
+                  tutor.name ?? '',
                   overflow: TextOverflow.ellipsis,
                   style: kHeadlineLabelStyle,
                 ),
@@ -57,7 +50,7 @@ class TutorInfoLessonCard extends StatelessWidget {
                     width: 20,
                   ),
                   const SizedBox(width: 5.0),
-                  Text('Viet Nam',
+                  Text(getCountry(tutor.country),
                       style: kSearchPlaceholderStyle.copyWith(
                         color: Colors.black,
                       )),

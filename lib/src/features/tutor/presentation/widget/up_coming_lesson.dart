@@ -1,21 +1,27 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../common/constants.dart';
+import '../../../../route/app_route.dart';
+import '../controller/tutor_controller.dart';
 
 class UpComingLesson extends StatelessWidget {
   final bool isUpComingLesson;
   final Duration totalLessonTime;
   final String formatDate;
   final String countDown;
+  final VoidCallback cb;
 
   const UpComingLesson(
       {super.key,
       this.isUpComingLesson = true,
       this.totalLessonTime = const Duration(),
       this.formatDate = 'Sat, 29 Apr 23 01:30 - 01:55',
-      this.countDown = ''});
+      this.countDown = '',
+      required this.cb});
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +79,7 @@ class UpComingLesson extends StatelessWidget {
   }
 
   Widget buildEnterRoomResponsive(BuildContext context) {
+    TutorController c = Get.find();
     if (MediaQuery.of(context).size.width < Breakpoint.desktop) {
       return Column(
         children: [
@@ -94,24 +101,51 @@ class UpComingLesson extends StatelessWidget {
             ),
           ),
           gapH12,
-          ElevatedButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.play_arrow),
-            // color white
-            label: const Text('Enter lesson room'),
-            // background color white
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.white),
-              foregroundColor: MaterialStateProperty.all(Colors.blue),
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+          Obx(() {
+            if (c.nextClass.value == null) {
+              return ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.play_arrow),
+                // color white
+                label: const Text('Enter lesson room'),
+                // background color white
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                  foregroundColor: MaterialStateProperty.all(Colors.blue),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+                //
+                // border radius 20
+              );
+            }
+            return ElevatedButton.icon(
+              onPressed: () {
+                TutorController c = Get.find();
+                context.pushNamed(AppRoute.meeting.name,
+                    params: {'id': c.nextClass.value!.studentMeetingLink},
+                    extra: c.nextClass.value);
+              },
+              icon: const Icon(Icons.play_arrow),
+              // color white
+              label: const Text('Enter lesson room'),
+              // background color white
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+                foregroundColor: MaterialStateProperty.all(Colors.blue),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
               ),
-            ),
-            //
-            // border radius 20
-          ),
+              //
+              // border radius 20
+            );
+          }),
         ],
       );
     }

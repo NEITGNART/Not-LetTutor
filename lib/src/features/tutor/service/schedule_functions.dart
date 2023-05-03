@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -7,6 +8,17 @@ import 'package:logger/logger.dart';
 import '../../../common/constants.dart';
 import '../model/booking_info.dart';
 import '../model/schedule.dart';
+
+class BookingResponse {
+  String? message;
+  bool? success;
+  BookingResponse({
+    this.message,
+    this.success,
+  });
+  @override
+  String toString() => 'BookingReponse(message: $message, success: $success)';
+}
 
 class ScheduleFunctions {
   static Future<List<Schedule>?> getScheduleByTutorId(String tutorId) async {
@@ -34,30 +46,38 @@ class ScheduleFunctions {
     }
   }
 
-  static Future<bool> bookAClass(String scheduleDetailIds) async {
+  static Future<BookingResponse> bookAClass(String scheduleDetailIds) async {
+    final BookingResponse booking = BookingResponse();
     try {
       final List<String> list = [scheduleDetailIds];
 
       var storage = const FlutterSecureStorage();
       String? token = await storage.read(key: 'accessToken');
       var url = Uri.https(apiUrl, 'booking');
-      var response = await http.post(url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
-          body: json.encode({
-            "scheduleDetailIds": list,
-          }));
+      var response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: json.encode(
+          {"scheduleDetailIds": list, "note": ""},
+        ),
+      );
+
+      final obj = jsonDecode(response.body);
+      booking.message = obj['message'];
 
       if (response.statusCode == 200) {
-        return true;
+        booking.success = true;
       } else {
-        return false;
+        booking.success = false;
       }
     } on Error catch (_) {
-      return false;
+      booking.success = false;
+      throw Exception('Failed to book a class');
     }
+    return booking;
   }
 
   static Future<bool> cancelClass(String scheduleDetailIds) async {
@@ -93,6 +113,7 @@ class ScheduleFunctions {
       String? token = await storage.read(key: 'accessToken');
 
       final current = DateTime.now().millisecondsSinceEpoch;
+      Logger().e(current);
       final queryParameters = {
         'perPage': '$perPage',
         'page': '$page',
@@ -112,7 +133,6 @@ class ScheduleFunctions {
       if (response.statusCode == 200) {
         final upcomingList = json.decode(response.body)['data']['rows'] as List;
         final res = upcomingList.map((schedule) {
-          Logger().e(BookingInfo.fromJson(schedule));
           return BookingInfo.fromJson(schedule);
         }).toList();
         return res;
@@ -134,7 +154,7 @@ class ScheduleFunctions {
       final queryParameters = {
         'perPage': '$perPage',
         'page': '$page',
-        'dateTimeLte': '$current',
+        'dateTimeLte': '1639805436469',
         'orderBy': 'meeting',
         'sortBy': 'desc',
       };

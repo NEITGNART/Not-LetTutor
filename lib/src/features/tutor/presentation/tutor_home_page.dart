@@ -1,4 +1,6 @@
 import 'package:beatiful_ui/src/common/constants.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/widget/bottom_dialog.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/detail_review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,10 +8,8 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
-import '../../../common/presentation/app_bar.dart';
 import '../../../common/presentation/my_filter.dart';
 import '../../../utils/learning_topics.dart';
-import 'controller/tutor_detail_controller.dart';
 import 'widget/up_coming_lesson.dart';
 import '../../../route/app_route.dart';
 import '../../../utils/countries_list.dart';
@@ -42,18 +42,21 @@ class TutorHomePage extends StatelessWidget {
 
   static final List<Tutor> tutors = [];
 
+  // init
+
   @override
   Widget build(BuildContext context) {
     // Init Tutor controller
-    final tutorController = Get.put(TutorController());
-    Get.put(DetailTutorController());
+
+    final TutorController tutorC = Get.find();
+    tutorC.init();
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const MyAppBar(),
+              // const MyAppBar(),
               Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -64,9 +67,10 @@ class TutorHomePage extends StatelessWidget {
                     Obx(
                       () => UpComingLesson(
                         isUpComingLesson: true,
-                        totalLessonTime: tutorController.hoursTotal.value,
-                        formatDate: tutorController.formatDate.value,
-                        countDown: tutorController.countDown.value,
+                        totalLessonTime: tutorC.hoursTotal.value,
+                        formatDate: tutorC.formatDate.value,
+                        countDown: tutorC.countDown.value,
+                        cb: () {},
                       ),
                     ),
                     Container(
@@ -86,22 +90,22 @@ class TutorHomePage extends StatelessWidget {
                           ),
 
                           Obx(() {
-                            if (tutorController.isLoading.value) {
+                            if (tutorC.isLoading.value) {
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
                             }
 
-                            if (tutorController.tutorList.isEmpty) {
+                            if (tutorC.tutorList.isEmpty) {
                               return const Center(
                                 child: Text('No tutor found'),
                               );
                             }
 
-                            if (tutorController.tutorList.isNotEmpty) {
+                            if (tutorC.tutorList.isNotEmpty) {
                               return Column(
                                 children: [
-                                  ...tutorController.tutorList.map(
+                                  ...tutorC.tutorList.map(
                                     (e) => MyTutorCardReview(
                                       tutor: e,
                                     ),
@@ -222,24 +226,24 @@ class MyTutorCardReview extends StatelessWidget {
                           : Text('No rating', style: kSearchPlaceholderStyle),
                     ],
                   ),
-                  Expanded(
-                    child: Container(
-                      padding:
-                          const EdgeInsets.only(right: 10.0, left: 10, top: 15),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: tutor.isFavorite ?? false
-                            ? const Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              )
-                            : const Icon(
-                                Icons.favorite_border,
-                                color: Colors.blue,
-                              ),
-                      ),
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: Container(
+                  //     padding:
+                  //         const EdgeInsets.only(right: 10.0, left: 10, top: 15),
+                  //     child: Align(
+                  //       alignment: Alignment.topRight,
+                  //       child: tutor.isFavorite == true
+                  //           ? const Icon(
+                  //               Icons.favorite,
+                  //               color: Colors.red,
+                  //             )
+                  //           : const Icon(
+                  //               Icons.favorite_border,
+                  //               color: Colors.blue,
+                  //             ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -278,7 +282,12 @@ class MyTutorCardReview extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10.0),
-            Text(tutor.bio ?? "", style: kSearchPlaceholderStyle),
+            Text(
+              tutor.bio ?? "",
+              style: kSearchPlaceholderStyle,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
             const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -293,7 +302,12 @@ class MyTutorCardReview extends StatelessWidget {
                         side: const BorderSide(color: Colors.blue),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      DetailTutorController c = Get.find();
+                      c.schedules.value = null;
+                      c.getSchedules(tutor.userId);
+                      showTutorDatePicker(context, c);
+                    },
                     icon: const Icon(
                       Icons.calendar_month,
                       color: Colors.blue,

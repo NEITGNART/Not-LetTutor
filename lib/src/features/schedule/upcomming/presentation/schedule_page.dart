@@ -1,27 +1,24 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/presentation/blockquote.dart';
-import 'package:beatiful_ui/src/features/booking/presentation/schedule_card.dart';
-import 'package:beatiful_ui/src/features/schedule/presentation/controller/booking_controller.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_card.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/controller/schedule_controller.dart';
 import 'package:beatiful_ui/src/utils/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 
-import '../../../common/constants.dart';
+import '../../../../common/constants.dart';
 
 class SchedulePage extends StatelessWidget {
   const SchedulePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ScheduleController c = Get.put(ScheduleController());
+    ScheduleController c = Get.find();
+    c.init();
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(8.0),
-          child: ScheduleList(c: c),
-        ),
+        child: ScheduleList(c: c),
       ),
     );
   }
@@ -42,18 +39,27 @@ class ScheduleList extends StatelessWidget {
         return const Center(child: Text('No booked classes'));
       }
 
-      Logger().e(c.upcomingClasses.length);
-
       return ListView.builder(
         itemCount: c.upcomingClasses.length,
         itemBuilder: (context, index) {
+          int startTime = c.upcomingClasses.value[index].scheduleDetailInfo!
+              .startPeriodTimestamp;
+          int endTime = c.upcomingClasses.value[index].scheduleDetailInfo!
+              .endPeriodTimestamp;
+          final String time =
+              '${changeHoursFormat(startTime)} - ${changeHoursFormat(endTime)}';
+          final meet = c.upcomingClasses.value[index];
+
           return Container(
             margin: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.all(8),
             child: ScheduleLessonCard(
-              date: changeDateFormat(c.upcomingClasses.value[index]
-                  .scheduleDetailInfo!.startPeriodTimestamp),
+              meet: meet,
+              date: changeDateFormat(startTime),
               lesson: index + 1,
-              times: const [],
+              times: [time],
+              tutor: c.upcomingClasses.value[index].scheduleDetailInfo!
+                  .scheduleInfo?.tutorInfo,
             ),
           );
         },

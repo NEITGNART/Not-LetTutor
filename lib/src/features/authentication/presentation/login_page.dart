@@ -1,5 +1,4 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/common/presentation/app_bar.dart';
 import 'package:beatiful_ui/src/features/authentication/presentation/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,7 +24,7 @@ class LoginPage extends StatelessWidget {
             // min
             mainAxisSize: MainAxisSize.min,
             children: [
-              const MyAppBar(),
+              // const MyAppBar(),
               Flexible(
                 child: Center(
                   child: Column(

@@ -1,4 +1,5 @@
 const countryList = {
+  "Select your country": "Select your country",
   "AF": "Afghanistan",
   "AL": "Albania",
   "DZ": "Algeria",
@@ -251,6 +252,7 @@ const countryList = {
 };
 
 const levelList = {
+  "Select your level": "Select your level",
   "BEGINNER": "Beginner",
   "HIGHER_BEGINNER": "Higher Beginner",
   "PRE_INTERMEDIATE": "Pre-Intermediate",

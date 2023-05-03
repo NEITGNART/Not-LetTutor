@@ -39,17 +39,19 @@ class _MyDatePickerState extends State<MyDatePicker> {
       //set it true, so that user will not able to edit text
       readOnly: true,
       onTap: () async {
-        DateTime? pickedDate = await showDatePicker(
+        DateTime? birthday = await showDatePicker(
             context: context,
             initialDate: DateTime.now(),
             firstDate: DateTime(1950),
             //DateTime.now() - not to allow to choose before today.
             lastDate: DateTime(2100));
-
-        if (pickedDate != null) {
+        // String bdArg =
+        //     "${birthday!.year.toString()}-${birthday.month.toString().padLeft(2, "0")}-${birthday.day..toString().padLeft(2, "0")}";
+        // c.dateController.text = bdArg;
+        if (birthday != null) {
           logger.i(
-              pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
-          String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+              birthday); //pickedDate output format => 2021-03-10 00:00:00.000
+          String formattedDate = DateFormat('yyyy-MM-dd').format(birthday);
           logger.i(
               formattedDate); //formatted date output using intl package =>  2021-03-16
           setState(() {

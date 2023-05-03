@@ -85,14 +85,12 @@ class _MobileDetailLessonScreenState extends State<MobileDetailLessonScreen> {
             sliver: SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  Container(
-                    child: TopicInfo(
-                      src: src,
-                      data: data,
-                      data2: data2,
-                      currentLessonLink: currentLessonLink,
-                      currentLessonIndex: currentLessonIndex,
-                    ),
+                  TopicInfo(
+                    src: src,
+                    data: data,
+                    data2: data2,
+                    currentLessonLink: currentLessonLink,
+                    currentLessonIndex: currentLessonIndex,
                   ),
                 ],
               ),

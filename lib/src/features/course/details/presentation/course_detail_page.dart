@@ -2,13 +2,21 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:beatiful_ui/src/common/constants.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../route/app_route.dart';
+import '../../discover/model/course.dart';
+import '../../discover/model/course_topic.dart';
+import '../../discover/representation/course_tab.dart';
 
 class DetailCourseScreen extends StatefulWidget implements PreferredSizeWidget {
-  const DetailCourseScreen({super.key, required String courseId});
+  final String courseId;
+  final Course course;
+  const DetailCourseScreen(
+      {super.key, required this.courseId, required this.course});
 
   @override
   State<DetailCourseScreen> createState() => _DetailCourseScreenState();
@@ -83,7 +91,7 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
     BuildContext context,
   ) {
     if (MediaQuery.of(context).size.width <= Breakpoint.tablet) {
-      return const MobileDetailScreen();
+      return MobileDetailScreen(course: widget.course);
     } else {
       return CustomScrollView(
         slivers: [
@@ -91,17 +99,17 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
             delegate: SliverChildListDelegate([
               Container(
                 padding: const EdgeInsets.all(16),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(child: DetailCourseCard()),
+                    Expanded(child: DetailCourseCard(course: widget.course)),
                     gapW32,
                     Expanded(
                       flex: 2,
                       child: Column(
                         children: [
-                          OverviewInfo(),
+                          OverviewInfo(course: widget.course),
                           gapH16,
                           // create listviewbuilder wrap inside expanded
                           // to make it scrollable
@@ -115,7 +123,7 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
           ),
           SliverGrid(
             delegate: SliverChildBuilderDelegate(
-              childCount: 10,
+              childCount: widget.course.topics.length,
               (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -154,7 +162,7 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
                                 ),
                             )),
                         Text(
-                          'The title',
+                          widget.course.topics[index].name,
                           style: kTitle2Style.copyWith(
                             fontSize: 18,
                             // gradient orange
@@ -192,9 +200,8 @@ class _DetailCourseScreenState extends State<DetailCourseScreen> {
 }
 
 class MobileDetailScreen extends StatelessWidget {
-  const MobileDetailScreen({
-    super.key,
-  });
+  final Course course;
+  const MobileDetailScreen({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -205,9 +212,11 @@ class MobileDetailScreen extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate(
               [
-                const DetailCourseCard(),
+                DetailCourseCard(
+                  course: course,
+                ),
                 gapH32,
-                const OverviewInfo(),
+                OverviewInfo(course: course),
                 gapH16,
                 Text(
                   'List topics',
@@ -220,42 +229,53 @@ class MobileDetailScreen extends StatelessWidget {
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 10, top: 10),
+              final CourseTopic topic = course.topics[index];
+              return GestureDetector(
+                onTap: () {
+                  context.pushNamed(
+                    AppRoute.topicPdf.name,
+                    params: {
+                      'link': topic.nameFile,
+                    },
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Color(0xFF00AEFF),
-                          Color(0xFF0076FF),
+                    margin: const EdgeInsets.only(bottom: 10, top: 10),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Color(0xFF00AEFF),
+                            Color(0xFF0076FF),
+                          ],
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '$index.',
+                            style: kCardSubtitleStyle,
+                          ),
+                          gapH12,
+                          Text(
+                            topic.name,
+                            style: kCardTitleStyle,
+                          ),
                         ],
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '$index.',
-                          style: kCardSubtitleStyle,
-                        ),
-                        gapH12,
-                        Text(
-                          'The title',
-                          style: kCardTitleStyle,
-                        ),
-                      ],
                     ),
                   ),
                 ),
               );
             },
-            childCount: 20,
+            childCount: course.topics.length,
           ),
         ),
       ],
@@ -264,9 +284,8 @@ class MobileDetailScreen extends StatelessWidget {
 }
 
 class OverviewInfo extends StatelessWidget {
-  const OverviewInfo({
-    super.key,
-  });
+  final Course course;
+  const OverviewInfo({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -279,16 +298,14 @@ class OverviewInfo extends StatelessWidget {
           style: kTitle1Style,
         ),
         gapH16,
-        const OverviewText(
+        OverviewText(
           title: 'What you\'ll learn',
-          subtitle:
-              "Our world is rapidly changing thanks to new technology, and the vocabulary needed to discuss modern life is evolving almost daily. In this course you will learn the most up-to-date terminology from expertly crafted lessons as well from your native-speaking tutor.",
+          subtitle: course.reason,
         ),
         gapH16,
-        const OverviewText(
+        OverviewText(
           title: 'What will you be able to do',
-          subtitle:
-              'You will learn vocabulary related to timely topics like remote work, artificial intelligence, online privacy, and more. In addition to discussion questions, you will practice intermediate level speaking tasks such as using data to describe trends.',
+          subtitle: course.purpose,
         ),
         gapH16,
         Text(
@@ -301,7 +318,7 @@ class OverviewInfo extends StatelessWidget {
             const Icon(Icons.people_alt_outlined),
             gapW4,
             Text(
-              'Beginner',
+              listLevels[course.level] ?? "",
               style: kBodyLabelStyle,
             ),
           ],
@@ -317,7 +334,7 @@ class OverviewInfo extends StatelessWidget {
             const Icon(Icons.topic_outlined),
             gapW4,
             Text(
-              '9 Topics',
+              '${course.topics.length} Topics',
               style: kBodyLabelStyle,
             ),
           ],
@@ -384,9 +401,8 @@ class OverviewText extends StatelessWidget {
 }
 
 class DetailCourseCard extends StatelessWidget {
-  const DetailCourseCard({
-    super.key,
-  });
+  final Course course;
+  const DetailCourseCard({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -425,23 +441,27 @@ class DetailCourseCard extends StatelessWidget {
         children: [
           SizedBox(
             child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              child: Image.network(
-                'https://camblycurriculumicons.s3.amazonaws.com/5e0e8b212ac750e7dc9886ac?h=d41d8cd98f00b204e9800998ecf8427e',
-                fit: BoxFit.cover,
-              ),
-            ),
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20)),
+                child: CachedNetworkImage(
+                  imageUrl: getAvatar(course.imageUrl),
+                  fit: BoxFit.cover,
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )),
           ),
           Container(
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                Text('Life in the Internet Age',
+                Text(course.name,
                     style: kCardTitleStyle.copyWith(color: Colors.black)),
                 gapH12,
                 Text(
-                  "Let's discuss how technology is changing the way we live",
+                  course.description,
                   style: kSubtitleStyle.copyWith(
                     fontSize: 14,
                   ),

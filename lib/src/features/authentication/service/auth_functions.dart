@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 import '../../../common/constants.dart';
 import '../data/model/http_response.dart';
 import '../data/model/login_response.dart';
 import '../data/model/user.dart';
+import '../data/model/user_auth.dart';
 
 class AuthFunctions {
   static Future<Map<String, Object>> register(User user) async {
@@ -39,7 +41,7 @@ class AuthFunctions {
     }
   }
 
-  static Future<Map<String, Object>> login(User user) async {
+  static Future<Map<String, Object>> login(User user, cb) async {
     try {
       var url = Uri.https(apiUrl, 'auth/login');
       var response = await http.post(url,
@@ -52,7 +54,9 @@ class AuthFunctions {
       if (response.statusCode == 200) {
         var storage = const FlutterSecureStorage();
         String token = LoginResponse.fromJson(jsonDecode(response.body)).token;
+        AuthUser authUser = AuthUser.fromJson(jsonDecode(response.body));
         await storage.write(key: 'accessToken', value: token);
+        cb(authUser);
         return {
           'isSuccess': true,
           'token': token,
@@ -64,6 +68,7 @@ class AuthFunctions {
         };
       }
     } on Error catch (_, error) {
+      Logger().e(error.toString());
       return {'isSuccess': false, 'message': error.toString()};
     }
   }

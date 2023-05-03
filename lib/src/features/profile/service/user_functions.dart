@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:logger/logger.dart';
 
 import '../../../common/constants.dart';
 import '../../authentication/data/model/http_response.dart';
@@ -128,10 +129,10 @@ class UserFunctions {
           'learnTopics': learnTopics,
           'testPreparations': testPreparations,
         }));
-
     if (response.statusCode == 200) {
       final jsonRes = json.decode(response.body);
       final user = UserInfo.fromJson(jsonRes['user']);
+
       return user;
     } else {
       return null;
@@ -154,6 +155,7 @@ class UserFunctions {
     if (response.statusCode == 200) {
       return true;
     } else {
+      Logger().e(response);
       return false;
     }
   }
