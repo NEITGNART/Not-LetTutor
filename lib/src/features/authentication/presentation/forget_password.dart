@@ -21,6 +21,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Forgot Password')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

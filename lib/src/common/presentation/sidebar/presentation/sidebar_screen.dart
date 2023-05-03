@@ -1,6 +1,7 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/features/authentication/presentation/controller/login_controller.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/widget/becom_tutor.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -150,23 +151,23 @@ class SideBarScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              gapH12,
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: boxdecoration,
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.history),
-                      gapW12,
-                      Text('History', style: kCalloutLabelStyle),
-                      const Spacer(),
-                      icon
-                    ],
-                  ),
-                ),
-              ),
+              // gapH12,
+              // GestureDetector(
+              //   onTap: () {},
+              //   child: Container(
+              //     decoration: boxdecoration,
+              //     padding: const EdgeInsets.all(12),
+              //     child: Row(
+              //       children: [
+              //         const Icon(Icons.history),
+              //         gapW12,
+              //         Text('History', style: kCalloutLabelStyle),
+              //         const Spacer(),
+              //         icon
+              //       ],
+              //     ),
+              //   ),
+              // ),
               // const Spacer(),
               gapH64,
               GestureDetector(
@@ -187,7 +188,9 @@ class SideBarScreen extends StatelessWidget {
               ),
               gapH12,
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.to(const BecomeTutor());
+                },
                 child: Container(
                   decoration: boxdecoration,
                   padding: const EdgeInsets.all(12),
@@ -202,6 +205,7 @@ class SideBarScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              gapH64,
               gapH64,
               GestureDetector(
                 onTap: () {

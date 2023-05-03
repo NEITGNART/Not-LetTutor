@@ -51,12 +51,13 @@ class TutorController extends GetxController {
   Future<void> fetchTutorList() async {
     try {
       isLoading(true);
-      var tutors = await TutorFunctions.searchTutor(currentPage.value, perPage,
-          search: '');
+      // var tutors = await TutorFunctions.searchTutor(currentPage.value, perPage,
+      //     search: '');
 
       //   var tutors =
-      // await TutorFunctions.getTutorList(currentPage.value, perPage);
-      tutorList.assignAll(tutors);
+      var tutors =
+          await TutorFunctions.getTutorList(currentPage.value, perPage);
+      tutorList.assignAll(tutors!);
     } finally {
       isLoading(false);
     }

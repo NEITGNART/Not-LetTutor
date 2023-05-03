@@ -52,11 +52,11 @@ class _LoginFormState extends State<LoginForm> {
               style: kTitle1Style.copyWith(color: Colors.blue, fontSize: 30),
             ),
             gapH12,
-            Container(
-              child: Text(
-                  'Become fluent faster through one on one video chat lessons tailored to your goals.',
-                  style: kCalloutLabelStyle),
-            ),
+            // Container(
+            //   child: Text(
+            //       'Become fluent faster through one on one video chat lessons tailored to your goals.',
+            //       style: kCalloutLabelStyle),
+            // ),
           ],
         ),
 
@@ -64,44 +64,56 @@ class _LoginFormState extends State<LoginForm> {
         Text('EMAIL', style: kSubtitleStyle),
         const SizedBox(height: 10),
         TextField(
-          controller: userController,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
+            controller: userController,
+            decoration: InputDecoration(
+              fillColor: Colors.blueGrey.shade50,
+              filled: true,
+              contentPadding: const EdgeInsets.all(15),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueGrey.shade50),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueGrey.shade50),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                ),
+              ),
+              hintText: 'Enter name, country',
+            )
             // radius: 10,
-            labelText: 'Enter your email...',
-          ),
-        ),
+            ),
         const SizedBox(height: 10),
         Text('PASSWORD', style: kSubtitleStyle),
         const SizedBox(height: 10),
         TextField(
-          controller: passwordController,
-          // password
-          obscureText: isPasswordVisible,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            // radius: 10,
-            labelText: 'Enter your password...',
-            //
-            // suffixIcon: const IconButton(onPressed: () {
-            // }, icon: Icon(Icons.visibility)),
-
-            suffixIcon: IconButton(
-              icon: isPasswordVisible
-                  ? const Icon(Icons.visibility)
-                  : const Icon(Icons.visibility_off),
-              onPressed: () {
-                setState(() {
-                  isPasswordVisible = !isPasswordVisible;
-                });
-              },
-            ),
-          ),
-        ),
+            controller: passwordController,
+            // password
+            obscureText: isPasswordVisible,
+            decoration: InputDecoration(
+              fillColor: Colors.blueGrey.shade50,
+              filled: true,
+              contentPadding: const EdgeInsets.all(15),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueGrey.shade50),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.blueGrey.shade50),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: Colors.grey,
+                  width: 2,
+                ),
+              ),
+              hintText: 'Enter name, country',
+            )),
         const SizedBox(height: 10),
         // Text('Forgot Password?', style: kSubtitleStyle),
         // link text

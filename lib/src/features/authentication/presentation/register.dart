@@ -107,7 +107,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
               child: Text(
-                'sign_up'.tr,
+                'Become a member'.tr,
                 style: const TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w500,
@@ -117,10 +117,10 @@ class _RegisterBodyState extends State<RegisterBody> {
             padding: const EdgeInsets.all(10),
             child: TextField(
               controller: nameController,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: 'email'.tr,
-              ),
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Email',
+                  hintText: 'E.g. email@gmail.com'),
             ),
           ),
           Container(
@@ -130,7 +130,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               controller: passwordController,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: 'password'.tr,
+                labelText: 'Password'.tr,
               ),
             ),
           ),
@@ -141,7 +141,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               controller: repasswordController,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: 'confirmPassword'.tr,
+                labelText: 'Confirm password'.tr,
               ),
             ),
           ),
@@ -160,7 +160,7 @@ class _RegisterBodyState extends State<RegisterBody> {
             height: 50,
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: ElevatedButton(
-              child: Text('sign_up'.tr),
+              child: Text('Sign Up'.tr),
               onPressed: () async {
                 if (nameController.text == '' ||
                     passwordController.text == '' ||
@@ -303,10 +303,10 @@ class _RegisterBodyState extends State<RegisterBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('loginQuestion'.tr),
+              Text('Login question'.tr),
               TextButton(
                 child: Text(
-                  'signIn'.tr,
+                  'Sign In'.tr,
                   style: const TextStyle(fontSize: 18),
                 ),
                 onPressed: () {

@@ -164,6 +164,7 @@ class MyTutorCardReview extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        Logger().e(tutor.feedbacks);
         Get.put(tutor.feedbacks, tag: tutor.userId);
         context.pushNamed(
           AppRoute.tutorDetail.name,
