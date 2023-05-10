@@ -36,7 +36,7 @@ class _MyTimePickerState extends State<MyTimePicker> {
               initialDate: DateTime.now(),
               firstDate: DateTime(1950),
               //DateTime.now() - not to allow to choose before today.
-              lastDate: DateTime(2100));
+              lastDate: DateTime(2024));
 
           if (pickedDate != null) {
             logger.i(

@@ -1,14 +1,20 @@
 import 'dart:ui';
-import 'package:beatiful_ui/src/features/authentication/presentation/login_page.dart';
-import 'package:beatiful_ui/src/features/booking/presentation/schedule_page.dart';
+import 'package:beatiful_ui/src/features/authentication/data/model/user_auth.dart';
+import 'package:beatiful_ui/src/features/chat/presentation/chat_page.dart';
+import 'package:beatiful_ui/src/features/meeting/presentation/controller/meeting_controller.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/controller/schedule_controller.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_page.dart';
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
-import 'package:beatiful_ui/src/features/history/presentation/history_page.dart';
 import 'package:beatiful_ui/src/common/presentation/sidebar/presentation/sidebar_screen.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_controller.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
 
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'src/route/app_route.dart';
 
 class AppScrollBehavior extends MaterialScrollBehavior {
@@ -20,7 +26,7 @@ class AppScrollBehavior extends MaterialScrollBehavior {
       };
 }
 
-void main() {
+Future<void> main() async {
   // EasyLoading.instance
   //   ..displayDuration = const Duration(milliseconds: 2000)
   //   ..indicatorType = EasyLoadingIndicatorType.cubeGrid
@@ -33,6 +39,12 @@ void main() {
   //   ..backgroundColor = Color.fromARGB(255, 7, 199, 238)
   //   ..indicatorColor = Colors.white
   //   ..userInteractions = false;
+  await Hive.initFlutter();
+  Hive.registerAdapter(AuthUserAdapter());
+  Get.put(ScheduleController());
+  Get.put(TutorController());
+  Get.put(DetailTutorController());
+  Get.put(MeetingController());
   runApp(const ProviderScope(child: MyApp()));
   // runApp(const ChewieDemo());
 }
@@ -43,7 +55,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final goRouter = configRouter;
-
     return MaterialApp.router(
       scrollBehavior: AppScrollBehavior().copyWith(scrollbars: false),
       routerConfig: goRouter,
@@ -74,12 +85,11 @@ class _RootPageState extends State<RootPage> {
       //   title: const Text('Home Page'),
       // ),
       body: const [
+        TutorHomePage(),
         DiscoverPage(),
-        HistoryPage(),
+        ChatPage(),
         SchedulePage(),
         // HomePage(),
-        LoginPage(),
-        TutorHomePage(),
         SideBarScreen(),
       ][_currentPageIndex],
       // floatingActionButton: FloatingActionButton(
@@ -89,6 +99,13 @@ class _RootPageState extends State<RootPage> {
       bottomNavigationBar: NavigationBar(
         destinations: const [
           NavigationDestination(
+            icon: Icon(
+              Icons.home,
+              color: Colors.blue,
+            ),
+            label: 'Letutor',
+          ),
+          NavigationDestination(
               icon: Icon(
                 Icons.search,
                 color: Colors.blue,
@@ -96,16 +113,16 @@ class _RootPageState extends State<RootPage> {
               label: 'Discovery'),
           NavigationDestination(
               icon: Icon(
-                Icons.phone,
+                Icons.message_outlined,
                 color: Colors.blue,
               ),
-              label: 'History'),
+              label: 'Messages'),
           NavigationDestination(
               icon: Icon(
                 Icons.schedule,
                 color: Colors.blue,
               ),
-              label: 'Schedule'),
+              label: 'Upcoming'),
 
           // NavigationDestination(
           //     icon: Icon(
@@ -113,23 +130,10 @@ class _RootPageState extends State<RootPage> {
           //       color: Colors.blue,
           //     ),
           //     label: 'Home'),
+
           NavigationDestination(
             icon: Icon(
-              Icons.chat,
-              color: Colors.blue,
-            ),
-            label: 'Login',
-          ),
-          NavigationDestination(
-            icon: Icon(
-              Icons.people,
-              color: Colors.blue,
-            ),
-            label: 'TutorList',
-          ),
-          NavigationDestination(
-            icon: Icon(
-              Icons.person,
+              Icons.settings,
               color: Colors.blue,
             ),
             label: 'Settings',

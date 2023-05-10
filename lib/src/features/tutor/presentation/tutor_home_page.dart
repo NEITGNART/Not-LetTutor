@@ -1,102 +1,62 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:beatiful_ui/src/common/constants.dart';
-import 'package:beatiful_ui/src/common/presentation/my_filter.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/widget/bottom_dialog.dart';
+import 'package:beatiful_ui/src/features/tutor/presentation/widget/detail_review_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
-import '../../../common/presentation/app_bar.dart';
-import '../../../common/presentation/up_coming_lesson.dart';
+import '../../../common/presentation/my_filter.dart';
+import '../../../utils/learning_topics.dart';
+import 'widget/up_coming_lesson.dart';
 import '../../../route/app_route.dart';
-import '../model/tutor_profile.dart';
-
-var fruits = ['Apple', 'Banana', 'Mango', 'Orange'];
-
-// All
-// English for kids
-// English for Business
-// Conversational
-// STARTERS
-// MOVERS
-// FLYERS
-// KET
-// PET
-// IELTS
-// TOEFL
-// TOEIC
-var allSkillFilter = [
-  'All',
-  'English for kids',
-  'English for Business',
-  'Conversational',
-  'STARTERS',
-  'MOVERS',
-  'FLYERS',
-  'KET',
-  'PET',
-  'IELTS',
-  'TOEFL',
-  'TOEIC'
-];
-
-var tutorSkillFilter = [
-  'All',
-  'English for kids',
-  'English for Business',
-  'Conversational',
-  'STARTERS',
-  'MOVERS',
-];
+import '../../../utils/countries_list.dart';
+import '../model/tutor.dart';
+import 'controller/tutor_controller.dart';
 
 var logger = Logger();
+
+String getCountry(String? country) {
+  return country != null
+      ? countryList[country] != null
+          ? countryList[country]!
+          : country
+      : '';
+}
+
+String getAvatar(String? avatar) {
+  const errorUrl =
+      "https://www.alliancerehabmed.com/wp-content/uploads/icon-avatar-default.png";
+  const fallbackUrl =
+      "https://lh3.googleusercontent.com/a/AGNmyxYXM6_Y1arArTV3OlHJ-QZaY5M3hInrQHTYLvtVGg=s192-c-rg-br100";
+  String? avatarUrl =
+      avatar != null && avatar == errorUrl ? fallbackUrl : avatar;
+  return avatarUrl ??
+      "https://lh3.googleusercontent.com/a/AGNmyxYXM6_Y1arArTV3OlHJ-QZaY5M3hInrQHTYLvtVGg=s192-c-rg-br100";
+}
 
 class TutorHomePage extends StatelessWidget {
   const TutorHomePage({super.key});
 
-  static final List<TutorProfile> tutors = [
-    TutorProfile(
-      avatarUrl:
-          'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4',
-      flagUrl:
-          'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
-      country: 'Viet Nam',
-      introduce:
-          'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching',
-      hasFavorite: true,
-      specialities: allSkillFilter,
-    ),
-    TutorProfile(
-        avatarUrl:
-            'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4',
-        flagUrl:
-            'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
-        country: 'Viet Nam',
-        introduce:
-            'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching',
-        hasFavorite: true,
-        specialities: []),
-    TutorProfile(
-        avatarUrl:
-            'https://avatars.githubusercontent.com/u/63442323?s=400&u=6c7e39388a72491c2099a069ec7a5cb4698ab73e&v=4',
-        flagUrl:
-            'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
-        country: 'Viet Nam',
-        introduce:
-            'I am passionate about running and fitness, I often compete in trail/mountain running events and I love pushing myself. I am training to one day take part in ultra-endurance events. I also enjoy watching rugby on the weekends, reading and watching',
-        hasFavorite: true,
-        specialities: []),
-  ];
+  static final List<Tutor> tutors = [];
+
+  // init
 
   @override
   Widget build(BuildContext context) {
+    // Init Tutor controller
+
+    final TutorController tutorC = Get.find();
+    tutorC.init();
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const MyAppBar(),
+              // const MyAppBar(),
               Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -104,27 +64,66 @@ class TutorHomePage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const UpComingLesson(),
-                    const SizedBox(
-                      height: 20,
+                    Obx(
+                      () => UpComingLesson(
+                        isUpComingLesson: true,
+                        totalLessonTime: tutorC.hoursTotal.value,
+                        formatDate: tutorC.formatDate.value,
+                        countDown: tutorC.countDown.value,
+                        cb: () {},
+                      ),
                     ),
                     Container(
-                      padding: const EdgeInsets.all(30),
+                      padding: const EdgeInsetsDirectional.symmetric(
+                          horizontal: 30, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const MyFilter(),
-                          const Divider(
-                            color: Colors.grey,
-                            thickness: 1,
-                          ),
+                          // const Divider(
+                          //   color: Colors.grey,
+                          //   thickness: 1,
+                          // ),
                           Text('Recommended Tutors', style: kTitle1Style),
                           const SizedBox(
                             height: 10,
                           ),
-                          ...tutors.map(
-                            (e) => MyTutorCardReview(tutor: e),
-                          ),
+
+                          Obx(() {
+                            if (tutorC.isLoading.value) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            if (tutorC.tutorList.isEmpty) {
+                              return const Center(
+                                child: Text('No tutor found'),
+                              );
+                            }
+
+                            if (tutorC.tutorList.isNotEmpty) {
+                              return Column(
+                                children: [
+                                  ...tutorC.tutorList.map(
+                                    (e) => MyTutorCardReview(
+                                      tutor: e,
+                                    ),
+                                  )
+                                ],
+                              );
+                            }
+
+                            return const Text('Error');
+                            // return Column(children: [
+                            //   ...tutorController.tutorList.map(
+                            //     (e) => MyTutorCardReview(
+                            //       tutor: e,
+                            //     ),
+                            //   )
+                            // ]);
+                          }),
+
                           // Expanded(
                           //   child: Container(
                           //     margin: const EdgeInsets.only(top: 24),
@@ -157,16 +156,20 @@ class MyTutorCardReview extends StatelessWidget {
     Key? key,
     required this.tutor,
   }) : super(key: key);
-  final TutorProfile tutor;
+  final Tutor tutor;
 
   @override
   Widget build(BuildContext context) {
+    final String avatarUrl = getAvatar(tutor.avatar);
+
     return GestureDetector(
       onTap: () {
-        context.goNamed(
+        Logger().e(tutor.feedbacks);
+        Get.put(tutor.feedbacks, tag: tutor.userId);
+        context.pushNamed(
           AppRoute.tutorDetail.name,
           params: {
-            'id': '12312',
+            'id': tutor.userId,
           },
         );
       },
@@ -193,91 +196,99 @@ class MyTutorCardReview extends StatelessWidget {
               child: Row(
                 children: [
                   CircleAvatar(
-                      radius: 30.0,
-                      backgroundImage: NetworkImage(tutor.avatarUrl)),
+                    radius: 30.0,
+                    backgroundImage: NetworkImage(avatarUrl),
+                  ),
                   const SizedBox(width: 15.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'John Pham',
+                        tutor.name ?? "",
                         style: kHeadlineLabelStyle,
                       ),
                       const SizedBox(height: 5.0),
                       Row(
                         children: [
                           SvgPicture.network(
-                            tutor.flagUrl,
+                            'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/${"vn"}.svg',
                             width: 20,
                           ),
                           const SizedBox(width: 5.0),
-                          Text(tutor.country, style: kSearchPlaceholderStyle),
+                          Text(getCountry(tutor.country),
+                              style: kSearchPlaceholderStyle),
                           const SizedBox(width: 5.0),
                         ],
                       ),
                       const SizedBox(height: 5.0),
-                      Row(
-                        children: [
-                          ...List.generate(
-                              5,
-                              (i) => const Icon(
-                                    Icons.star,
-                                    color: Colors.yellow,
-                                    size: 15,
-                                  )),
-                        ],
-                      )
+                      tutor.rating != null
+                          ? getStarsWidget(5, tutor.rating!.floor())
+                          : Text('No rating', style: kSearchPlaceholderStyle),
                     ],
                   ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: tutor.hasFavorite
-                            ? const Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              )
-                            : const Icon(
-                                Icons.favorite_border,
-                                color: Colors.blue,
-                              ),
-                      ),
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: Container(
+                  //     padding:
+                  //         const EdgeInsets.only(right: 10.0, left: 10, top: 15),
+                  //     child: Align(
+                  //       alignment: Alignment.topRight,
+                  //       child: tutor.isFavorite == true
+                  //           ? const Icon(
+                  //               Icons.favorite,
+                  //               color: Colors.red,
+                  //             )
+                  //           : const Icon(
+                  //               Icons.favorite_border,
+                  //               color: Colors.blue,
+                  //             ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
             const SizedBox(height: 10.0),
-            Wrap(
-              children: <Widget>[
-                ...?tutor.specialities?.map(
-                  (title) => Padding(
-                      padding: const EdgeInsets.only(right: 5.0, bottom: 5.0),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            // change blue color
-                            logger.i('You just selected $title');
-                          },
-                          // border for button
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 221, 234, 255),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: Text(title,
-                              style: kSearchTextStyle.copyWith(
-                                  color: const Color.fromARGB(
-                                      255, 0, 113, 240))))),
-                ),
-              ],
+            // make row scrollable by horizontal
+
+            SizedBox(
+              height: 40,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: tutor.specialties?.split(',').length,
+                itemBuilder: (context, index) {
+                  String title = tutor.specialties!.split(',')[index];
+                  String specialty = listLearningTopics[title] ?? title;
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 10.0, bottom: 5.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // change blue color
+                        logger.i('You just selected $title');
+                      },
+                      // border for button
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 221, 234, 255),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Text(specialty,
+                          style: kSearchTextStyle.copyWith(
+                              color: const Color.fromARGB(255, 0, 113, 240))),
+                    ),
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 10.0),
-            Text(tutor.introduce, style: kSearchPlaceholderStyle),
+            Text(
+              tutor.bio ?? "",
+              style: kSearchPlaceholderStyle,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
             const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -292,7 +303,12 @@ class MyTutorCardReview extends StatelessWidget {
                         side: const BorderSide(color: Colors.blue),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      DetailTutorController c = Get.find();
+                      c.schedules.value = null;
+                      c.getSchedules(tutor.userId);
+                      showTutorDatePicker(context, c);
+                    },
                     icon: const Icon(
                       Icons.calendar_month,
                       color: Colors.blue,
@@ -309,47 +325,3 @@ class MyTutorCardReview extends StatelessWidget {
     );
   }
 }
-
-// // -------------------------------------------------
-
-// const mockResults = <AppProfile>[
-//   AppProfile('Stock Man', 'stock@man.com',
-//       'https://d2gg9evh47fn9z.cloudfront.net/800px_COLOURBOX4057996.jpg'),
-//   AppProfile('Paul', 'paul@google.com',
-//       'https://mbtskoudsalg.com/images/person-stock-image-png.png'),
-//   AppProfile('Fred', 'fred@google.com',
-//       'https://media.istockphoto.com/photos/feeling-great-about-my-corporate-choices-picture-id507296326'),
-//   AppProfile('Bera', 'bera@flutter.io',
-//       'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-//   AppProfile('John', 'john@flutter.io',
-//       'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-//   AppProfile('Thomas', 'thomas@flutter.io',
-//       'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-//   AppProfile('Norbert', 'norbert@flutter.io',
-//       'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-//   AppProfile('Marina', 'marina@flutter.io',
-//       'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'),
-// ];
-
-// class AppProfile {
-//   final String name;
-//   final String email;
-//   final String imageUrl;
-
-//   const AppProfile(this.name, this.email, this.imageUrl);
-
-//   @override
-//   bool operator ==(Object other) =>
-//       identical(this, other) ||
-//       other is AppProfile &&
-//           runtimeType == other.runtimeType &&
-//           name == other.name;
-
-//   @override
-//   int get hashCode => name.hashCode;
-
-//   @override
-//   String toString() {
-//     return 'Profile{$name}';
-//   }
-// }

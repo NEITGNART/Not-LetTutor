@@ -12,30 +12,28 @@ class GroupButton extends StatelessWidget {
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Wrap(
-        children: <Widget>[
-          ...titles.map(
-            (title) => Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: ElevatedButton(
-                    onPressed: () {
-                      // change blue color
-                      logger.i('You just selected $title');
-                    },
-                    // border for button
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 228, 230, 235),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+    return Wrap(
+      children: <Widget>[
+        ...titles.map(
+          (title) => Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    // change blue color
+                    logger.i('You just selected $title');
+                  },
+                  // border for button
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 228, 230, 235),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    child: Text(title,
-                        style: kSearchTextStyle.copyWith(
-                            color: const Color.fromARGB(255, 100, 100, 100))))),
-          ),
-        ],
-      ),
+                  ),
+                  child: Text(title,
+                      style: kSearchTextStyle.copyWith(
+                          color: const Color.fromARGB(255, 100, 100, 100))))),
+        ),
+      ],
     );
   }
 }

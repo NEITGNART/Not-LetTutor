@@ -3,6 +3,7 @@ import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 import '../data/repository.dart';
 import '../model/course.dart';
@@ -16,20 +17,20 @@ class CourseTab extends StatefulWidget {
   State<CourseTab> createState() => _CourseTabState();
 }
 
+final listLevels = {
+  "0": "Any level",
+  "1": "Beginner",
+  "2": "High Beginner",
+  "3": "Pre-Intermediate",
+  "4": "Intermediate",
+  "5": "Upper-Intermediate",
+  "6": "Advanced",
+  "7": "Proficiency"
+};
+
 class _CourseTabState extends State<CourseTab> {
   List<Course> _results = [];
   final TextEditingController _controller = TextEditingController();
-  final CourseRepository courseRepository = MyCourseRepository();
-  final listLevels = {
-    "0": "Any level",
-    "1": "Beginner",
-    "2": "High Beginner",
-    "3": "Pre-Intermediate",
-    "4": "Intermediate",
-    "5": "Upper-Intermediate",
-    "6": "Advanced",
-    "7": "Proficiency"
-  };
   Timer? _debounce;
   String category = "";
   String search = "";
@@ -52,9 +53,7 @@ class _CourseTabState extends State<CourseTab> {
         });
       }
     } catch (e) {
-      final snackBar = SnackBar(
-        content: Text(e.toString()),
-      );
+      Get.snackbar("Error", e.toString());
     }
   }
 
@@ -130,7 +129,7 @@ class _CourseTabState extends State<CourseTab> {
   void getListCourse(int page, int size) async {
     try {
       final courses =
-          await courseRepository.getListCourseWithPagination(page, size);
+          await CourseFunctions.getListCourseWithPagination(page, size);
       setState(() {
         _results.addAll(courses!);
         isLoading = false;
@@ -148,7 +147,7 @@ class _CourseTabState extends State<CourseTab> {
       const snackBar = SnackBar(
         content: Text('Không thể tải thêm nữa'),
       );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 

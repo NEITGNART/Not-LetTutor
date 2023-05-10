@@ -2,7 +2,6 @@ import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../common/constants.dart';
 import '../../../../common/presentation/blockquote.dart';
 
 class DiscoveryBanner extends StatelessWidget {
@@ -13,24 +12,24 @@ class DiscoveryBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.of(context).size.width >= 400
-        ? SizedBox(
-            width: double.maxFinite,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: SvgPicture.network(
-                      'https://sandbox.app.lettutor.com/static/media/history.1e097d10.svg'),
-                ),
-                gapW16,
-                const Expanded(
-                  child: SearchWithIcon(),
-                ),
-              ],
-            ),
-          )
+        ? const SizedBox(
+            // width: double.maxFinite,
+            // child: Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   children: <Widget>[
+            //     SizedBox(
+            //       width: 120,
+            //       height: 120,
+            //       child: SvgPicture.network(
+            //           'https://sandbox.app.lettutor.com/static/media/history.1e097d10.svg'),
+            //     ),
+            //     gapW16,
+            //     const Expanded(
+            //       child: SearchWithIcon(),
+            //     ),
+            //   ],
+            // ),
+            )
         : Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[

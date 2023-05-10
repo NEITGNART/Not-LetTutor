@@ -85,14 +85,12 @@ class _MobileDetailLessonScreenState extends State<MobileDetailLessonScreen> {
             sliver: SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  Container(
-                    child: TopicInfo(
-                      src: src,
-                      data: data,
-                      data2: data2,
-                      currentLessonLink: currentLessonLink,
-                      currentLessonIndex: currentLessonIndex,
-                    ),
+                  TopicInfo(
+                    src: src,
+                    data: data,
+                    data2: data2,
+                    currentLessonLink: currentLessonLink,
+                    currentLessonIndex: currentLessonIndex,
                   ),
                 ],
               ),
@@ -242,29 +240,27 @@ class _DesktopDetailLessonScreenState extends State<DesktopDetailLessonScreen> {
                   Flexible(
                     flex: 2,
                     child: (currentLessonLink.isNotEmpty)
-                        ? Container(
-                            child: Row(
-                              children: [
-                                if (currentLessonLink.isNotEmpty) ...{
-                                  FutureBuilder<File>(
-                                    future: DefaultCacheManager()
-                                        .getSingleFile(currentLessonLink),
-                                    builder: (context, snapshot) => snapshot
-                                            .hasData
-                                        ? Expanded(
-                                            child: PdfViewer.openFile(
-                                              snapshot.data!.path,
-                                              // params: const PdfViewerParams(
-                                              //     pageNumber: 1),
-                                            ),
-                                          )
-                                        : const Center(
-                                            child: CircularProgressIndicator()),
-                                  )
-                                } else
-                                  const Placeholder(),
-                              ],
-                            ),
+                        ? Row(
+                            children: [
+                              if (currentLessonLink.isNotEmpty) ...{
+                                FutureBuilder<File>(
+                                  future: DefaultCacheManager()
+                                      .getSingleFile(currentLessonLink),
+                                  builder: (context, snapshot) => snapshot
+                                          .hasData
+                                      ? Expanded(
+                                          child: PdfViewer.openFile(
+                                            snapshot.data!.path,
+                                            // params: const PdfViewerParams(
+                                            //     pageNumber: 1),
+                                          ),
+                                        )
+                                      : const Center(
+                                          child: CircularProgressIndicator()),
+                                )
+                              } else
+                                const Placeholder(),
+                            ],
                           )
                         : Center(
                             child: Image.network(

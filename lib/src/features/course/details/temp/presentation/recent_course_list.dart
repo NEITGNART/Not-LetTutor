@@ -45,7 +45,7 @@ class _RecentCourseListState extends ConsumerState<RecentCourseList> {
           // EasyLoading.dismiss();
           return Column(
             children: [
-              Container(
+              SizedBox(
                 height: 320,
                 width: double.infinity,
                 child: PageView.builder(
