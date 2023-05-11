@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 
 import '../../../common/constants.dart';
 import '../model/booking_info.dart';
@@ -21,6 +20,7 @@ class BookingResponse {
 }
 
 class ScheduleFunctions {
+  static int countUpcomming = 0;
   static Future<List<Schedule>?> getScheduleByTutorId(String tutorId) async {
     try {
       var storage = const FlutterSecureStorage();
@@ -113,7 +113,6 @@ class ScheduleFunctions {
       String? token = await storage.read(key: 'accessToken');
 
       final current = DateTime.now().millisecondsSinceEpoch;
-      Logger().e(current);
       final queryParameters = {
         'perPage': '$perPage',
         'page': '$page',
@@ -132,6 +131,7 @@ class ScheduleFunctions {
 
       if (response.statusCode == 200) {
         final upcomingList = json.decode(response.body)['data']['rows'] as List;
+        countUpcomming = json.decode(response.body)['data']['count'] as int;
         final res = upcomingList.map((schedule) {
           return BookingInfo.fromJson(schedule);
         }).toList();
@@ -154,7 +154,7 @@ class ScheduleFunctions {
       final queryParameters = {
         'perPage': '$perPage',
         'page': '$page',
-        'dateTimeLte': '1639805436469',
+        'dateTimeLte': current.toString(),
         'orderBy': 'meeting',
         'sortBy': 'desc',
       };

@@ -1,4 +1,6 @@
+import 'package:chewie/chewie.dart';
 import 'package:get/get.dart';
+import 'package:video_player/video_player.dart';
 
 import '../../model/schedule.dart';
 import '../../model/tutor.dart';
@@ -8,10 +10,14 @@ import '../../service/tutor_functions.dart';
 
 class DetailTutorController extends GetxController {
   Rx<Tutor?> tutor = Rx<Tutor?>(null);
+
   Tutor? get tutorValue => tutor.value;
 
   Rx<List<Schedule>?> schedules = Rx<List<Schedule>?>(null);
   List<Schedule>? get schedulesValue => schedules.value;
+
+  Rx<VideoPlayerController?> controller = Rx<VideoPlayerController?>(null);
+  Rx<ChewieController?> chewieController = Rx<ChewieController?>(null);
 
   var isFavorite = false.obs;
 
@@ -24,10 +30,25 @@ class DetailTutorController extends GetxController {
         tutor.value = tutorResponse;
         isFavorite.value = tutorResponse.isFavorite ?? false;
       }
+
+      controller.value =
+          VideoPlayerController.network(tutor.value!.video as String);
+      chewieController.value = ChewieController(
+          videoPlayerController: controller.value as VideoPlayerController,
+          autoPlay: true,
+          looping: true,
+          allowFullScreen: true);
+
       isLoading.value = false;
-    } on Error {
-      // Get.snackbar('Error', e.toString());
-    }
+    } on Error {}
+  }
+
+  @override
+  void dispose() {
+    controller.value?.dispose();
+    chewieController.value?.dispose();
+    controller = Rx<VideoPlayerController?>(null);
+    chewieController = Rx<ChewieController?>(null);
   }
 
   Future<void> toggleFavorite(String id) async {

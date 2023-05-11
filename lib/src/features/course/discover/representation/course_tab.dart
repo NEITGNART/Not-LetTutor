@@ -159,15 +159,15 @@ class _CourseTabState extends State<CourseTab> {
       });
 
       try {
-        // List<Course>? response =
-        //     await CourseFunctions.getListCourseWithPagination(page, perPage,
-        //         categoryId: category, q: search);
-        // if (response != null && mounted) {
-        //   setState(() {
-        //     _results.addAll(response);
-        //     isLoadMore = false;
-        //   });
-        // }
+        List<Course>? response =
+            await CourseFunctions.getListCourseWithPagination(page, perPage,
+                categoryId: category, q: search);
+        if (response != null && mounted) {
+          setState(() {
+            _results.addAll(response);
+            isLoadMore = false;
+          });
+        }
       } catch (e) {
         final snackBar = SnackBar(
           content: Text(e.toString()),

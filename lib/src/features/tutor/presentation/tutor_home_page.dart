@@ -66,7 +66,7 @@ class TutorHomePage extends StatelessWidget {
                   children: [
                     Obx(
                       () => UpComingLesson(
-                        isUpComingLesson: true,
+                        isUpComingLesson: tutorC.nextClass.value != null,
                         totalLessonTime: tutorC.hoursTotal.value,
                         formatDate: tutorC.formatDate.value,
                         countDown: tutorC.countDown.value,
@@ -164,7 +164,6 @@ class MyTutorCardReview extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Logger().e(tutor.feedbacks);
         Get.put(tutor.feedbacks, tag: tutor.userId);
         context.pushNamed(
           AppRoute.tutorDetail.name,

@@ -11,7 +11,6 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LoginPageController c = Get.put(LoginPageController());
-
     return Scaffold(
         body: SingleChildScrollView(
       child: SafeArea(
@@ -66,7 +65,9 @@ class LoginPage extends StatelessWidget {
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Expanded(child: LoginForm()),
+                            Expanded(
+                              child: LoginForm(),
+                            ),
                           ],
                         ),
                       ],

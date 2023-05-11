@@ -44,7 +44,7 @@ class HistoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScheduleController c = Get.find();
-    c.init();
+    c.initUpcomingClass();
 
     return Obx(() {
       if (c.isLoading.value) {

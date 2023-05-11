@@ -59,8 +59,10 @@ class UpComingLesson extends StatelessWidget {
                 ),
               ),
             ] else ...[
+              gapH32,
               Expanded(
                 child: Text('You have no upcoming lesson.',
+                    textAlign: TextAlign.center,
                     style: kTitle1Style.copyWith(color: Colors.white)),
               ),
               gapH16,

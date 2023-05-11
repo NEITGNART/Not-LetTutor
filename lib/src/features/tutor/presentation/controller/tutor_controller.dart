@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 
 import '../../../../utils/countries_list.dart';
 import '../../../../utils/date_format.dart';
@@ -160,6 +161,7 @@ class TutorController extends GetxController {
   void getTotalAndNextLesson() async {
     final total = await ScheduleFunctions.getTotalHourLesson();
     final next = await ScheduleFunctions.getNextClass();
+    Logger().e(next);
     hoursTotal.value = Duration(minutes: total);
     nextClass.value = next;
 

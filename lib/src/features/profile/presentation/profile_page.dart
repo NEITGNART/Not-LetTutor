@@ -143,7 +143,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           dropdownItems: levelList.keys.toList(),
                           map: levelList,
                           onChanged: (value) {
-                            print(value);
                             c.updateLevel(value!);
                           },
                           value: c.user?.level,

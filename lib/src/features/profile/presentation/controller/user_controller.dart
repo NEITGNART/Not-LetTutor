@@ -162,7 +162,6 @@ class UserController extends GetxController {
       return null;
     }
     if (avatar != null) {
-      print("avatar");
       await uploadAvatar(avatar!.path);
     }
     return await updateUserInformation(name, country, birthday, level,
