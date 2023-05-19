@@ -131,11 +131,6 @@ class MeetingPage extends StatelessWidget {
                             color: Colors.white),
                         onPressed: () {},
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.more_horiz_outlined,
-                            color: Colors.white),
-                        onPressed: () {},
-                      ),
                       Container(
                         decoration: const BoxDecoration(
                           color: Colors.red,

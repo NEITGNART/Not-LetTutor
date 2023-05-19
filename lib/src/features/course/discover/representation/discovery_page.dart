@@ -1,4 +1,3 @@
-import 'package:beatiful_ui/src/features/course/discover/representation/banner.dart';
 import 'package:flutter/material.dart';
 
 import 'book_tab.dart';
@@ -19,42 +18,43 @@ class _DiscoverPageState extends State<DiscoverPage>
     TabController tabController = TabController(length: 3, vsync: this);
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Column(
-                  children: [
-                    const DiscoveryBanner(),
-                    SizedBox(
-                      height: 50,
-                      width: double.maxFinite,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TabBar(
-                          unselectedLabelColor: Colors.grey,
-                          labelPadding:
-                              const EdgeInsets.only(left: 20, right: 20),
-                          labelColor: Colors.blue,
-                          controller: tabController,
-                          isScrollable: true,
-                          // indicator: const CircleTabIndicator(
-                          //   color: Color.fromARGB(255, 16, 136, 235),
-                          // ),
-                          tabs: const [
-                            Tab(text: 'Course'),
-                            Tab(text: 'E-book'),
-                            Tab(text: 'Interactive Ebook'),
-                          ],
-                        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  // const DiscoveryBanner(),
+                  SizedBox(
+                    height: 50,
+                    width: double.maxFinite,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TabBar(
+                        physics: const NeverScrollableScrollPhysics(),
+                        unselectedLabelColor: Colors.grey,
+                        labelPadding:
+                            const EdgeInsets.only(left: 20, right: 20),
+                        labelColor: Colors.blue,
+                        controller: tabController,
+                        isScrollable: true,
+                        // indicator: const CircleTabIndicator(
+                        //   color: Color.fromARGB(255, 16, 136, 235),
+                        // ),
+                        tabs: const [
+                          Tab(text: 'Course'),
+                          Tab(text: 'E-book'),
+                          Tab(text: 'Interactive Ebook'),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
+                  ),
+                ],
+              ),
+              Expanded(
+                child: SizedBox(
                   child: TabBarView(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: tabController,
                     children: const [
                       CourseTab(),
@@ -63,8 +63,8 @@ class _DiscoverPageState extends State<DiscoverPage>
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,4 +1,4 @@
-import 'package:beatiful_ui/main.dart';
+import 'package:beatiful_ui/src/features/authentication/presentation/loading_page.dart';
 import 'package:beatiful_ui/src/features/authentication/presentation/login_page.dart';
 import 'package:beatiful_ui/src/features/course/details/presentation/course_detail_page.dart';
 import 'package:beatiful_ui/src/features/course/discover/representation/discovery_page.dart';
@@ -9,7 +9,9 @@ import 'package:beatiful_ui/src/features/tutor/presentation/tutor_detail_page.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 
+import '../../main.dart';
 import '../features/authentication/presentation/forget_password.dart';
 import '../features/authentication/presentation/register.dart';
 import '../features/course/details/presentation/detail_lesson_page.dart';
@@ -31,6 +33,7 @@ enum AppRoute {
   profile,
   review,
   history,
+  signOut,
 }
 
 final configRouter = GoRouter(
@@ -42,9 +45,19 @@ final configRouter = GoRouter(
       path: '/',
       name: AppRoute.logIn.name,
       builder: (context, state) {
-        return const LoginPage();
+        return const SplashScreen();
       },
       routes: [
+        GoRoute(
+          path: 'sign_out',
+          name: AppRoute.signOut.name,
+          // builder: (context, state) => const ProfilePage(),
+          pageBuilder: (context, state) => MaterialPage<void>(
+            key: state.pageKey,
+            child: const LoginPage(),
+            fullscreenDialog: true,
+          ),
+        ),
         GoRoute(
           path: 'profile',
           name: AppRoute.profile.name,
@@ -116,13 +129,16 @@ final configRouter = GoRouter(
         ),
         GoRoute(
           name: AppRoute.courseDiscovery.name,
-          path: 'discovery_course/:courseId',
+          // path: 'discovery_course/:courseId',
+          path: 'discovery_course',
           pageBuilder: (context, state) {
-            final courseId = state.params['courseId'] ?? '';
+            // final courseId = state.params['courseId'] ?? '';
+            final Course course = state.extra as Course;
+            Logger().d(course);
             return MaterialPage<void>(
               key: state.pageKey,
               child: DetailLessonPage(
-                courseId: courseId,
+                course: course,
               ),
               fullscreenDialog: true,
             );
@@ -131,10 +147,10 @@ final configRouter = GoRouter(
         GoRoute(
           path: 'home',
           name: AppRoute.home.name,
-          builder: (context, state) => const RootPage(),
+          builder: (context, state) => const HomePage(),
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
-            child: const RootPage(),
+            child: const HomePage(),
             fullscreenDialog: true,
           ),
         ),

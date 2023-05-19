@@ -1,12 +1,11 @@
+import 'package:beatiful_ui/src/features/authentication/service/auth_functions.dart';
 import 'package:beatiful_ui/src/utils/validation_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../common/constants.dart';
 import '../../../common/presentation/elevated_button.dart';
-import '../../../route/app_route.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -17,6 +16,7 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +58,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       margin: const EdgeInsets.symmetric(
                           vertical: 12, horizontal: 24),
                       child: TextFormField(
+                        controller: nameController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
@@ -77,18 +78,46 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       margin: const EdgeInsets.fromLTRB(24, 12, 24, 24),
                       child: CustomElevatedButton(
                           title: 'Send link',
-                          callback: () {
+                          callback: () async {
                             if (_formKey.currentState!.validate()) {
-                              Get.snackbar(
-                                "Password reset email sent", // Title
-                                "Check your email for the password reset link", // Message
-                                duration: const Duration(
-                                    seconds:
-                                        5), // Duration to show the snackbar
-                                snackPosition: SnackPosition
-                                    .BOTTOM, // Position of the snackbar on the screen
-                              );
-                              context.goNamed(AppRoute.logIn.name);
+                              final message =
+                                  await AuthFunctions.forgetPassword(
+                                      nameController.text.trim());
+                              if (message != null &&
+                                  message.statusCode == 200) {
+                                Get.back();
+                                Get.snackbar(
+                                  "Password reset email sent", // Title
+                                  "Check your email for the password reset link", // Message
+                                  duration: const Duration(
+                                      seconds:
+                                          5), // Duration to show the snackbar
+                                  snackPosition: SnackPosition
+                                      .BOTTOM, // Position of the snackbar on the screen
+                                );
+                              } else if (message != null &&
+                                  (message.statusCode == 401 ||
+                                      message.statusCode == 400)) {
+                                Get.snackbar(
+                                  "Password reset email sent", // Title
+                                  message.message!, // Message
+                                  duration: const Duration(
+                                      seconds:
+                                          5), // Duration to show the snackbar
+                                  snackPosition: SnackPosition
+                                      .BOTTOM, // Position of the snackbar on the screen
+                                );
+                              } else {
+                                Get.snackbar(
+                                  "Error", // Title
+                                  "Check your internet connection", // Message
+                                  duration: const Duration(
+                                      seconds:
+                                          5), // Duration to show the snackbar
+                                  snackPosition: SnackPosition
+                                      .BOTTOM, // Position of the snackbar on the screen
+                                );
+                              }
                             }
                           },
                           buttonType: ButtonType.filledButton,

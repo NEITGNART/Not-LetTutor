@@ -34,13 +34,13 @@ Future showTutorTimePicker(BuildContext context, Schedule schedules) {
                     margin: const EdgeInsets.only(bottom: 10),
                     width: double.infinity,
                     decoration: BoxDecoration(color: Colors.grey[300]),
-                    child: Row(
+                    child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'selectSchedule'.tr,
-                          style: const TextStyle(
+                          'All time',
+                          style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ],

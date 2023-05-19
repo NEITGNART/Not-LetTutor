@@ -16,13 +16,25 @@ class LoginPageController extends GetxController {
   var isSuccess = false.obs;
   var message = ''.obs;
   var isLoading = false.obs;
-  Rx<AuthUser?> authUser = Rx<AuthUser?>(null);
-
+  late Rx<AuthUser?> authUser;
+  // get isLogin => authUser.value != null;
+  // get auth => authUser.value;
   @override
-  void onInit() async {
-    userBox = await HiveBoxes().openBox<AuthUser>('auth_user');
-    authUser.value = userBox.get('auth_user', defaultValue: null);
+  void onInit() {
+    init();
     super.onInit();
+  }
+
+  Future<AuthUser?> init() async {
+    userBox = await HiveBoxes().openBox<AuthUser>('auth_user');
+    authUser = Rx<AuthUser?>(null);
+    authUser.value = userBox.get('auth_user', defaultValue: null);
+    return authUser.value;
+  }
+
+  Future<void> logout() async {
+    await userBox.delete('auth_user');
+    authUser.value = null;
   }
 
   updateUser(String avatar, String name, String email) {
@@ -43,7 +55,7 @@ class LoginPageController extends GetxController {
     userBox.put('auth_user', authUser.value!);
   }
 
-  void handleSignInGoogle() async {
+  void handleSignInGoogle(BuildContext context) async {
     try {
       isLoading.value = true;
       final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -54,14 +66,18 @@ class LoginPageController extends GetxController {
       final String? accessToken = googleAuth?.accessToken;
 
       if (accessToken != null) {
-        final response = await AuthFunctions.loginWithGoogle(accessToken);
+        final response =
+            await AuthFunctions.loginWithGoogle(accessToken, (AuthUser user) {
+          userBox.put('auth_user', user);
+          authUser.value = user;
+        });
         if (response['isSuccess'] == false) {
           isSuccess.value = response['isSuccess'] as bool;
           message.value = response['message'] as String;
         } else {
           isSuccess.value = true;
           message.value = 'Login successfully';
-          // Get.offAll(() => const HomePage());
+          context.goNamed(AppRoute.home.name);
         }
       }
     } catch (e) {
@@ -71,25 +87,51 @@ class LoginPageController extends GetxController {
     isLoading.value = false;
   }
 
-  void handleSignInFacebook() async {
+  void handleSignInFacebook(BuildContext context) async {
     try {
       isLoading.value = true;
       final facebookAuth = FacebookAuth.instance;
       final LoginResult result = await facebookAuth.login();
       if (result.status == LoginStatus.success) {
         final String accessToken = result.accessToken!.token;
-        final response = await AuthFunctions.loginWithFacebook(accessToken);
+        final response =
+            await AuthFunctions.loginWithFacebook(accessToken, (AuthUser user) {
+          userBox.put('auth_user', user);
+          authUser.value = user;
+        });
         if (response['isSuccess'] == false) {
           isSuccess.value = response['isSuccess'] as bool;
           message.value = response['message'] as String;
         } else {
           isSuccess.value = true;
           message.value = 'Login successfully';
-          // Get.offAll(() => const HomePage());
+          context.goNamed(AppRoute.home.name);
         }
       } else {
         isSuccess.value = false;
         message.value = result.message!;
+      }
+    } catch (e) {
+      isSuccess.value = false;
+      message.value = e.toString();
+    }
+    isLoading.value = false;
+  }
+
+  Future<void> refreshAuth(BuildContext context, AuthUser auth) async {
+    try {
+      isLoading.value = true;
+      var response =
+          await AuthFunctions.refreshAuth(auth.refreshToken!, (AuthUser user) {
+        userBox.put('auth_user', user);
+        authUser.value = user;
+      });
+      if (response['isSuccess'] == false) {
+        isSuccess.value = response['isSuccess'] as bool;
+        message.value = response['message'] as String;
+      } else {
+        isSuccess.value = true;
+        message.value = 'Login successfully';
       }
     } catch (e) {
       isSuccess.value = false;

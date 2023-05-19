@@ -87,7 +87,7 @@ class AIChatCard extends StatelessWidget {
                       style: kHeadlineLabelStyle,
                     ),
                     Text(
-                      handleOverflow('You: Hello, how can I help you today?'),
+                      handleOverflow('Bot: Hi, I am AI chatbot.'),
                       style: kSubtitleStyle.copyWith(),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -96,7 +96,7 @@ class AIChatCard extends StatelessWidget {
               ],
             ),
             Text(
-              '2:22pm',
+              'now',
               style: kSubtitleStyle,
             ),
           ],

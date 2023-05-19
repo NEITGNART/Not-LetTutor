@@ -50,41 +50,42 @@ class _ProfilePageState extends State<ProfilePage> {
             if (c.user == null) {
               return const Center(child: CircularProgressIndicator());
             }
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                gapH12,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AvatarProfile(
-                        image: avatar,
-                        isEdit: true,
-                        imagePath: getAvatar(c.user?.avatar),
-                        onClicked: () async {
-                          var pickedFile = await picker.pickImage(
-                              source: ImageSource.gallery, imageQuality: 50);
-                          if (pickedFile != null) {
-                            setState(
-                              () {
-                                avatar = File(pickedFile.path);
-                                c.avatar = avatar;
-                              },
-                            );
-                          }
-                        }),
-                    gapH16,
-                    Text(
-                      c.user?.email ?? "",
-                      style: kHeadlineLabelStyle.copyWith(
-                        fontSize: 16,
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  gapH12,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AvatarProfile(
+                          image: avatar,
+                          isEdit: true,
+                          imagePath: getAvatar(c.user?.avatar),
+                          onClicked: () async {
+                            var pickedFile = await picker.pickImage(
+                                source: ImageSource.gallery, imageQuality: 50);
+                            if (pickedFile != null) {
+                              setState(
+                                () {
+                                  avatar = File(pickedFile.path);
+                                  c.avatar = avatar;
+                                },
+                              );
+                            }
+                          }),
+                      gapH16,
+                      Text(
+                        c.user?.email ?? "",
+                        style: kHeadlineLabelStyle.copyWith(
+                          fontSize: 14,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
+                    ],
+                  ),
+                  gapH12,
+                  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Name', style: kHeadlineLabelStyle),
@@ -156,13 +157,22 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Colors.grey, fontSize: 14),
                         ),
                         gapH4,
-                        if (c.topics.value.isNotEmpty) ...{
+                        if (c.newTopics.value.isNotEmpty) ...{
                           ChipsChoice<String>.multiple(
                             padding: const EdgeInsets.all(0),
-                            value: c.newTopics,
+                            value: c.newTopics.value,
                             onChanged: (List<String> val) {
                               Logger().e(val);
-                              c.newTopics.assignAll(val);
+                              if (val.isEmpty) {
+                                c.newTopics.value
+                                    .assignAll(topicsList.keys.toList());
+                                Get.snackbar(
+                                    'Error', 'Please select at least 1',
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white);
+                              } else {
+                                c.newTopics.value.assignAll(val);
+                              }
                               setState(() {});
                             },
                             choiceItems: C2Choice.listFrom<String, String>(
@@ -189,12 +199,21 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Colors.grey, fontSize: 14),
                         ),
                         gapH4,
-                        if (c.preparations.value.isNotEmpty) ...{
+                        if (c.newPreparation.value.isNotEmpty) ...{
                           ChipsChoice<String>.multiple(
                             padding: const EdgeInsets.all(0),
-                            value: c.newPreparation,
+                            value: c.newPreparation.value,
                             onChanged: (List<String> val) {
-                              c.newPreparation.assignAll(val);
+                              if (val.isEmpty) {
+                                Get.snackbar(
+                                    'Error', 'Please select at least 1',
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white);
+                                c.newPreparation.value
+                                    .assignAll(prepareList.keys.toList());
+                              } else {
+                                c.newPreparation.value.assignAll(val);
+                              }
                               setState(() {});
                             },
                             choiceItems: C2Choice.listFrom<String, String>(
@@ -255,14 +274,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         gapH8,
                       ]),
-                ),
-                // ElevatedButton(
-                //   onPressed: () {
-                //     context.pop();
-                //   },
-                //   child: const Text('Go Back'),
-                // ),
-              ],
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     context.pop();
+                  //   },
+                  //   child: const Text('Go Back'),
+                  // ),
+                ],
+              ),
             );
           },
         ),

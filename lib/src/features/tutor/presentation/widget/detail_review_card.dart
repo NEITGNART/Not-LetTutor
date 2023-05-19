@@ -7,7 +7,148 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../common/constants.dart';
 import '../../../../route/app_route.dart';
+import '../../service/tutor_functions.dart';
 import '../tutor_home_page.dart';
+
+class ReportTeacherDialog extends StatefulWidget {
+  const ReportTeacherDialog({super.key});
+
+  @override
+  _ReportTeacherDialogState createState() => _ReportTeacherDialogState();
+}
+
+class _ReportTeacherDialogState extends State<ReportTeacherDialog> {
+  bool isAnnoying = false;
+  bool isFakeProfile = false;
+  bool hasInappropriatePhoto = false;
+  TextEditingController additionalDetailsController = TextEditingController();
+
+  @override
+  void dispose() {
+    additionalDetailsController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Help us understand what\'s happening',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            CheckboxListTile(
+              title: const Text('This tutor is annoying me'),
+              value: isAnnoying,
+              onChanged: (bool? value) {
+                setState(() {
+                  isAnnoying = value ?? false;
+                  if (isAnnoying) {
+                    additionalDetailsController.text +=
+                        'This tutor is annoying me. ';
+                  } else {
+                    additionalDetailsController.text =
+                        additionalDetailsController.text
+                            .replaceAll('This tutor is annoying me. ', '');
+                  }
+                });
+              },
+            ),
+            CheckboxListTile(
+              title: const Text(
+                  'This profile is pretending to be someone or is fake'),
+              value: isFakeProfile,
+              onChanged: (bool? value) {
+                setState(() {
+                  isFakeProfile = value ?? false;
+                  if (isFakeProfile) {
+                    additionalDetailsController.text +=
+                        'This profile is pretending to be someone or is fake. ';
+                  } else {
+                    additionalDetailsController.text =
+                        additionalDetailsController.text.replaceAll(
+                            'This profile is pretending to be someone or is fake. ',
+                            '');
+                  }
+                });
+              },
+            ),
+            CheckboxListTile(
+              title: const Text('Inappropriate profile photo'),
+              value: hasInappropriatePhoto,
+              onChanged: (bool? value) {
+                setState(() {
+                  hasInappropriatePhoto = value ?? false;
+                  if (hasInappropriatePhoto) {
+                    additionalDetailsController.text +=
+                        'Inappropriate profile photo. ';
+                  } else {
+                    additionalDetailsController.text =
+                        additionalDetailsController.text
+                            .replaceAll('Inappropriate profile photo. ', '');
+                  }
+                });
+              },
+            ),
+            TextField(
+              controller: additionalDetailsController,
+              maxLines: 2,
+              decoration: const InputDecoration(
+                hintText: 'Please let us know details about your problem',
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    DetailTutorController c = Get.find();
+                    if (c.tutorValue == null) {
+                      return;
+                    }
+                    if (additionalDetailsController.text.isEmpty) {
+                      Get.snackbar(
+                        'Error',
+                        'Please let us know details about your problem',
+                        backgroundColor: Colors.red[100],
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                      return;
+                    }
+                    c.reportTutor(
+                        c.tutorValue!.userId, additionalDetailsController.text);
+                    // );
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Submit'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 Widget getStarsWidget(int totalStart, int goldenStars) {
   assert(totalStart >= goldenStars);
@@ -53,7 +194,6 @@ class ReviewCard extends StatelessWidget {
         ],
       ),
       padding: const EdgeInsets.all(10.0),
-      margin: const EdgeInsets.only(right: 10.0),
       child: Obx(
         () {
           if (c.isLoading.value) {
@@ -61,7 +201,15 @@ class ReviewCard extends StatelessWidget {
           }
 
           if (c.tutorValue == null) {
-            return const Center(child: Text('No data'));
+            return Column(
+              children: [
+                SvgPicture.asset(
+                  "asset/svg/ic_notfound.svg",
+                  width: 200,
+                ),
+                const Center(child: Text('No data')),
+              ],
+            );
           }
           final tutor = c.tutorValue!;
 
@@ -82,15 +230,25 @@ class ReviewCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        tutor.name ?? "",
-                        style: kHeadlineLabelStyle,
+                      SizedBox(
+                        width: 200,
+                        child: Text(
+                          tutor.name ?? "",
+                          style: kHeadlineLabelStyle,
+                        ),
                       ),
                       const SizedBox(height: 5.0),
                       Row(
                         children: [
-                          getStarsWidget(5, 5),
-                          Text('(88)', style: kSearchPlaceholderStyle),
+                          if (c.tutorValue?.rating != null) ...{
+                            getStarsWidget(5, c.tutorValue!.rating!.floor()),
+                            Text(
+                              '${TutorFunctions.reviewCount}',
+                              style: kSearchPlaceholderStyle,
+                            ),
+                          } else ...{
+                            Text('No rating', style: kSearchPlaceholderStyle),
+                          }
                         ],
                       ),
                       const SizedBox(height: 5.0),
@@ -150,7 +308,15 @@ class ReviewCard extends StatelessWidget {
                         ),
                       )),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          DetailTutorController c = Get.find();
+                          return const ReportTeacherDialog();
+                        },
+                      );
+                    },
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.white),
                       foregroundColor: MaterialStateProperty.all(Colors.blue),

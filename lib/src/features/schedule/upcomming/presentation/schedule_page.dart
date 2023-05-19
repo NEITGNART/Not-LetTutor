@@ -1,15 +1,10 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/common/presentation/blockquote.dart';
-import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_card.dart';
 import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/controller/schedule_controller.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/widgets/schedule_card.dart';
 import 'package:beatiful_ui/src/utils/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pagination/flutter_pagination.dart';
-import 'package:flutter_pagination/widgets/button_styles.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/constants.dart';
+import '../../../../common/presentation/pagination.dart';
 
 class SchedulePage extends StatelessWidget {
   const SchedulePage({super.key});
@@ -17,7 +12,7 @@ class SchedulePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScheduleController c = Get.find();
-    c.initBookedClass();
+    c.init();
     return Scaffold(
       body: SafeArea(
         child: ScheduleList(c: c),
@@ -53,13 +48,13 @@ class _ScheduleListState extends State<ScheduleList> {
             return ListView.builder(
               itemCount: widget.c.upcomingClasses.length,
               itemBuilder: (context, index) {
-                int startTime = widget.c.upcomingClasses.value[index]
+                int startTime = widget.c.upcomingClasses[index]
                     .scheduleDetailInfo!.startPeriodTimestamp;
-                int endTime = widget.c.upcomingClasses.value[index]
+                int endTime = widget.c.upcomingClasses[index]
                     .scheduleDetailInfo!.endPeriodTimestamp;
                 final String time =
                     '${changeHoursFormat(startTime)} - ${changeHoursFormat(endTime)}';
-                final meet = widget.c.upcomingClasses.value[index];
+                final meet = widget.c.upcomingClasses[index];
 
                 return Container(
                   margin: const EdgeInsets.only(bottom: 16),
@@ -69,8 +64,8 @@ class _ScheduleListState extends State<ScheduleList> {
                     date: changeDateFormat(startTime),
                     lesson: index + 1,
                     times: [time],
-                    tutor: widget.c.upcomingClasses.value[index]
-                        .scheduleDetailInfo!.scheduleInfo?.tutorInfo,
+                    tutor: widget.c.upcomingClasses[index].scheduleDetailInfo!
+                        .scheduleInfo?.tutorInfo,
                   ),
                 );
               },
@@ -78,71 +73,61 @@ class _ScheduleListState extends State<ScheduleList> {
           }),
         ),
         Obx(() {
-          if (widget.c.totalPageUpcomming.value == 0) {
+          if (widget.c.totalPage.value == 0) {
             return const SizedBox();
           }
 
-          return Pagination(
-            paginateButtonStyles: PaginateButtonStyles(
-                activeTextStyle: const TextStyle(color: Colors.blue),
-                activeBackgroundColor: Colors.white),
-            prevButtonStyles: PaginateSkipButton(
-                buttonBackgroundColor: Colors.blue.shade400,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10))),
-            nextButtonStyles: PaginateSkipButton(
-                buttonBackgroundColor: Colors.blue.shade400,
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    bottomRight: Radius.circular(10))),
-            onPageChange: (number) {
-              widget.c.goToPage(number);
-            },
-            useGroup: false,
-            totalPage: widget.c.totalPageUpcomming.value,
-            show: widget.c.totalPageUpcomming.value > 1 ? 3 : 0,
-            currentPage: widget.c.currentPageUpcomming.value,
-          );
+          int show =
+              widget.c.totalPage.value > 4 ? 2 : widget.c.totalPage.value - 1;
+          int totalPage = widget.c.totalPage.value;
+          int currentPage = widget.c.currentPage.value;
+
+          return PaginationWidget(
+              totalPage: totalPage,
+              show: show,
+              currentPage: currentPage,
+              cb: (number) {
+                widget.c.goToPage(number);
+              });
         })
       ],
     );
   }
 }
 
-class ScheduleBanner extends StatelessWidget {
-  const ScheduleBanner({
-    super.key,
-  });
+// class ScheduleBanner extends StatelessWidget {
+//   const ScheduleBanner({
+//     super.key,
+//   });
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(
-          width: 120,
-          height: 120,
-          child: SvgPicture.network(
-              'https://sandbox.app.lettutor.com/static/media/calendar-check.7cf3b05d.svg'),
-        ),
-        gapW16,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text('Schedule', style: kTitle1Style),
-              gapH12,
-              const BlockQuote(
-                blockColor: Colors.grey,
-                child: Text(
-                    '''Here is a list of the sessions you have booked\n\nYou can track when the meeting starts, join the meeting with one click or can cancel the meeting before 2 hours'''),
-              ),
-              // create blockquote using flutter-quill
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: <Widget>[
+//         SizedBox(
+//           width: 120,
+//           height: 120,
+//           child: SvgPicture.network(
+//               'https://sandbox.app.lettutor.com/static/media/calendar-check.7cf3b05d.svg'),
+//         ),
+//         gapW16,
+//         Expanded(
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: <Widget>[
+//               Text('Schedule', style: kTitle1Style),
+//               gapH12,
+//               const BlockQuote(
+//                 blockColor: Colors.grey,
+//                 child: Text(
+//                     '''Here is a list of the sessions you have booked\n\nYou can track when the meeting starts, join the meeting with one click or can cancel the meeting before 2 hours'''),
+//               ),
+//               // create blockquote using flutter-quill
+//             ],
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

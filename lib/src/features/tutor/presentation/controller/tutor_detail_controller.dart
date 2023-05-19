@@ -1,10 +1,12 @@
 import 'package:chewie/chewie.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../model/schedule.dart';
 import '../../model/tutor.dart';
 
+import '../../model/tutor_review.dart';
 import '../../service/schedule_functions.dart';
 import '../../service/tutor_functions.dart';
 
@@ -22,6 +24,57 @@ class DetailTutorController extends GetxController {
   var isFavorite = false.obs;
 
   var isLoading = true.obs;
+  late Rx<MyPage> page;
+  var totalPage = 0.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    page = MyPage().obs;
+  }
+
+  RxList<TutorReview> reviews = RxList<TutorReview>([]);
+  List<TutorReview> get reviewsValue => reviews;
+
+  Future<void> reportTutor(String id, String content) async {
+    try {
+      var ok = await TutorFunctions.reportTutor(id, content);
+      if (ok) {
+        Get.snackbar(
+          'Success', 'Report success',
+          // green color
+          backgroundColor: Colors.blue[100],
+        );
+      } else {
+        Get.snackbar(
+          'Error',
+          'Report failed',
+          backgroundColor: Colors.red[100],
+        );
+      }
+    } on Error catch (_) {
+      // Get.snackbar('Error', _.toString());
+    }
+  }
+
+  Future<void> getReviews(String id) async {
+    try {
+      var reviewsResponse = await TutorFunctions.getTutorReview(id, page.value);
+      if (reviewsResponse != null) {
+        reviews.value = reviewsResponse;
+        totalPage.value =
+            (TutorFunctions.reviewCount / page.value.perPage).ceil();
+      } else {}
+    } on Error catch (_) {
+      // Get.snackbar('Error', _.toString());
+    }
+  }
+
+  void getReviewAtPage(String id, int index) {
+    page.value.page = index;
+    getReviews(id);
+  }
+
   Future<void> getTutor(String id) async {
     try {
       isLoading.value = true;
@@ -35,10 +88,21 @@ class DetailTutorController extends GetxController {
           VideoPlayerController.network(tutor.value!.video as String);
       chewieController.value = ChewieController(
           videoPlayerController: controller.value as VideoPlayerController,
+          aspectRatio: 3 / 2,
           autoPlay: true,
-          looping: true,
-          allowFullScreen: true);
-
+          looping: false,
+          allowFullScreen: false,
+          errorBuilder: (context, errorMessage) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  errorMessage,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ),
+            );
+          });
       isLoading.value = false;
     } on Error {}
   }
@@ -54,6 +118,7 @@ class DetailTutorController extends GetxController {
   Future<void> toggleFavorite(String id) async {
     TutorFunctions.manageFavoriteTutor(id);
     isFavorite.value = !isFavorite.value;
+
     // clone tutor value
   }
 

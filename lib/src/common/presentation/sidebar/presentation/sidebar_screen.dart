@@ -1,20 +1,30 @@
+import 'dart:io';
+
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/features/authentication/presentation/controller/login_controller.dart';
+import 'package:beatiful_ui/src/features/chat/presentation/chat_page.dart';
+import 'package:beatiful_ui/src/features/language/presentation/my_language.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/becom_tutor.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../route/app_route.dart';
 import '../../../constants.dart';
 import '../../../../features/course/details/temp/models/sidebar.dart';
 
-class SideBarScreen extends StatelessWidget {
+class SideBarScreen extends StatefulWidget {
   const SideBarScreen({
     super.key,
   });
 
+  @override
+  State<SideBarScreen> createState() => _SideBarScreenState();
+}
+
+class _SideBarScreenState extends State<SideBarScreen> {
   @override
   Widget build(BuildContext context) {
     LoginPageController c = Get.find();
@@ -61,7 +71,7 @@ class SideBarScreen extends StatelessWidget {
                       () => CircleAvatar(
                         radius: 40.0,
                         backgroundImage: NetworkImage(
-                          getAvatar(c.authUser.value!.avatar),
+                          getAvatar(c.authUser.value?.avatar),
                         ),
                       ),
                     ),
@@ -70,7 +80,7 @@ class SideBarScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Obx(() => Text(
-                              c.authUser.value!.name ?? "",
+                              c.authUser.value?.name ?? "",
                               style: kHeadlineLabelStyle.copyWith(
                                 fontSize: 17.0,
                               ),
@@ -78,9 +88,12 @@ class SideBarScreen extends StatelessWidget {
                         const SizedBox(height: 5.0),
                         Obx(
                           () => Text(
-                            c.authUser.value!.email ?? "",
+                            Platform.isIOS
+                                ? c.authUser.value?.email ?? ""
+                                : handleOverflow(c.authUser.value?.email ?? ""),
                             style: kSearchPlaceholderStyle.copyWith(
-                                fontSize: 14.0),
+                                fontSize: 13.0,
+                                overflow: TextOverflow.ellipsis),
                           ),
                         ),
                       ],
@@ -119,7 +132,9 @@ class SideBarScreen extends StatelessWidget {
               ),
               gapH12,
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => const MyLanguage());
+                },
                 child: Container(
                   decoration: boxdecoration,
                   padding: const EdgeInsets.all(12),
@@ -171,7 +186,10 @@ class SideBarScreen extends StatelessWidget {
               // const Spacer(),
               gapH64,
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  await launchUrl(
+                      Uri.parse('https://www.facebook.com/reggieFlying/'));
+                },
                 child: Container(
                   decoration: boxdecoration,
                   padding: const EdgeInsets.all(12),
@@ -188,8 +206,27 @@ class SideBarScreen extends StatelessWidget {
               ),
               gapH12,
               GestureDetector(
+                onTap: () async {
+                  await launchUrl(Uri.parse('https://app.lettutor.com'));
+                },
+                child: Container(
+                  decoration: boxdecoration,
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.people),
+                      gapW12,
+                      Text('Web version', style: kCalloutLabelStyle),
+                      const Spacer(),
+                      icon
+                    ],
+                  ),
+                ),
+              ),
+              gapH12,
+              GestureDetector(
                 onTap: () {
-                  Get.to(const BecomeTutor());
+                  Get.to(() => const BecomeTutor());
                 },
                 child: Container(
                   decoration: boxdecoration,
@@ -208,8 +245,10 @@ class SideBarScreen extends StatelessWidget {
               gapH64,
               gapH64,
               GestureDetector(
-                onTap: () {
-                  context.goNamed(AppRoute.logIn.name);
+                onTap: () async {
+                  context.goNamed(AppRoute.signOut.name);
+                  LoginPageController c = Get.find();
+                  await c.logout();
                 },
                 child: Container(
                   decoration: boxdecoration.copyWith(

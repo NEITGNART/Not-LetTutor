@@ -1,3 +1,5 @@
+import 'package:beatiful_ui/src/common/app_sizes.dart';
+import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/detail_review_card.dart';
 import 'package:flutter/material.dart';
@@ -5,35 +7,63 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../model/feedback.dart';
+import '../../../common/presentation/pagination.dart';
+import '../model/tutor_review.dart';
+import 'controller/tutor_detail_controller.dart';
 
-class ReviewPage extends StatelessWidget {
+class ReviewPage extends StatefulWidget {
   final String tutorId;
   const ReviewPage({super.key, required this.tutorId});
 
   @override
+  State<ReviewPage> createState() => _ReviewPageState();
+}
+
+class _ReviewPageState extends State<ReviewPage> {
+  @override
   Widget build(BuildContext context) {
-    List<FeedBack>? feedbacks = Get.find(tag: tutorId) ?? [];
-    return Scaffold(
-      appBar: AppBar(title: const Text('Review')),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+    DetailTutorController c = Get.find();
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Review')),
+        body: Column(
           children: [
-            feedbacks.isEmpty
-                ? Center(child: SvgPicture.asset('asset/svg/ic_notfound.svg'))
-                : Expanded(
-                    child: ListView.builder(
-                      itemCount: feedbacks.length,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Obx(
+                  () {
+                    if (c.reviews == null) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (c.reviews.isEmpty) {
+                      return Center(
+                          child: SvgPicture.asset('asset/svg/ic_notfound.svg'));
+                    }
+                    return ListView.builder(
+                      itemCount: c.reviews.length,
                       itemBuilder: (context, index) {
-                        return Previews(feedback: feedbacks[index]);
+                        return Rewiew(feedback: c.reviews[index]);
                       },
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                    ),
-                  ),
+                    );
+                  },
+                ),
+              ),
+            ),
+            Obx(() {
+              if (c.totalPage.value == 0) {
+                return const SizedBox();
+              }
+              int currentPage = c.page.value.page;
+              return PaginationWidget(
+                  totalPage: c.totalPage.value,
+                  show: c.totalPage.value > 3 ? 2 : c.totalPage.value - 1,
+                  currentPage: currentPage,
+                  cb: (number) {
+                    c.getReviewAtPage(widget.tutorId, number);
+                    setState(() {});
+                  });
+            })
           ],
         ),
       ),
@@ -41,10 +71,10 @@ class ReviewPage extends StatelessWidget {
   }
 }
 
-class Previews extends StatelessWidget {
-  const Previews({Key? key, required this.feedback}) : super(key: key);
+class Rewiew extends StatelessWidget {
+  const Rewiew({Key? key, required this.feedback}) : super(key: key);
 
-  final FeedBack feedback;
+  final TutorReview feedback;
 
   @override
   Widget build(BuildContext context) {
@@ -58,16 +88,13 @@ class Previews extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 10, right: 15),
-                  height: 40,
-                  width: 40,
-                  child: CircleAvatar(
-                    child: Image.network(
-                      getAvatar(feedback.firstInfo.avatar),
-                    ),
+                CircleAvatar(
+                  radius: 30,
+                  backgroundImage: NetworkImage(
+                    getAvatar(feedback.firstInfo?.avatar),
                   ),
                 ),
+                gapW12,
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.only(top: 10),
@@ -75,13 +102,18 @@ class Previews extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          feedback.firstInfo.name,
-                          style: const TextStyle(fontSize: 16),
+                          feedback.firstInfo?.name ?? "",
+                          style: kCardTitleStyle.copyWith(
+                            color: Colors.black,
+                            fontSize: 17,
+                          ),
                         ),
-                        getStarsWidget(
-                          5,
-                          feedback.rating.floor(),
-                        )
+                        if (feedback.rating?.floor() != null) ...{
+                          getStarsWidget(
+                            5,
+                            feedback.rating!.floor(),
+                          )
+                        }
                       ],
                     ),
                   ),
@@ -90,15 +122,15 @@ class Previews extends StatelessWidget {
             ),
             Container(
                 margin: const EdgeInsets.only(top: 10, bottom: 10),
-                child: feedback.content.isNotEmpty
-                    ? Text(feedback.content)
+                child: feedback.content!.isNotEmpty
+                    ? Text(feedback.content ?? "", style: kSubtitleStyle)
                     : null),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
                   DateFormat.yMEd().add_jm().format(
-                      DateFormat("yyyy-MM-dd").parse(feedback.createdAt)),
+                      DateFormat("yyyy-MM-dd").parse(feedback.createdAt ?? "")),
                   style: const TextStyle(color: Colors.grey),
                 )
               ],

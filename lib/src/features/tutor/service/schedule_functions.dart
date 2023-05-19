@@ -20,7 +20,7 @@ class BookingResponse {
 }
 
 class ScheduleFunctions {
-  static int countUpcomming = 0;
+  static int count = 0;
   static Future<List<Schedule>?> getScheduleByTutorId(String tutorId) async {
     try {
       var storage = const FlutterSecureStorage();
@@ -131,7 +131,7 @@ class ScheduleFunctions {
 
       if (response.statusCode == 200) {
         final upcomingList = json.decode(response.body)['data']['rows'] as List;
-        countUpcomming = json.decode(response.body)['data']['count'] as int;
+        count = json.decode(response.body)['data']['count'] as int;
         final res = upcomingList.map((schedule) {
           return BookingInfo.fromJson(schedule);
         }).toList();
@@ -219,7 +219,6 @@ class ScheduleFunctions {
             data.map((e) => BookingInfo.fromJson(e)).toList();
         lessonList.sort((a, b) => a.scheduleDetailInfo!.startPeriodTimestamp
             .compareTo(b.scheduleDetailInfo!.startPeriodTimestamp));
-
         lessonList = lessonList
             .where((element) =>
                 element.scheduleDetailInfo!.startPeriodTimestamp > current)

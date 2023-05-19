@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/learning_topics.dart';
+import 'controller/tutor_controller.dart';
 import 'widget/detail_review_card.dart';
 
 class TutorDetailPage extends StatefulWidget {
@@ -27,6 +28,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
   void initState() {
     super.initState();
     c.getTutor(widget.tutorId);
+    c.getReviews(widget.tutorId);
   }
 
   @override
@@ -42,6 +44,8 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
         leading: IconButton(
           onPressed: () {
             Get.back();
+            final TutorController tutorC = Get.find();
+            tutorC.init();
             c.dispose();
           },
           icon: const Icon(Icons.arrow_back_ios),
@@ -49,7 +53,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20.0),
@@ -57,20 +61,19 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TutorInfo(),
               Obx(() {
                 if (c.chewieController.value == null) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 return Container(
                   color: Colors.black,
-                  height: 300,
+                  height: 250,
                   margin: const EdgeInsets.only(bottom: 10),
                   child: Chewie(
                       controller: c.chewieController.value as ChewieController),
                 );
               }),
-              const SizedBox(height: 20.0),
+              const TutorInfo(),
               Obx(() => buildReponsive(context, c))
             ],
           ),

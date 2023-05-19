@@ -28,6 +28,18 @@ final listLevels = {
   "7": "Proficiency"
 };
 
+class SortCourseLevel {
+  final String id;
+  final String title;
+  SortCourseLevel(this.id, this.title);
+}
+
+class CourseLevel {
+  final String id;
+  final String title;
+  CourseLevel(this.id, this.title);
+}
+
 class _CourseTabState extends State<CourseTab> {
   List<Course> _results = [];
   final TextEditingController _controller = TextEditingController();
@@ -39,9 +51,29 @@ class _CourseTabState extends State<CourseTab> {
   bool isLoadMore = false;
   int page = 1;
   int perPage = 10;
-  late ScrollController _scrollController;
+  // late ScrollController _scrollController;
   List<CourseCategory> categories = [];
   CourseCategory? currentCategory;
+
+  List<SortCourseLevel> sortLevels = [
+    SortCourseLevel('ASC', 'Level increasing'),
+    SortCourseLevel('DESC', 'Level decreasing')
+  ];
+  String sortLevel = "";
+  SortCourseLevel? currentSortLevel;
+
+  List<CourseLevel> levels = [
+    CourseLevel('0', 'Any level'),
+    CourseLevel('1', 'Beginner'),
+    CourseLevel('2', 'High Beginner'),
+    CourseLevel('3', 'Pre-Intermediate'),
+    CourseLevel('4', 'Intermediate'),
+    CourseLevel('5', 'Upper-Intermediate'),
+    CourseLevel('6', 'Advanced'),
+    CourseLevel('7', 'Proficiency')
+  ];
+  String level = "";
+  List<CourseLevel> currentLevel = [];
 
   void getCategories() async {
     try {
@@ -93,56 +125,164 @@ class _CourseTabState extends State<CourseTab> {
         .toList();
   }
 
+  List<Widget> _generateLevelChips(List<CourseLevel> levels, VoidCallback? cb) {
+    return levels
+        .map(
+          (chip) => GestureDetector(
+            onTap: () {
+              _pickLevel(chip);
+              cb?.call();
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 5, right: 8),
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+              decoration: BoxDecoration(
+                color: currentLevel.map((e) => e.id).contains(chip.id)
+                    ? Colors.blue[50]
+                    : Colors.grey[200],
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                border: Border.all(
+                    color: chip.id == category
+                        ? Colors.blue[100] as Color
+                        : Colors.grey[400] as Color),
+              ),
+              child: Text(
+                chip.title,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: currentLevel.map((e) => e.id).contains(chip.id)
+                      ? Colors.blue[400]
+                      : Colors.grey[600],
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        )
+        .toList();
+  }
+
+  List<Widget> _generateSortLevelChips(
+      List<SortCourseLevel> levels, VoidCallback? cb) {
+    return levels
+        .map(
+          (chip) => GestureDetector(
+            onTap: () {
+              currentSortLevel = chip;
+              pickSortLevel(chip);
+              cb?.call();
+            },
+            child: Container(
+              margin: const EdgeInsets.only(top: 5, right: 8),
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+              decoration: BoxDecoration(
+                color:
+                    chip.id == sortLevel ? Colors.blue[50] : Colors.grey[200],
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                border: Border.all(
+                    color: chip.id == sortLevel
+                        ? Colors.blue[100] as Color
+                        : Colors.grey[400] as Color),
+              ),
+              child: Text(
+                chip.title,
+                style: TextStyle(
+                  fontSize: 12,
+                  color:
+                      chip.id == category ? Colors.blue[400] : Colors.grey[600],
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
+        )
+        .toList();
+  }
+
   void pickCategory(CourseCategory chip) {
     if (category == chip.id) {
-      setState(() {
-        category = "";
-        currentCategory = null;
-        _results = [];
-        page = 1;
-        isLoading = true;
-      });
+      category = "";
+      currentCategory = null;
     } else {
-      setState(() {
-        category = chip.id;
-        currentCategory = chip;
-        _results = [];
-        page = 1;
-        isLoading = true;
-      });
+      category = chip.id;
+      currentCategory = chip;
     }
+    setState(() {
+      _results = [];
+      page = 1;
+      isLoading = true;
+    });
+  }
+
+  void pickSortLevel(SortCourseLevel chip) {
+    if (sortLevel == chip.id) {
+      sortLevel = "";
+      currentSortLevel = null;
+    } else {
+      sortLevel = chip.id;
+      currentSortLevel = chip;
+    }
+    setState(() {
+      _results = [];
+      page = 1;
+      isLoading = true;
+    });
+  }
+
+  void _pickLevel(CourseLevel chip) {
+    var isExist = false;
+    for (final l in currentLevel) {
+      if (l.id == chip.id) {
+        isExist = true;
+        currentLevel.remove(l);
+        break;
+      }
+    }
+    if (!isExist) {
+      currentLevel.add(chip);
+    }
+    setState(() {
+      _results = [];
+      page = 1;
+      isLoading = true;
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(loadMore);
+    // _scrollController = ScrollController()..addListener(loadMore);
   }
 
   @override
   void dispose() {
     _debounce?.cancel();
-    _scrollController.removeListener(loadMore);
+    // _scrollController.removeListener(loadMore);
     super.dispose();
   }
 
   void getListCourse(int page, int size) async {
     try {
-      final courses =
-          await CourseFunctions.getListCourseWithPagination(page, size);
-      setState(() {
-        _results.addAll(courses!);
-        isLoading = false;
-      });
-      // List<Course>? response =
-      //     await CourseFunctions.getListCourseWithPagination(page, size,
-      //         categoryId: category, q: search);
-      // if (response != null && mounted) {
-      //   setState(() {
-      //     _results.addAll(response);
-      //     isLoading = false;
-      //   });
-      // }
+      // final courses =
+      //     await CourseFunctions.getListCourseWithPagination(page, size);
+      // setState(() {
+      //   _results.addAll(courses!);
+      //   isLoading = false;
+      // });
+
+      List<Course>? response =
+          await CourseFunctions.getListCourseWithPagination(
+        categoryId: category,
+        q: search,
+        orderBy: currentSortLevel?.id ?? "",
+        levels: currentLevel.map((e) => e.id).toList(),
+      );
+      if (response != null && mounted) {
+        setState(() {
+          _results.addAll(response);
+          isLoading = false;
+        });
+      }
     } catch (e) {
       const snackBar = SnackBar(
         content: Text('Không thể tải thêm nữa'),
@@ -151,31 +291,31 @@ class _CourseTabState extends State<CourseTab> {
     }
   }
 
-  void loadMore() async {
-    if (_scrollController.position.extentAfter < page * perPage) {
-      setState(() {
-        isLoadMore = true;
-        page++;
-      });
+  // void loadMore() async {
+  //   if (_scrollController.position.extentAfter < page * perPage) {
+  //     setState(() {
+  //       isLoadMore = true;
+  //       page++;
+  //     });
 
-      try {
-        List<Course>? response =
-            await CourseFunctions.getListCourseWithPagination(page, perPage,
-                categoryId: category, q: search);
-        if (response != null && mounted) {
-          setState(() {
-            _results.addAll(response);
-            isLoadMore = false;
-          });
-        }
-      } catch (e) {
-        final snackBar = SnackBar(
-          content: Text(e.toString()),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
-    }
-  }
+  //     try {
+  //       List<Course>? response =
+  //           await CourseFunctions.getListCourseWithPagination(page, perPage,
+  //               categoryId: category, q: search);
+  //       if (response != null && mounted) {
+  //         setState(() {
+  //           _results.addAll(response);
+  //           isLoadMore = false;
+  //         });
+  //       }
+  //     } catch (e) {
+  //       final snackBar = SnackBar(
+  //         content: Text(e.toString()),
+  //       );
+  //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +325,6 @@ class _CourseTabState extends State<CourseTab> {
     if (isLoadingCategories) {
       getCategories();
     }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -208,6 +347,20 @@ class _CourseTabState extends State<CourseTab> {
             decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.grey.shade200,
+                suffixIcon: search.isNotEmpty
+                    ? IconButton(
+                        onPressed: () {
+                          _controller.clear();
+                          setState(() {
+                            search = "";
+                            _results = [];
+                            page = 1;
+                            isLoading = true;
+                          });
+                        },
+                        icon: const Icon(Icons.clear),
+                      )
+                    : null,
                 prefixIcon: Container(
                   padding: const EdgeInsets.all(13),
                   child: SvgPicture.asset(
@@ -226,95 +379,40 @@ class _CourseTabState extends State<CourseTab> {
           ),
         ),
         gapH12,
-        // isLoadingCategories
-        //     ? const Center(
-        //         child: CircularProgressIndicator(),
-        //       ) :
-        Wrap(
-          spacing: 10,
-          runSpacing: 10,
-          children: [
-            SizedBox(
-              height: 30,
-              child: TextButton(
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.grey, width: 1),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                ),
-                onPressed: () {
-                  showCategoryModel(context);
+        SizedBox(
+          height: 30,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  showLevelModal(context);
                 },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Select level"),
-                    Icon(Icons.keyboard_arrow_down),
-                  ],
-                ),
+                child: DiscoveryChip(
+                    isSelect: currentLevel.isNotEmpty,
+                    label:
+                        'Select level ${currentLevel.isNotEmpty ? '+${currentLevel.length}' : ''}'),
               ),
-            ),
-            SizedBox(
-              height: 30,
-              child: TextButton(
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.grey, width: 1),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                ),
-                onPressed: () {
-                  showCategoryModel(context);
+              gapW12,
+              GestureDetector(
+                onTap: () {
+                  showCategoryModal(context);
                 },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Categories"),
-                    Icon(Icons.keyboard_arrow_down),
-                  ],
-                ),
+                child: DiscoveryChip(
+                    isSelect: category.isNotEmpty,
+                    label: currentCategory?.title ?? 'Categories'),
               ),
-            ),
-            SizedBox(
-              height: 30,
-              child: TextButton(
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.grey, width: 1),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                ),
-                onPressed: () {
-                  showCategoryModel(context);
+              gapW12,
+              GestureDetector(
+                onTap: () {
+                  showSortLevelModal(context);
                 },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Sort by Level"),
-                    Icon(Icons.keyboard_arrow_down),
-                  ],
-                ),
+                child: DiscoveryChip(
+                    isSelect: sortLevel.isNotEmpty,
+                    label: currentSortLevel?.title ?? 'Sort by Level'),
               ),
-            ),
-          ],
-        ),
-        gapH12,
-        Wrap(
-          runSpacing: 10,
-          children: [
-            // MyInputChip(label: 'Any Level', onDeleted: () {}),
-            // gapW12,
-            // MyInputChip(label: 'Level increasing', onDeleted: () {}),
-            // gapW12,
-            currentCategory != null && currentCategory!.id != ""
-                ? MyInputChip(
-                    label: currentCategory!.title,
-                    onDeleted: () {
-                      pickCategory(currentCategory!);
-                    })
-                : Container(),
-          ],
+            ],
+          ),
         ),
         gapH12,
         isLoading
@@ -334,32 +432,49 @@ class _CourseTabState extends State<CourseTab> {
     );
   }
 
-  void showCategoryModel(context) {
+  void showCategoryModal(context) {
     showModalBottomSheet(
-        isScrollControlled: true,
-        barrierColor: const Color(0x00ffffff),
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (context) {
-          return Container(
-              padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
+      isScrollControlled: true,
+      barrierColor: const Color(0x00ffffff),
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
                 ),
-              ),
-              height: MediaQuery.of(context).size.height * 0.3,
-              alignment: Alignment.center,
-              child: Wrap(
-                children: [
-                  ..._generateChips(categories, () {
-                    Navigator.pop(context);
-                  })
-                ],
-              ));
-        });
+                height: MediaQuery.of(context).size.height * 0.5,
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    Text('Categories',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[800])),
+                    gapH12,
+                    Wrap(
+                      children: [
+                        ..._generateChips(categories, () {
+                          Navigator.pop(context);
+                        })
+                      ],
+                    ),
+                  ],
+                )),
+          ],
+        );
+      },
+    );
   }
 
   void showLevelModal(context) {
@@ -380,11 +495,21 @@ class _CourseTabState extends State<CourseTab> {
               ),
               height: MediaQuery.of(context).size.height * 0.3,
               alignment: Alignment.center,
-              child: Wrap(
+              child: Column(
                 children: [
-                  ..._generateChips(categories, () {
-                    Navigator.pop(context);
-                  })
+                  Text('Select level',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[800])),
+                  gapH12,
+                  Wrap(
+                    children: [
+                      ..._generateLevelChips(levels, () {
+                        Navigator.pop(context);
+                      })
+                    ],
+                  ),
                 ],
               ));
         });
@@ -406,13 +531,22 @@ class _CourseTabState extends State<CourseTab> {
                   topRight: Radius.circular(20),
                 ),
               ),
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.15,
               alignment: Alignment.center,
-              child: Wrap(
+              child: Column(
                 children: [
-                  ..._generateChips(categories, () {
-                    Navigator.pop(context);
-                  })
+                  Text('Sort by level',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[800])),
+                  Wrap(
+                    children: [
+                      ..._generateSortLevelChips(sortLevels, () {
+                        Navigator.pop(context);
+                      })
+                    ],
+                  ),
                 ],
               ));
         });
@@ -420,21 +554,58 @@ class _CourseTabState extends State<CourseTab> {
 
   Widget getCourseCard() {
     if (MediaQuery.of(context).size.width < Breakpoint.tablet) {
-      return ListViewCard(
-          results: _results,
-          scrollController: _scrollController,
-          listLevels: listLevels);
+      return ListViewCard(results: _results, listLevels: listLevels);
     } else if (MediaQuery.of(context).size.width < Breakpoint.desktop) {
-      return GridViewCard(
-          results: _results,
-          scrollController: _scrollController,
-          listLevels: listLevels);
+      return GridViewCard(results: _results, listLevels: listLevels);
     }
-    return GridViewCard(
-        results: _results,
-        scrollController: _scrollController,
-        listLevels: listLevels,
-        gridNum: 3);
+    return GridViewCard(results: _results, listLevels: listLevels, gridNum: 3);
+  }
+}
+
+class DiscoveryChip extends StatelessWidget {
+  const DiscoveryChip({
+    super.key,
+    required this.label,
+    this.isSelect = true,
+  });
+  final String label;
+  final bool isSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(right: 8, left: 8),
+      decoration: BoxDecoration(
+          color: isSelect ? Colors.blue.shade100 : Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          border: isSelect
+              ? const Border()
+              : const Border(
+                  top: BorderSide(color: Colors.grey, width: 1),
+                  bottom: BorderSide(color: Colors.grey, width: 1),
+                  left: BorderSide(color: Colors.grey, width: 1),
+                  right: BorderSide(color: Colors.grey, width: 1),
+                )),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(label,
+              style: TextStyle(
+                  fontSize: 13,
+                  color: isSelect
+                      ? Colors.blue
+                      : const Color.fromARGB(255, 103, 101, 101),
+                  fontWeight: FontWeight.w600)),
+          Icon(
+            Icons.arrow_drop_down_sharp,
+            size: 25,
+            color: isSelect ? Colors.blue : Colors.grey,
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -449,7 +620,7 @@ class EmptyData extends StatelessWidget {
       width: double.maxFinite,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           SvgPicture.asset(
