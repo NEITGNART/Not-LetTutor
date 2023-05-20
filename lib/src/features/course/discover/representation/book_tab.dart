@@ -4,6 +4,7 @@ import 'package:beatiful_ui/src/features/course/discover/representation/course_t
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../common/breakpoint.dart';
 import '../data/repository.dart';
@@ -200,7 +201,7 @@ class _BookTabState extends State<BookTab> {
               )
             : Container(
                 margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                height: 33,
+                height: 35,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: _generateChips(categories).length,
@@ -363,9 +364,9 @@ class ListEBookCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: GestureDetector(
             onTap: () async {
-              // if (await canLaunchUrl(Uri.parse(_results[index].fileUrl))) {
-              //   await launchUrl(Uri.parse(_results[index].fileUrl));
-              // }
+              if (await canLaunchUrl(Uri.parse(_results[index].fileUrl))) {
+                await launchUrl(Uri.parse(_results[index].fileUrl));
+              }
             },
             child: Card(
               elevation: 8,

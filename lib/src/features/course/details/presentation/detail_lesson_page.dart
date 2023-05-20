@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 
@@ -11,23 +13,21 @@ import '../../../../common/breakpoint.dart';
 import '../../../../common/constants.dart';
 import '../../../../route/app_route.dart';
 import '../../../tutor/presentation/tutor_home_page.dart';
+import '../../discover/model/course.dart';
+import '../../discover/model/course_topic.dart';
 
 class DetailLessonPage extends StatelessWidget {
-  const DetailLessonPage({
-    Key? key,
-    required this.courseId,
-  }) : super(key: key);
-  final String courseId;
+  const DetailLessonPage({Key? key, required this.course}) : super(key: key);
+  final Course course;
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: buildResponsive(context));
+    return MobileDetailLessonScreen(course: course);
   }
 
   Widget buildResponsive(BuildContext context) {
     if (MediaQuery.of(context).size.width < Breakpoint.tablet) {
-      logger.i("Mobile");
-      return const MobileDetailLessonScreen();
+      return MobileDetailLessonScreen(course: course);
     }
     return const DesktopDetailLessonScreen();
 
@@ -37,60 +37,52 @@ class DetailLessonPage extends StatelessWidget {
   }
 }
 
-class MobileDetailLessonScreen extends StatefulWidget {
-  const MobileDetailLessonScreen({super.key});
-
-  @override
-  State<MobileDetailLessonScreen> createState() =>
-      _MobileDetailLessonScreenState();
-}
-
-class _MobileDetailLessonScreenState extends State<MobileDetailLessonScreen> {
+class MobileDetailLessonScreen extends StatelessWidget {
   String currentLessonLink = "";
   PdfViewerController? controller;
+
   int currentLessonIndex = -1;
 
-  static const List<String> urls = [
-    "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileSocial Media.pdf",
-    "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileInternet Privacy.pdf",
-    "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileLive Streaming.pdf",
-    "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileCoding.pdf",
-    "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileSocial Media.pdf",
-    "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileInternet Privacy.pdf",
-    "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileLive Streaming.pdf",
-    "https://api.app.lettutor.com/file/be4c3df8-3b1b-4c8f-a5cc-75a8e2e6626afileCoding.pdf",
-  ];
-
-  var src =
-      'https://camblycurriculumicons.s3.amazonaws.com/5e0e8b212ac750e7dc9886ac?h=d41d8cd98f00b204e9800998ecf8427e';
-  var data = 'Life in the Internet Age';
-  var data2 = "Let's discuss how technology is changing the way we live";
-
-  void changeLesson(lessonLink, lessonIndex) {
-    if (lessonLink.isNotEmpty && currentLessonIndex != lessonIndex) {
-      setState(() {
-        currentLessonIndex = lessonIndex;
-        currentLessonLink = lessonLink;
-      });
-    }
-  }
+  MobileDetailLessonScreen({super.key, required this.course});
+  final Course course;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
+          // appBar
+
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            floating: false,
+            pinned: true,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(
+                'Lesson',
+                style: kTitle1Style.copyWith(color: Colors.blue),
+              ),
+            ),
+          ),
           SliverPadding(
             padding: const EdgeInsets.all(20.0),
             sliver: SliverList(
               delegate: SliverChildListDelegate(
                 [
                   TopicInfo(
-                    src: src,
-                    data: data,
-                    data2: data2,
-                    currentLessonLink: currentLessonLink,
-                    currentLessonIndex: currentLessonIndex,
+                    img: course.imageUrl,
+                    title: course.name,
+                    description: course.description,
                   ),
                 ],
               ),
@@ -104,19 +96,57 @@ class _MobileDetailLessonScreenState extends State<MobileDetailLessonScreen> {
               ),
             ),
           ),
-          SliverPadding(
-            sliver: TopicSliverList(
-                onTap: (String link, int index) {
-                  context.goNamed(
-                    AppRoute.topicPdf.name,
-                    params: {
-                      'link': link,
-                    },
-                  );
-                },
-                urls: urls,
-                currentLessonIndex: currentLessonIndex),
-            padding: const EdgeInsets.all(20.0),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                final CourseTopic topic = course.topics[index];
+                return GestureDetector(
+                  onTap: () {
+                    context.pushNamed(
+                      AppRoute.topicPdf.name,
+                      params: {
+                        'link': topic.nameFile,
+                      },
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 10, top: 10),
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Color(0xFF00AEFF),
+                              Color(0xFF0076FF),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '$index.',
+                              style: kCardSubtitleStyle,
+                            ),
+                            gapH12,
+                            Text(
+                              topic.name,
+                              style: kCardTitleStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+              childCount: course.topics.length,
+            ),
           ),
         ],
       ),
@@ -217,11 +247,9 @@ class _DesktopDetailLessonScreenState extends State<DesktopDetailLessonScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TopicInfo(
-                            src: src,
-                            data: data,
-                            data2: data2,
-                            currentLessonLink: currentLessonLink,
-                            currentLessonIndex: currentLessonIndex,
+                            img: src,
+                            title: data,
+                            description: data2,
                           ),
                           gapH12,
                           Text('List Topics', style: kTitle1Style),
@@ -278,20 +306,16 @@ class _DesktopDetailLessonScreenState extends State<DesktopDetailLessonScreen> {
 }
 
 class TopicInfo extends StatelessWidget {
-  const TopicInfo(
-      {Key? key,
-      required this.src,
-      required this.data,
-      required this.data2,
-      required this.currentLessonLink,
-      required this.currentLessonIndex})
-      : super(key: key);
+  const TopicInfo({
+    Key? key,
+    required this.img,
+    required this.title,
+    required this.description,
+  }) : super(key: key);
 
-  final String src;
-  final String data;
-  final String data2;
-  final String currentLessonLink;
-  final int currentLessonIndex;
+  final String img;
+  final String title;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -325,9 +349,12 @@ class TopicInfo extends StatelessWidget {
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              child: Image.network(
-                src,
+              child: CachedNetworkImage(
+                imageUrl: getAvatar(img),
                 fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    CircularProgressIndicator(value: downloadProgress.progress),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
           ),
@@ -336,13 +363,14 @@ class TopicInfo extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(data,
+                Text(title,
                     style: kCardTitleStyle.copyWith(color: Colors.black)),
                 gapH12,
                 Text(
                   // gap between two lines
-                  data2,
+                  description,
                   style: kCalloutLabelStyle,
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),

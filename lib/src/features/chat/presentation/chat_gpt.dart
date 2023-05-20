@@ -131,9 +131,7 @@ class ChatRepositoryImpl implements ChatRepository {
       final response = await dio.post('/continue-chat', data: chat);
       Map<String, dynamic> mp = jsonDecode(response.toString());
       return CustomChatResponse.fromJson(mp);
-    } on RemoteException catch (e) {
-      Logger().e(e.dioError);
-    }
+    } on RemoteException {}
     return null;
   }
 }
@@ -410,28 +408,6 @@ class _AICHATBOTState extends State<AICHATBOT> {
               ),
               //  messageController.text.isNotEmpty
 
-              if (chatLimit > 0 &&
-                  (!_isListening && messageController.text.isEmpty)) ...{
-                if (soundPlayingMap[soundPlayingIndex] == false)
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      margin: const EdgeInsets.only(left: 5, right: 5),
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
-                      ),
-                      child: const Icon(
-                        Icons.mic,
-                        color: Colors.black,
-                      ),
-                    ),
-                  )
-              },
               // const Expanded(child: FlowMenu()),
               // adding animation to the send button
 

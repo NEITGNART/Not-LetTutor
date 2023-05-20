@@ -1,7 +1,5 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/features/authentication/presentation/controller/login_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'login_form.dart';
 
@@ -10,8 +8,6 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginPageController c = Get.put(LoginPageController());
-
     return Scaffold(
         body: SingleChildScrollView(
       child: SafeArea(
@@ -66,7 +62,9 @@ class LoginPage extends StatelessWidget {
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Expanded(child: LoginForm()),
+                            Expanded(
+                              child: LoginForm(),
+                            ),
                           ],
                         ),
                       ],

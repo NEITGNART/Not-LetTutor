@@ -7,14 +7,11 @@ class GridViewCard extends StatelessWidget {
   const GridViewCard({
     super.key,
     required List<Course> results,
-    required ScrollController scrollController,
     required this.listLevels,
     this.gridNum = 2,
-  })  : _results = results,
-        _scrollController = scrollController;
+  }) : _results = results;
 
   final List<Course> _results;
-  final ScrollController _scrollController;
   final Map<String, String> listLevels;
   final int gridNum;
 
@@ -22,7 +19,6 @@ class GridViewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       itemCount: _results.length,
-      controller: _scrollController,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: gridNum,
         childAspectRatio: 0.8,

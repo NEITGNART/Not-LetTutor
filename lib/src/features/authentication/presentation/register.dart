@@ -1,11 +1,11 @@
 import 'package:beatiful_ui/src/route/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../common/app_sizes.dart';
 import '../../../utils/validate_email.dart';
 import '../data/model/user.dart';
 import '../service/auth_functions.dart';
@@ -43,7 +43,8 @@ class _RegisterBodyState extends State<RegisterBody> {
       final String? accessToken = googleAuth?.accessToken;
 
       if (accessToken != null) {
-        final response = await AuthFunctions.loginWithGoogle(accessToken);
+        final response =
+            await AuthFunctions.loginWithGoogle(accessToken, () {});
         if (response['isSuccess'] == false) {
           setState(() {
             isSuccess = response['isSuccess'] as bool;
@@ -68,7 +69,8 @@ class _RegisterBodyState extends State<RegisterBody> {
 
       if (result.status == LoginStatus.success) {
         final String accessToken = result.accessToken!.token;
-        final response = await AuthFunctions.loginWithFacebook(accessToken);
+        final response =
+            await AuthFunctions.loginWithFacebook(accessToken, () {});
         if (response['isSuccess'] == false) {
           setState(() {
             isSuccess = response['isSuccess'] as bool;
@@ -101,8 +103,9 @@ class _RegisterBodyState extends State<RegisterBody> {
 
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: ListView(
+      child: Column(
         children: <Widget>[
+          gapH64,
           Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
@@ -206,49 +209,49 @@ class _RegisterBodyState extends State<RegisterBody> {
           Container(
             margin: const EdgeInsets.fromLTRB(0, 30, 0, 10),
             alignment: Alignment.center,
-            child: Center(
+            child: const Center(
               child: Column(
                 children: [
-                  const Text('Or continue with'),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          handleSingInFacebook();
-                        },
-                        child: SvgPicture.network(
-                            'https://sandbox.app.lettutor.com/static/media/facebook-logo.3bac8064.svg',
-                            width: 40),
-                      ),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {
-                          handleSignInGoogle();
-                        },
-                        child: SvgPicture.network(
-                            'https://sandbox.app.lettutor.com/static/media/google-logo.5f53496e.svg',
-                            width: 40),
-                      ),
-                      const SizedBox(width: 10),
-                      Container(
-                        width: 40,
-                        height: 40,
-                        padding: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                              color: const Color.fromARGB(240, 7, 149, 243),
-                              width: 1.5),
-                        ),
-                        child: SvgPicture.asset(
-                          'asset/icons/iphonex.svg',
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
+                  // Text('Or continue with'),
+                  // SizedBox(height: 10),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         handleSingInFacebook();
+                  //       },
+                  //       child: SvgPicture.network(
+                  //           'https://sandbox.app.lettutor.com/static/media/facebook-logo.3bac8064.svg',
+                  //           width: 40),
+                  //     ),
+                  //     const SizedBox(width: 10),
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         handleSignInGoogle();
+                  //       },
+                  //       child: SvgPicture.network(
+                  //           'https://sandbox.app.lettutor.com/static/media/google-logo.5f53496e.svg',
+                  //           width: 40),
+                  //     ),
+                  //     const SizedBox(width: 10),
+                  //     Container(
+                  //       width: 40,
+                  //       height: 40,
+                  //       padding: const EdgeInsets.all(3),
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.circular(20),
+                  //         border: Border.all(
+                  //             color: const Color.fromARGB(240, 7, 149, 243),
+                  //             width: 1.5),
+                  //       ),
+                  //       child: SvgPicture.asset(
+                  //         'asset/icons/iphonex.svg',
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  SizedBox(height: 10),
                   // GestureDetector(
                   //   onTap: () {
                   //     context.goNamed(AppRoute.signUp.name);

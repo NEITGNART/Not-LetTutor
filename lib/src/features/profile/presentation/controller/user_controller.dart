@@ -4,8 +4,6 @@ import 'package:beatiful_ui/src/utils/learning_topics.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../model/learning_topic.dart';
-import '../../model/test_preparation.dart';
 import '../../model/user_info.dart';
 import '../../service/user_functions.dart';
 
@@ -19,11 +17,8 @@ class UserController extends GetxController {
   final phoneController = TextEditingController();
   final schedule = "".obs;
 
-  RxList<LearnTopic> topics = <LearnTopic>[].obs;
-  RxList<TestPreparation> preparations = <TestPreparation>[].obs;
-
-  List<String> newTopics = [];
-  List<String> newPreparation = [];
+  Rx<List<String>> newTopics = Rx<List<String>>([]);
+  Rx<List<String>> newPreparation = Rx<List<String>>([]);
   File? avatar;
 
   @override
@@ -46,8 +41,12 @@ class UserController extends GetxController {
     dateController.text = _user.value?.birthday ?? "";
     phoneController.text = _user.value?.phone ?? "";
     schedule.value = _user.value?.studySchedule ?? "";
-    await getAllLearningTopic();
-    await getAllTestPreparation();
+    newPreparation.value =
+        _user.value?.testPreparations?.map((e) => e.name).toList() ?? [];
+    newTopics.value =
+        _user.value?.learnTopics?.map((e) => e.name).toList() ?? [];
+    // await getAllLearningTopic();
+    // await getAllTestPreparation();
   }
 
   // Update country
@@ -73,23 +72,24 @@ class UserController extends GetxController {
     // }
   }
 
-  // Get all learning topics
-  Future<void> getAllLearningTopic() async {
-    topics.value = (await UserFunctions.getAllLearningTopic()) ?? [];
-    newTopics = topics.value.map((e) => e.name).toList();
-    // _user.update((val) {
-    //   val?.learnTopics = topics.value;
-    // });
-  }
+  // // Get all learning topics
+  // Future<void> getAllLearningTopic() async {
+  //   topics.value = (await UserFunctions.getAllLearningTopic()) ?? [];
+  //   newTopics = topics.value.map((e) => e.name).toList();
+  //   // _user.update((val) {
+  //   //   val?.learnTopics = topics.value;
+  //   // });
+  // }
 
-  // Get all test preparations
-  Future<void> getAllTestPreparation() async {
-    preparations.value = (await UserFunctions.getAllTestPreparation()) ?? [];
-    newPreparation = preparations.value.map((e) => e.name).toList();
-    // _user.update((val) {
-    //   val?.testPreparations = preparations.value;
-    // });
-  }
+  // // Get all test preparations
+  // Future<void> getAllTestPreparation() async {
+  //   preparations.value = (await UserFunctions.getAllTestPreparation()) ?? [];
+  //   newPreparation.value = preparations.value.map((e) => e.name).toList();
+  //   Logger().i(newPreparation.value);
+  //   // _user.update((val) {
+  //   //   val?.testPreparations = preparations.value;
+  //   // });
+  // }
 
   // Update user information
   Future<UserInfo?> updateUserInformation(
@@ -147,7 +147,7 @@ class UserController extends GetxController {
       return null;
     }
 
-    List<String>? learnTopics = newTopics.map((e) {
+    List<String>? learnTopics = newTopics.value.map((e) {
       return topicsList[e].toString();
     }).toList();
 
@@ -156,13 +156,12 @@ class UserController extends GetxController {
       return null;
     }
     List<String>? testPreparations =
-        newPreparation.map((e) => prepareList[e].toString()).toList();
+        newPreparation.value.map((e) => prepareList[e].toString()).toList();
     if (testPreparations.isEmpty) {
       Get.snackbar("Error", "Test preparation is empty");
       return null;
     }
     if (avatar != null) {
-      print("avatar");
       await uploadAvatar(avatar!.path);
     }
     return await updateUserInformation(name, country, birthday, level,

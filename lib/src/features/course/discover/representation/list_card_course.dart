@@ -9,20 +9,17 @@ class ListViewCard extends StatelessWidget {
   const ListViewCard({
     super.key,
     required List<Course> results,
-    required ScrollController scrollController,
     required this.listLevels,
-  })  : _results = results,
-        _scrollController = scrollController;
+  }) : _results = results;
 
   final List<Course> _results;
-  final ScrollController _scrollController;
   final Map<String, String> listLevels;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
       itemCount: _results.length,
-      controller: _scrollController,
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: MyCourseCard(

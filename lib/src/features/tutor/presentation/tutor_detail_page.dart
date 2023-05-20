@@ -5,28 +5,55 @@ import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/bottom_dialog.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/tutor_info_card.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../utils/learning_topics.dart';
+import 'controller/tutor_controller.dart';
 import 'widget/detail_review_card.dart';
 
-class TutorDetailPage extends StatelessWidget {
+class TutorDetailPage extends StatefulWidget {
   final String tutorId;
   const TutorDetailPage({super.key, required this.tutorId});
 
   @override
-  Widget build(BuildContext context) {
-    DetailTutorController c = Get.find();
-    c.getTutor(tutorId);
+  State<TutorDetailPage> createState() => _TutorDetailPageState();
+}
 
+class _TutorDetailPageState extends State<TutorDetailPage> {
+  DetailTutorController c = Get.find();
+
+  @override
+  void initState() {
+    super.initState();
+    c.getTutor(widget.tutorId);
+    c.getReviews(widget.tutorId);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tutor Detail'),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+            final TutorController tutorC = Get.find();
+            tutorC.init();
+            c.dispose();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20.0),
@@ -34,8 +61,19 @@ class TutorDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Obx(() {
+                if (c.chewieController.value == null) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return Container(
+                  color: Colors.black,
+                  height: 250,
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Chewie(
+                      controller: c.chewieController.value as ChewieController),
+                );
+              }),
               const TutorInfo(),
-              const SizedBox(height: 20.0),
               Obx(() => buildReponsive(context, c))
             ],
           ),
@@ -43,7 +81,7 @@ class TutorDetailPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          c.getSchedules(tutorId);
+          c.getSchedules(widget.tutorId);
           showTutorDatePicker(context, c);
         },
         child: const Icon(Icons.calendar_today),
@@ -73,7 +111,6 @@ class TutorDetailPage extends StatelessWidget {
               suggestedCourses: c.tutorValue!.courses ?? [],
               interests: c.tutorValue!.interests?.trim() ?? "",
               teachingExperience: c.tutorValue!.experience ?? ""),
-          const MyBookingTable()
         ],
       );
     }
@@ -82,7 +119,7 @@ class TutorDetailPage extends StatelessWidget {
 
     @override
     void dispose() {
-      Get.delete(tag: tutorId);
+      Get.delete(tag: widget.tutorId);
     }
 
     return Row(
@@ -167,15 +204,10 @@ class TutorInfo extends StatelessWidget {
 
   Widget buildReponsive(BuildContext context) {
     if (MediaQuery.of(context).size.width < Breakpoint.desktop) {
-      return Column(
+      return const Column(
         children: [
-          const ReviewCard(),
+          ReviewCard(),
           gapH20,
-          SizedBox(
-            height: 300,
-            child: Image.network(
-                'https://media.istockphoto.com/id/1299533315/vector/video-player-interface-isolated-on-white-background-video-streaming-template-design-for.jpg?s=612x612&w=0&k=20&c=PLv8Wc5gpJ_6qd_mXGZgPJ0Q6XZ90PzzdPJrh831PGI='),
-          )
         ],
       );
     }

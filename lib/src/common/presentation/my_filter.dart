@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 import '../../features/tutor/presentation/tutor_home_page.dart';
 import '../constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyFilter extends StatefulWidget {
   const MyFilter({super.key});
@@ -53,7 +54,7 @@ class _MyFilterState extends State<MyFilter> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Search',
+          AppLocalizations.of(context)!.search,
           style: kTitle1Style,
         ),
         const SizedBox(
@@ -92,7 +93,7 @@ class _MyFilterState extends State<MyFilter> {
           height: 10,
         ),
         Text(
-          'Nationality',
+          AppLocalizations.of(context)!.nationality,
           style: kTitle1Style,
         ),
         gapH12,
@@ -101,6 +102,7 @@ class _MyFilterState extends State<MyFilter> {
           value: nationalityTutor,
           onChanged: (val) => setState(() {
             logger.i('You just selected $val');
+            c.filterByNationality(val);
             nationalityTutor = val;
           }),
           choiceItems: C2Choice.listFrom<String, String>(
@@ -176,7 +178,7 @@ class _MyFilterState extends State<MyFilter> {
         // ),
 
         Text(
-          'Specialities',
+          AppLocalizations.of(context)!.spe,
           style: kTitle1Style,
         ),
         gapH12,

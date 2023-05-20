@@ -15,4 +15,3 @@ class Course {
   String illustration;
   String logo;
 }
-

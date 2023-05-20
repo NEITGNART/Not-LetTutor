@@ -1,9 +1,12 @@
+import 'package:beatiful_ui/src/features/course/details/service/course_function.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../common/app_sizes.dart';
 import '../../../../common/constants.dart';
 import '../../../../common/presentation/group_button_ui.dart';
+import '../../../../route/app_route.dart';
 import '../../model/suggested_course.dart';
 
 class TutorInfoCard extends StatelessWidget {
@@ -31,14 +34,17 @@ class TutorInfoCard extends StatelessWidget {
         children: [
           Text('Languages', style: kTitle1Style),
           gapH12,
-          GroupButtonColor(
-            titles: languages,
+          SizedBox(
+            height: 50,
+            child: GroupButtonColor(
+              titles: languages,
+            ),
           ),
           const SizedBox(height: 10),
           gapH12,
           Text('Specialties', style: kTitle1Style),
           gapH12,
-          GroupButtonColor(titles: specialties),
+          SizedBox(height: 50, child: GroupButtonColor(titles: specialties)),
           if (suggestedCourses.isNotEmpty) ...{
             Text('Suggested Courses', style: kTitle1Style),
             gapH12,
@@ -58,7 +64,17 @@ class TutorInfoCard extends StatelessWidget {
                               TextSpan(
                                   // onTap: () => launch('https://flutter.dev'),q
                                   recognizer: TapGestureRecognizer()
-                                    ..onTap = () {},
+                                    ..onTap = () async {
+                                      final course =
+                                          await CourseFunction.getCourseById(
+                                              e.id!);
+                                      context.pushNamed(
+                                          AppRoute.detailCourse.name,
+                                          params: {
+                                            'courseId': e.id!,
+                                          },
+                                          extra: course);
+                                    },
                                   text: ': Link',
                                   style: kSubtitleStyle.copyWith(
                                     fontSize: 16,

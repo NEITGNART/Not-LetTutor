@@ -1,23 +1,22 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
-import 'package:jitsi_meet/jitsi_meet.dart';
+import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 
 import '../features/tutor/model/booking_info.dart';
 
 joinMeeting(BookingInfo nextClass) async {
-  Map<FeatureFlagEnum, bool> featureFlags = {
-    FeatureFlagEnum.WELCOME_PAGE_ENABLED: false,
+  Map<FeatureFlag, bool> featureFlags = {
+    FeatureFlag.isWelcomePageEnabled: false,
   };
   if (!kIsWeb) {
     // Here is an example, disabling features for each platform
     if (Platform.isAndroid) {
       // Disable ConnectionService usage on Android to avoid issues (see README)
-      featureFlags[FeatureFlagEnum.CALL_INTEGRATION_ENABLED] = false;
+      featureFlags[FeatureFlag.isCallIntegrationEnabled] = false;
     } else if (Platform.isIOS) {
       // Disable PIP on iOS as it looks weird
-      featureFlags[FeatureFlagEnum.PIP_ENABLED] = false;
+      featureFlags[FeatureFlag.isPipEnabled] = false;
     }
   }
 
@@ -28,13 +27,13 @@ joinMeeting(BookingInfo nextClass) async {
   final String roomId = jsonRes['room'];
   final String tokenMeeting = nextClass.studentMeetingLink.split('token=')[1];
 
-  final options = JitsiMeetingOptions(room: roomId)
-    ..serverURL = 'https://meet.lettutor.com'
-    ..audioOnly = true
-    ..audioMuted = true
-    ..token = tokenMeeting
-    ..videoMuted = true
-    ..featureFlags.addAll(featureFlags);
-
-  await JitsiMeet.joinMeeting(options);
+  var options = JitsiMeetingOptions(
+    serverUrl: 'https://meet.lettutor.com',
+    roomNameOrUrl: roomId,
+    token: tokenMeeting,
+    isVideoMuted: true,
+    isAudioMuted: true,
+    isAudioOnly: true,
+  )..featureFlags?.addAll(featureFlags);
+  await JitsiMeetWrapper.joinMeeting(options: options);
 }

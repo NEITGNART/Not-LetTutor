@@ -16,18 +16,20 @@ final dioProvider = Provider<Dio>((ref) {
 });
 
 class CourseFunctions {
-  static Future<List<Course>?> getListCourseWithPagination(
-    int page,
-    int size, {
+  static Future<List<Course>?> getListCourseWithPagination({
     String q = "",
     String categoryId = "",
+    String orderBy = "DESC",
+    List<String> levels = const [],
   }) async {
     var storage = const FlutterSecureStorage();
     String? token = await storage.read(key: 'accessToken');
 
-    final queryParameters = {
-      'page': '$page',
-      'size': '$size',
+    final Map<String, dynamic> queryParameters = {
+      'page': '1',
+      'size': '100',
+      // 'orderBy[]': 'ASC',
+      'order[]': 'level',
     };
 
     if (q.isNotEmpty) {
@@ -36,6 +38,14 @@ class CourseFunctions {
 
     if (categoryId.isNotEmpty) {
       queryParameters.addAll({'categoryId[]': categoryId});
+    }
+
+    if (orderBy.isNotEmpty) {
+      queryParameters.addAll({'orderBy[]': orderBy});
+    }
+
+    if (levels.isNotEmpty) {
+      queryParameters.addAll({'level[]': levels});
     }
 
     var url = Uri.https(apiUrl, 'course', queryParameters);

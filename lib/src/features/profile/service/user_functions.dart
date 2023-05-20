@@ -155,7 +155,6 @@ class UserFunctions {
     if (response.statusCode == 200) {
       return true;
     } else {
-      Logger().e(response);
       return false;
     }
   }

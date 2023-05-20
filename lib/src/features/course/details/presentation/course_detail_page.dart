@@ -2,11 +2,10 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:beatiful_ui/src/common/constants.dart';
-import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../common/presentation/circle_image.dart';
 import '../../../../route/app_route.dart';
 import '../../discover/model/course.dart';
 import '../../discover/model/course_topic.dart';
@@ -441,17 +440,10 @@ class DetailCourseCard extends StatelessWidget {
         children: [
           SizedBox(
             child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-                child: CachedNetworkImage(
-                  imageUrl: getAvatar(course.imageUrl),
-                  fit: BoxFit.cover,
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      CircularProgressIndicator(
-                          value: downloadProgress.progress),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                )),
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              child: CircleImage(url: course.imageUrl),
+            ),
           ),
           Container(
             padding: const EdgeInsets.all(20),
@@ -472,10 +464,8 @@ class DetailCourseCard extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          context
-                              .goNamed(AppRoute.courseDiscovery.name, params: {
-                            'courseId': '5e0e8b212ac750e7dc9886ac',
-                          });
+                          context.pushNamed(AppRoute.courseDiscovery.name,
+                              extra: course);
                         },
                         child: const Text('Discovery'),
                       ),

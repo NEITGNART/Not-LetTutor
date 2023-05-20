@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 
 import '../../../common/constants.dart';
 import '../../../route/app_route.dart';
@@ -184,7 +185,9 @@ class _LoginFormState extends State<LoginForm> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      c.handleSignInFacebook();
+                      c.handleSignInFacebook(
+                        context,
+                      );
                     },
                     child: SvgPicture.network(
                         'https://sandbox.app.lettutor.com/static/media/facebook-logo.3bac8064.svg',
@@ -193,27 +196,13 @@ class _LoginFormState extends State<LoginForm> {
                   const SizedBox(width: 10),
                   GestureDetector(
                     onTap: () {
-                      c.handleSignInGoogle();
+                      c.handleSignInGoogle(context);
                     },
                     child: SvgPicture.network(
                         'https://sandbox.app.lettutor.com/static/media/google-logo.5f53496e.svg',
                         width: 40),
                   ),
                   const SizedBox(width: 10),
-                  Container(
-                    width: 40,
-                    height: 40,
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                          color: const Color.fromARGB(240, 7, 149, 243),
-                          width: 1.5),
-                    ),
-                    child: SvgPicture.asset(
-                      'asset/icons/iphonex.svg',
-                    ),
-                  ),
                 ],
               ),
               const SizedBox(height: 10),

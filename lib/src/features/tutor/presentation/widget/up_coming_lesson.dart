@@ -2,11 +2,11 @@ import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../common/constants.dart';
-import '../../../../route/app_route.dart';
+import '../../../../utils/join_meeting.dart';
 import '../controller/tutor_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UpComingLesson extends StatelessWidget {
   final bool isUpComingLesson;
@@ -59,14 +59,16 @@ class UpComingLesson extends StatelessWidget {
                 ),
               ),
             ] else ...[
+              gapH32,
               Expanded(
-                child: Text('You have no upcoming lesson.',
+                child: Text(AppLocalizations.of(context)!.noUpComming,
+                    textAlign: TextAlign.center,
                     style: kTitle1Style.copyWith(color: Colors.white)),
               ),
               gapH16,
               Expanded(
                 child: Text(
-                  'Total lesson time is ${totalLessonTime.inHours} hours ${totalLessonTime.inMinutes - (totalLessonTime.inHours * 60)} minutes',
+                  '${AppLocalizations.of(context)!.totalLesson} is ${totalLessonTime.inHours} ${AppLocalizations.of(context)!.hours} ${totalLessonTime.inMinutes - (totalLessonTime.inHours * 60)} ${AppLocalizations.of(context)!.minutes}',
                   style: kBodyLabelStyle.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
@@ -124,10 +126,21 @@ class UpComingLesson extends StatelessWidget {
             }
             return ElevatedButton.icon(
               onPressed: () {
-                TutorController c = Get.find();
-                context.pushNamed(AppRoute.meeting.name,
-                    params: {'id': c.nextClass.value!.studentMeetingLink},
-                    extra: c.nextClass.value);
+                final meet = c.nextClass.value;
+                joinMeeting(meet!);
+                // final startTime = DateTime.fromMillisecondsSinceEpoch(
+                //     meet!.scheduleDetailInfo?.startPeriodTimestamp ?? 0);
+                // final difference = startTime.difference(DateTime.now());
+                // if (difference <= const Duration(seconds: 0)) {
+                //   joinMeeting(meet);
+                // } else {
+                //   context.pushNamed(AppRoute.meeting.name,
+                //       params: {'id': meet.studentMeetingLink}, extra: meet);
+                // }
+                // TutorController c = Get.find();
+                // context.pushNamed(AppRoute.meeting.name,
+                //     params: {'id': c.nextClass.value!.studentMeetingLink},
+                //     extra: c.nextClass.value);
               },
               icon: const Icon(Icons.play_arrow),
               // color white

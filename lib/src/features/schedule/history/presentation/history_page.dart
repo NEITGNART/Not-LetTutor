@@ -1,4 +1,5 @@
-import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/controller/schedule_controller.dart';
+import 'package:beatiful_ui/src/features/schedule/history/presentation/controller/history_controller.dart';
+import 'package:beatiful_ui/src/features/schedule/history/presentation/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,7 +9,6 @@ import '../../../../common/presentation/tutor_info_lesson_cart.dart';
 import '../../../../utils/date_format.dart';
 import '../../../tutor/model/tutor.dart';
 import '../domain/history.dart';
-import 'review_card.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
@@ -19,21 +19,7 @@ class HistoryPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('History'),
       ),
-      body: const SafeArea(
-          // child: SingleChildScrollView(
-          //   child: Container(
-          //     padding: const EdgeInsets.all(16.0),
-          //     child: Column(children: [
-          //       const HistoryBanner(),
-          //       gapH16,
-          //       SizedBox(
-          //         height: MediaQuery.of(context).size.height,
-          //         child: const HistoryList(),
-          //       ),
-          //     ]),
-          //   ),
-          // ),
-          child: HistoryList()),
+      body: const SafeArea(child: HistoryList()),
     );
   }
 }
@@ -43,7 +29,7 @@ class HistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ScheduleController c = Get.find();
+    HistoryController c = Get.find();
     c.init();
 
     return Obx(() {
@@ -51,17 +37,17 @@ class HistoryList extends StatelessWidget {
         return const Center(child: CircularProgressIndicator());
       }
 
-      if (c.bookedClasses.value.isEmpty) {
+      if (c.bookedClasses.isEmpty) {
         return const Text("No found");
       }
 
       return ListView.builder(
         itemCount: c.bookedClasses.length,
         itemBuilder: (context, index) {
-          int startTime = c.bookedClasses.value[index].scheduleDetailInfo!
-              .startPeriodTimestamp;
-          int endTime = c.bookedClasses.value[index].scheduleDetailInfo!
-              .endPeriodTimestamp;
+          int startTime =
+              c.bookedClasses[index].scheduleDetailInfo!.startPeriodTimestamp;
+          int endTime =
+              c.bookedClasses[index].scheduleDetailInfo!.endPeriodTimestamp;
           final String time =
               '${changeHoursFormat(startTime)} - ${changeHoursFormat(endTime)}';
 
@@ -69,22 +55,17 @@ class HistoryList extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(8),
             child: HistoryLessonCard(
-              tutor: c.bookedClasses.value[index].scheduleDetailInfo!
-                  .scheduleInfo!.tutorInfo!,
+              tutor: c.bookedClasses[index].scheduleDetailInfo!.scheduleInfo!
+                  .tutorInfo!,
               historyInfo: HistoryInfo(
                 date: changeDateFormat(startTime),
                 lessonTime: time,
                 lesson: 1,
-                requestContent: c.bookedClasses.value[index].studentRequest,
-                reviewContent: c.bookedClasses.value[index].tutorReview,
-                videoUrl: c.bookedClasses.value[index].recordUrl ??
+                requestContent: c.bookedClasses[index].studentRequest,
+                reviewContent: c.bookedClasses[index].tutorReview,
+                videoUrl: c.bookedClasses[index].recordUrl ??
                     'https://www.youtube.com/watch?v=dgFTjSw-oQU',
               ),
-              // date: changeDateFormat(startTime),
-              // lesson: index + 1,
-              // times: [time],
-              // tutor: c.upcomingClasses.value[index].scheduleDetailInfo!
-              //     .scheduleInfo?.tutorInfo,
             ),
           );
         },
