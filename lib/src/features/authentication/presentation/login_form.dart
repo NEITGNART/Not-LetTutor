@@ -120,7 +120,6 @@ class _LoginFormState extends State<LoginForm> {
         // link text
 
         Obx(() {
-          Logger().e(c.message);
           if (!c.isSuccess.value && c.message.value.isNotEmpty) {
             return Text('Login failed: ${c.message}',
                 style: const TextStyle(color: Colors.red));

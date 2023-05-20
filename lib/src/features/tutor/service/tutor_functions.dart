@@ -178,7 +178,6 @@ class TutorFunctions {
         return false;
       }
     } on Error catch (_) {
-      Logger().e(_.toString());
       return false;
     }
   }

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
-import 'package:logger/logger.dart';
 
 import '../features/tutor/model/booking_info.dart';
 
@@ -27,7 +26,6 @@ joinMeeting(BookingInfo nextClass) async {
   final jsonRes = json.decode(urlObject);
   final String roomId = jsonRes['room'];
   final String tokenMeeting = nextClass.studentMeetingLink.split('token=')[1];
-  Logger().i('roomId: $roomId');
 
   var options = JitsiMeetingOptions(
     serverUrl: 'https://meet.lettutor.com',

@@ -9,7 +9,6 @@ import 'package:beatiful_ui/src/features/tutor/presentation/tutor_detail_page.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 
 import '../../main.dart';
 import '../features/authentication/presentation/forget_password.dart';
@@ -39,7 +38,7 @@ enum AppRoute {
 final configRouter = GoRouter(
   initialLocation: '/',
   navigatorKey: Get.key,
-  debugLogDiagnostics: true,
+  // debugLogDiagnostics: true,
   routes: [
     GoRoute(
       path: '/',
@@ -134,7 +133,6 @@ final configRouter = GoRouter(
           pageBuilder: (context, state) {
             // final courseId = state.params['courseId'] ?? '';
             final Course course = state.extra as Course;
-            Logger().d(course);
             return MaterialPage<void>(
               key: state.pageKey,
               child: DetailLessonPage(

@@ -162,7 +162,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             padding: const EdgeInsets.all(0),
                             value: c.newTopics.value,
                             onChanged: (List<String> val) {
-                              Logger().e(val);
                               if (val.isEmpty) {
                                 c.newTopics.value
                                     .assignAll(topicsList.keys.toList());

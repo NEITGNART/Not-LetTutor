@@ -131,9 +131,7 @@ class ChatRepositoryImpl implements ChatRepository {
       final response = await dio.post('/continue-chat', data: chat);
       Map<String, dynamic> mp = jsonDecode(response.toString());
       return CustomChatResponse.fromJson(mp);
-    } on RemoteException catch (e) {
-      Logger().e(e.dioError);
-    }
+    } on RemoteException {}
     return null;
   }
 }

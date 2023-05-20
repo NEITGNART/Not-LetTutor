@@ -20,7 +20,6 @@ class SplashScreen extends StatelessWidget {
             c.refreshAuth(context, auth);
             return const HomePage();
           }
-          Logger().i(snapshot.data);
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }

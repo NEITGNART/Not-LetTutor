@@ -59,7 +59,6 @@ class AuthFunctions {
         };
       }
     } on Error catch (_, error) {
-      Logger().e(error.toString());
       return {'isSuccess': false, 'message': error.toString()};
     }
   }
@@ -136,7 +135,6 @@ class AuthFunctions {
         };
       }
     } on Error catch (_, error) {
-      Logger().e(error.toString());
       return {'isSuccess': false, 'message': error.toString()};
     }
   }
