@@ -1,7 +1,6 @@
 import 'package:beatiful_ui/src/route/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -9,6 +8,7 @@ import '../../../common/app_sizes.dart';
 import '../../../utils/validate_email.dart';
 import '../data/model/user.dart';
 import '../service/auth_functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -110,7 +110,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               alignment: Alignment.center,
               padding: const EdgeInsets.all(10),
               child: Text(
-                'Become a member'.tr,
+                AppLocalizations.of(context)!.becomeMember,
                 style: const TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.w500,
@@ -133,7 +133,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               controller: passwordController,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: 'Password'.tr,
+                labelText: AppLocalizations.of(context)!.password,
               ),
             ),
           ),
@@ -144,7 +144,7 @@ class _RegisterBodyState extends State<RegisterBody> {
               controller: repasswordController,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: 'Confirm password'.tr,
+                labelText: AppLocalizations.of(context)!.confirmPassword,
               ),
             ),
           ),
@@ -163,30 +163,30 @@ class _RegisterBodyState extends State<RegisterBody> {
             height: 50,
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: ElevatedButton(
-              child: Text('Sign Up'.tr),
+              child: Text(AppLocalizations.of(context)!.signUp),
               onPressed: () async {
                 if (nameController.text == '' ||
                     passwordController.text == '' ||
                     repasswordController.text == '') {
                   setState(() {
                     isSuccess = false;
-                    message = 'emptyField'.tr;
+                    message = AppLocalizations.of(context)!.emptyField;
                   });
                 } else if (!validateEmail(nameController.text)) {
                   setState(() {
                     isSuccess = false;
-                    message = 'invalidEmail'.tr;
+                    message = AppLocalizations.of(context)!.invalidEmail;
                   });
                 } else if (passwordController.text.length < 6) {
                   setState(() {
                     isSuccess = false;
-                    message = 'passwordTooShort'.tr;
+                    message = AppLocalizations.of(context)!.passwordTooShort;
                   });
                 } else if (repasswordController.text !=
                     passwordController.text) {
                   setState(() {
                     isSuccess = false;
-                    message = 'errPasswordMismatch'.tr;
+                    message = AppLocalizations.of(context)!.errPasswordMismatch;
                   });
                 } else {
                   var response = await AuthFunctions.register(
@@ -194,18 +194,13 @@ class _RegisterBodyState extends State<RegisterBody> {
                   setState(() {
                     isSuccess = response['isSuccess'] as bool;
                     message = isSuccess
-                        ? 'registerSuccess'.tr
+                        ? AppLocalizations.of(context)!.registerSuccess
                         : response['message'] as String;
                   });
                 }
               },
             ),
           ),
-          // Container(
-          //   margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-          //   alignment: Alignment.center,
-          //   child: Text('continueWith'.tr),
-          // ),
           Container(
             margin: const EdgeInsets.fromLTRB(0, 30, 0, 10),
             alignment: Alignment.center,
@@ -306,10 +301,10 @@ class _RegisterBodyState extends State<RegisterBody> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Login question'.tr),
+              Text(AppLocalizations.of(context)!.loginQuestion),
               TextButton(
                 child: Text(
-                  'Sign In'.tr,
+                  AppLocalizations.of(context)!.login,
                   style: const TextStyle(fontSize: 18),
                 ),
                 onPressed: () {

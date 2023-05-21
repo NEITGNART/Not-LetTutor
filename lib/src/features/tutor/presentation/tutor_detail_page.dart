@@ -12,6 +12,7 @@ import 'package:get/get.dart';
 import '../../../utils/learning_topics.dart';
 import 'controller/tutor_controller.dart';
 import 'widget/detail_review_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TutorDetailPage extends StatefulWidget {
   final String tutorId;
@@ -40,7 +41,7 @@ class _TutorDetailPageState extends State<TutorDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tutor Detail'),
+        title: Text(AppLocalizations.of(context)!.tutorDetail),
         leading: IconButton(
           onPressed: () {
             Get.back();

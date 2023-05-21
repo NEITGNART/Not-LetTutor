@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import '../../../common/presentation/pagination.dart';
 import '../model/tutor_review.dart';
 import 'controller/tutor_detail_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReviewPage extends StatefulWidget {
   final String tutorId;
@@ -25,7 +26,7 @@ class _ReviewPageState extends State<ReviewPage> {
     DetailTutorController c = Get.find();
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text('Review')),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.review)),
         body: Column(
           children: [
             Expanded(

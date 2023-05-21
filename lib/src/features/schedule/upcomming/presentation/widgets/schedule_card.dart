@@ -11,6 +11,7 @@ import '../../../../../common/presentation/tutor_info_lesson_cart.dart';
 import '../../../../../route/app_route.dart';
 import '../../../../tutor/model/tutor.dart';
 import '../controller/schedule_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScheduleLessonCard extends StatelessWidget {
   final String date;
@@ -102,11 +103,13 @@ class ScheduleLessonCard extends StatelessWidget {
                         final res = await c.cancelClass(meet!.id);
                         c.init();
                         if (res) {
-                          Get.snackbar('Success', 'Cancel class success');
+                          Get.snackbar(
+                              AppLocalizations.of(context)!.bookSuccess,
+                              AppLocalizations.of(context)!.cancelClassSuccess);
                         }
                       } else {
-                        Get.snackbar('Error',
-                            'You can only cancel class 2 hours before class start');
+                        Get.snackbar(AppLocalizations.of(context)!.error,
+                            AppLocalizations.of(context)!.cancelClassError);
                       }
                     },
                     cb: () {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'book_tab.dart';
 import 'course_tab.dart';
-import 'interactive_tab.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -15,7 +15,7 @@ class _DiscoverPageState extends State<DiscoverPage>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    TabController tabController = TabController(length: 3, vsync: this);
+    TabController tabController = TabController(length: 2, vsync: this);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -41,10 +41,9 @@ class _DiscoverPageState extends State<DiscoverPage>
                         // indicator: const CircleTabIndicator(
                         //   color: Color.fromARGB(255, 16, 136, 235),
                         // ),
-                        tabs: const [
-                          Tab(text: 'Course'),
-                          Tab(text: 'E-book'),
-                          Tab(text: 'Interactive Ebook'),
+                        tabs: [
+                          Tab(text: AppLocalizations.of(context)!.course),
+                          const Tab(text: 'E-book'),
                         ],
                       ),
                     ),
@@ -59,7 +58,6 @@ class _DiscoverPageState extends State<DiscoverPage>
                     children: const [
                       CourseTab(),
                       BookTab(),
-                      InteractiveTab(),
                     ],
                   ),
                 ),

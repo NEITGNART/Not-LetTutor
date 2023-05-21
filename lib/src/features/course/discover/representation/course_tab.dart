@@ -10,6 +10,7 @@ import '../model/course.dart';
 import '../model/course_category.dart';
 import 'grid_card_course.dart';
 import 'list_card_course.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CourseTab extends StatefulWidget {
   const CourseTab({Key? key}) : super(key: key);
@@ -85,7 +86,7 @@ class _CourseTabState extends State<CourseTab> {
         });
       }
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      Get.snackbar(AppLocalizations.of(context)!.error, e.toString());
     }
   }
 
@@ -375,7 +376,7 @@ class _CourseTabState extends State<CourseTab> {
                     Radius.circular(10),
                   ),
                 ),
-                hintText: 'Search Course'),
+                hintText: AppLocalizations.of(context)!.searchCourse),
           ),
         ),
         gapH12,
@@ -391,7 +392,7 @@ class _CourseTabState extends State<CourseTab> {
                 child: DiscoveryChip(
                     isSelect: currentLevel.isNotEmpty,
                     label:
-                        'Select level ${currentLevel.isNotEmpty ? '+${currentLevel.length}' : ''}'),
+                        '${AppLocalizations.of(context)!.selectLevel} ${currentLevel.isNotEmpty ? '+${currentLevel.length}' : ''}'),
               ),
               gapW12,
               GestureDetector(
@@ -400,7 +401,8 @@ class _CourseTabState extends State<CourseTab> {
                 },
                 child: DiscoveryChip(
                     isSelect: category.isNotEmpty,
-                    label: currentCategory?.title ?? 'Categories'),
+                    label: currentCategory?.title ??
+                        AppLocalizations.of(context)!.selectCate),
               ),
               gapW12,
               GestureDetector(
@@ -409,7 +411,8 @@ class _CourseTabState extends State<CourseTab> {
                 },
                 child: DiscoveryChip(
                     isSelect: sortLevel.isNotEmpty,
-                    label: currentSortLevel?.title ?? 'Sort by Level'),
+                    label: currentSortLevel?.title ??
+                        AppLocalizations.of(context)!.selectSort),
               ),
             ],
           ),
@@ -456,7 +459,7 @@ class _CourseTabState extends State<CourseTab> {
                 alignment: Alignment.center,
                 child: Column(
                   children: [
-                    Text('Categories',
+                    Text(AppLocalizations.of(context)!.selectCate,
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -497,7 +500,7 @@ class _CourseTabState extends State<CourseTab> {
               alignment: Alignment.center,
               child: Column(
                 children: [
-                  Text('Select level',
+                  Text(AppLocalizations.of(context)!.selectLevel,
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

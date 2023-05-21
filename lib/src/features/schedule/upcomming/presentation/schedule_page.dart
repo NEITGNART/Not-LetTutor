@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/presentation/pagination.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SchedulePage extends StatelessWidget {
   const SchedulePage({super.key});
@@ -42,7 +43,8 @@ class _ScheduleListState extends State<ScheduleList> {
             }
 
             if (widget.c.upcomingClasses.isEmpty) {
-              return const Center(child: Text('No booked classes'));
+              return Center(
+                  child: Text(AppLocalizations.of(context)!.noClassBook));
             }
 
             return ListView.builder(

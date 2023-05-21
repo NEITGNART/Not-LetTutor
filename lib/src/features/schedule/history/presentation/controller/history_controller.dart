@@ -6,7 +6,7 @@ import '../../../../tutor/model/booking_info.dart';
 class HistoryController extends GetxController {
   var isLoading = true.obs;
   var currentPage = 1.obs; // get
-  var perPage = 2.obs;
+  var perPage = 12.obs;
   var totalPage = 0.obs;
 
   RxList<BookingInfo> bookedClasses = <BookingInfo>[].obs;
@@ -33,7 +33,7 @@ class HistoryController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       Get.snackbar(
-        'Error',
+        'Error'.tr,
         e.toString(),
         // bottom
         snackPosition: SnackPosition.BOTTOM,

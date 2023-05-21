@@ -9,7 +9,6 @@ import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:logger/logger.dart';
 
 import '../../../common/constants.dart';
 import '../../../common/presentation/my_date_picker.dart';
@@ -17,6 +16,7 @@ import '../../../common/presentation/sidebar/presentation/drop_down_button.dart'
 import '../../../utils/countries_list.dart';
 import '../../authentication/presentation/controller/login_controller.dart';
 import 'widget/avatar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile Page'),
+        title: Text(AppLocalizations.of(context)!.profilePage),
       ),
       body: SingleChildScrollView(
         child: Obx(
@@ -88,17 +88,20 @@ class _ProfilePageState extends State<ProfilePage> {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Name', style: kHeadlineLabelStyle),
+                        Text(AppLocalizations.of(context)!.nameInfo,
+                            style: kHeadlineLabelStyle),
                         gapH4,
                         InputFieldWidget(
                             controller: c.nameController,
                             type: TextInputType.name),
                         gapH12,
-                        Text('Birdday', style: kHeadlineLabelStyle),
+                        Text(AppLocalizations.of(context)!.birthdayInfo,
+                            style: kHeadlineLabelStyle),
                         gapH4,
                         const MyDatePicker(),
                         gapH12,
-                        Text('Phone number', style: kHeadlineLabelStyle),
+                        Text(AppLocalizations.of(context)!.phone,
+                            style: kHeadlineLabelStyle),
                         gapH4,
                         InputFieldWidget(
                             controller: c.phoneController,
@@ -125,7 +128,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ],
                               ),
                         gapH12,
-                        Text('Country', style: kHeadlineLabelStyle),
+                        Text(AppLocalizations.of(context)!.country,
+                            style: kHeadlineLabelStyle),
                         gapH4,
                         CustomDropdownButton2(
                           hint: 'Please select your country',
@@ -137,7 +141,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           value: c.user?.country,
                         ),
                         gapH12,
-                        Text('Level', style: kHeadlineLabelStyle),
+                        Text(AppLocalizations.of(context)!.levelInfo,
+                            style: kHeadlineLabelStyle),
                         gapH4,
                         CustomDropdownButton2(
                           hint: 'Please select your level',
@@ -149,10 +154,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           value: c.user?.level,
                         ),
                         gapH12,
-                        Text('Want to learn', style: kHeadlineLabelStyle),
+                        Text(AppLocalizations.of(context)!.wantToLearn,
+                            style: kHeadlineLabelStyle),
                         gapH4,
                         Text(
-                          'Subject',
+                          AppLocalizations.of(context)!.subject,
                           style: kHeadlineLabelStyle.copyWith(
                               color: Colors.grey, fontSize: 14),
                         ),
@@ -193,7 +199,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           )
                         },
                         Text(
-                          'Test preparation',
+                          AppLocalizations.of(context)!.testPre,
                           style: kHeadlineLabelStyle.copyWith(
                               color: Colors.grey, fontSize: 14),
                         ),
@@ -205,7 +211,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             onChanged: (List<String> val) {
                               if (val.isEmpty) {
                                 Get.snackbar(
-                                    'Error', 'Please select at least 1',
+                                    AppLocalizations.of(context)!.error,
+                                    'Please select at least 1',
                                     backgroundColor: Colors.red,
                                     colorText: Colors.white);
                                 c.newPreparation.value
@@ -236,13 +243,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         gapH4,
                         TextFieldWidget(
                           // label: lang.schedule,
-                          hintText: 'Write your schedule here',
+                          hintText: AppLocalizations.of(context)!.writeSchedule,
                           maxLines: 5,
                           text: c.schedule.value,
                           onChanged: (value) {
                             c.schedule.value = value;
                           },
-                          label: 'Schedule',
+                          label: AppLocalizations.of(context)!.schedule,
                         ),
                         gapH12,
                         Padding(
@@ -252,7 +259,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () async {
-                                    final userInfo = await c.updateUserInfo();
+                                    final userInfo =
+                                        await c.updateUserInfo(context);
                                     if (userInfo != null) {
                                       loginC.updateUser(userInfo.avatar,
                                           userInfo.name, userInfo.email);
@@ -264,8 +272,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                   ),
-                                  child: const Text('Save',
-                                      style: TextStyle(fontSize: 16)),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.save,
+                                      style: const TextStyle(fontSize: 16)),
                                 ),
                               ),
                             ],

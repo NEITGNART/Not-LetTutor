@@ -6,12 +6,12 @@ import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 
 import '../../../common/app_sizes.dart';
 import '../models/chat.dart';
 import '../models/custom_chat_request.dart';
 import '../models/custom_chat_response.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AICHATBOT extends StatefulWidget {
   const AICHATBOT({super.key});
@@ -62,7 +62,7 @@ class ChatWidget extends StatelessWidget {
             child: SizedBox(
               child: text.isNotEmpty
                   ? Text(text.replaceFirst('\n\n', ''))
-                  : Text('waiting'.tr),
+                  : Text(AppLocalizations.of(context)!.waiting),
             ),
           ),
           if (text.isNotEmpty) ...{
@@ -196,7 +196,7 @@ class _AICHATBOTState extends State<AICHATBOT> {
               backgroundImage: NetworkImage(getAvatar(null)),
             ),
             const SizedBox(width: 10),
-            Text('Tutor chat bot'.tr),
+            Text(AppLocalizations.of(context)!.tutorChatBot),
           ],
         ),
       ),
@@ -363,7 +363,7 @@ class _AICHATBOTState extends State<AICHATBOT> {
                             SnackBar(
                               duration: const Duration(milliseconds: 500),
                               content: Text(
-                                'longMessage'.tr,
+                                AppLocalizations.of(context)!.longMessage,
                                 style: const TextStyle(color: Colors.white),
                               ),
                               backgroundColor: Colors.red,

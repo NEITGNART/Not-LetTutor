@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../features/tutor/model/tutor.dart';
 import '../app_sizes.dart';
 import '../constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TutorInfoLessonCard extends StatelessWidget {
   final Tutor tutor;
@@ -69,7 +70,7 @@ class TutorInfoLessonCard extends StatelessWidget {
                   ),
                   onPressed: () {},
                   icon: const Icon(Icons.chat, color: Colors.blue),
-                  label: Text('Direct Message',
+                  label: Text(AppLocalizations.of(context)!.directMessage,
                       style:
                           kSearchPlaceholderStyle.copyWith(color: Colors.blue)))
             ],

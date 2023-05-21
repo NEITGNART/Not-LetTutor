@@ -10,6 +10,8 @@ import '../../model/tutor_review.dart';
 import '../../service/schedule_functions.dart';
 import '../../service/tutor_functions.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class DetailTutorController extends GetxController {
   Rx<Tutor?> tutor = Rx<Tutor?>(null);
 
@@ -36,19 +38,20 @@ class DetailTutorController extends GetxController {
   RxList<TutorReview> reviews = RxList<TutorReview>([]);
   List<TutorReview> get reviewsValue => reviews;
 
-  Future<void> reportTutor(String id, String content) async {
+  Future<void> reportTutor(String id, String content, context) async {
     try {
       var ok = await TutorFunctions.reportTutor(id, content);
       if (ok) {
         Get.snackbar(
-          'Success', 'Report success',
+          AppLocalizations.of(context)!.error,
+          AppLocalizations.of(context)!.reportSuccess,
           // green color
           backgroundColor: Colors.blue[100],
         );
       } else {
         Get.snackbar(
-          'Error',
-          'Report failed',
+          AppLocalizations.of(context)!.error,
+          AppLocalizations.of(context)!.reportFail,
           backgroundColor: Colors.red[100],
         );
       }

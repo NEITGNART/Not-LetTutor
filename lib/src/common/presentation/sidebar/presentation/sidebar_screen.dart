@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../route/app_route.dart';
 import '../../../constants.dart';
 import '../../../../features/course/details/temp/models/sidebar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SideBarScreen extends StatefulWidget {
   const SideBarScreen({
@@ -123,7 +124,8 @@ class _SideBarScreenState extends State<SideBarScreen> {
                     children: [
                       const Icon(Icons.history),
                       gapW12,
-                      Text('History', style: kCalloutLabelStyle),
+                      Text(AppLocalizations.of(context)!.history,
+                          style: kCalloutLabelStyle),
                       const Spacer(),
                       icon
                     ],
@@ -142,7 +144,8 @@ class _SideBarScreenState extends State<SideBarScreen> {
                     children: [
                       const Icon(Icons.language),
                       gapW12,
-                      Text('Language', style: kCalloutLabelStyle),
+                      Text(AppLocalizations.of(context)!.language,
+                          style: kCalloutLabelStyle),
                       const Spacer(),
                       icon
                     ],
@@ -150,22 +153,6 @@ class _SideBarScreenState extends State<SideBarScreen> {
                 ),
               ),
               gapH12,
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  decoration: boxdecoration,
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.settings_suggest),
-                      gapW12,
-                      Text('Advanced settings', style: kCalloutLabelStyle),
-                      const Spacer(),
-                      icon
-                    ],
-                  ),
-                ),
-              ),
               // gapH12,
               // GestureDetector(
               //   onTap: () {},
@@ -197,7 +184,8 @@ class _SideBarScreenState extends State<SideBarScreen> {
                     children: [
                       const Icon(Icons.people),
                       gapW12,
-                      Text('Our website', style: kCalloutLabelStyle),
+                      Text(AppLocalizations.of(context)!.ourWebsite,
+                          style: kCalloutLabelStyle),
                       const Spacer(),
                       icon
                     ],
@@ -214,9 +202,10 @@ class _SideBarScreenState extends State<SideBarScreen> {
                   padding: const EdgeInsets.all(12),
                   child: Row(
                     children: [
-                      const Icon(Icons.people),
+                      const Icon(Icons.web),
                       gapW12,
-                      Text('Web version', style: kCalloutLabelStyle),
+                      Text(AppLocalizations.of(context)!.webVersion,
+                          style: kCalloutLabelStyle),
                       const Spacer(),
                       icon
                     ],
@@ -235,7 +224,8 @@ class _SideBarScreenState extends State<SideBarScreen> {
                     children: [
                       const Icon(Icons.app_registration),
                       gapW12,
-                      Text('Register to teacher', style: kCalloutLabelStyle),
+                      Text(AppLocalizations.of(context)!.registerTeacher,
+                          style: kCalloutLabelStyle),
                       const Spacer(),
                       icon
                     ],
@@ -259,7 +249,8 @@ class _SideBarScreenState extends State<SideBarScreen> {
                     children: [
                       const Icon(Icons.exit_to_app),
                       gapW12,
-                      Text('Log Out', style: kCalloutLabelStyle),
+                      Text(AppLocalizations.of(context)!.logout,
+                          style: kCalloutLabelStyle),
                     ],
                   ),
                 ),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../common/app_sizes.dart';
 import '../../tutor/presentation/tutor_home_page.dart';
 import 'chat_gpt.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatPage extends StatelessWidget {
   const ChatPage({super.key});
@@ -20,7 +21,7 @@ class ChatPage extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'Message',
+                    AppLocalizations.of(context)!.message,
                     style: kTitle1Style.copyWith(fontSize: 17),
                   )
                 ],
@@ -83,11 +84,11 @@ class AIChatCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Tutor AI chatbot',
+                      AppLocalizations.of(context)!.tutorChatBot,
                       style: kHeadlineLabelStyle,
                     ),
                     Text(
-                      handleOverflow('Bot: Hi, I am AI chatbot.'),
+                      handleOverflow(AppLocalizations.of(context)!.botContent),
                       style: kSubtitleStyle.copyWith(),
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../model/user_info.dart';
 import '../../service/user_functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UserController extends GetxController {
   // Get the user information
@@ -99,7 +100,8 @@ class UserController extends GetxController {
       String level,
       String studySchedule,
       List<String>? learnTopics,
-      List<String>? testPreparations) async {
+      List<String>? testPreparations,
+      context) async {
     final res = await UserFunctions.updateUserInformation(
       name,
       country,
@@ -109,7 +111,8 @@ class UserController extends GetxController {
       learnTopics,
       testPreparations,
     );
-    Get.snackbar("Success", "Update user information successfully");
+    Get.snackbar(AppLocalizations.of(context)!.success,
+        AppLocalizations.of(context)!.updateSuccess);
     return res;
   }
 
@@ -118,32 +121,37 @@ class UserController extends GetxController {
     return await UserFunctions.uploadAvatar(path);
   }
 
-  Future<UserInfo?> updateUserInfo() async {
+  Future<UserInfo?> updateUserInfo(BuildContext context) async {
     String name = nameController.text;
     String birthday = dateController.text;
     String phone = phoneController.text;
     String country = _user.value?.country ?? "";
     String level = _user.value?.level ?? "";
     if (name.isEmpty) {
-      Get.snackbar("Error", "Name is empty");
+      Get.snackbar(AppLocalizations.of(context)!.error,
+          AppLocalizations.of(context)!.emptyName);
       return null;
     }
     if (birthday.isEmpty) {
-      Get.snackbar("Error", "Birthday is empty");
+      Get.snackbar(AppLocalizations.of(context)!.error,
+          AppLocalizations.of(context)!.emptyBirthday);
       return null;
     }
     if (phone.isEmpty) {
-      Get.snackbar("Error", "Phone is empty");
+      Get.snackbar(AppLocalizations.of(context)!.error,
+          AppLocalizations.of(context)!.emptyPhone);
       return null;
     }
 
     if (country.isEmpty) {
-      Get.snackbar("Error", "Country is empty");
+      Get.snackbar(AppLocalizations.of(context)!.error,
+          AppLocalizations.of(context)!.emptyCountry);
       return null;
     }
 
     if (level.isEmpty) {
-      Get.snackbar("Error", "Level is empty");
+      Get.snackbar(AppLocalizations.of(context)!.error,
+          AppLocalizations.of(context)!.emptyLevel);
       return null;
     }
 
@@ -152,19 +160,21 @@ class UserController extends GetxController {
     }).toList();
 
     if (learnTopics.isEmpty) {
-      Get.snackbar("Error", "Learning topic is empty");
+      Get.snackbar(AppLocalizations.of(context)!.error,
+          AppLocalizations.of(context)!.emptyTopic);
       return null;
     }
     List<String>? testPreparations =
         newPreparation.value.map((e) => prepareList[e].toString()).toList();
     if (testPreparations.isEmpty) {
-      Get.snackbar("Error", "Test preparation is empty");
+      Get.snackbar(AppLocalizations.of(context)!.error,
+          AppLocalizations.of(context)!.testEmpty);
       return null;
     }
     if (avatar != null) {
       await uploadAvatar(avatar!.path);
     }
     return await updateUserInformation(name, country, birthday, level,
-        schedule.value, learnTopics, testPreparations);
+        schedule.value, learnTopics, testPreparations, context);
   }
 }

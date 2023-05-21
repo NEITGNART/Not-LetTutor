@@ -7,6 +7,7 @@ import '../../../../utils/generate_ratio.dart';
 import '../../model/schedule.dart';
 import '../../model/schedule_detail.dart';
 import '../../service/schedule_functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future showTutorTimePicker(BuildContext context, Schedule schedules) {
   List<ScheduleDetails> scheduleDetails = schedules.scheduleDetails;
@@ -34,13 +35,13 @@ Future showTutorTimePicker(BuildContext context, Schedule schedules) {
                     margin: const EdgeInsets.only(bottom: 10),
                     width: double.infinity,
                     decoration: BoxDecoration(color: Colors.grey[300]),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          'All time',
-                          style: TextStyle(
+                          AppLocalizations.of(context)!.allTime,
+                          style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -89,7 +90,9 @@ Future showTutorTimePicker(BuildContext context, Schedule schedules) {
                                   );
                                 }
                               } catch (e) {
-                                Get.snackbar("Error", e.toString(),
+                                Get.snackbar(
+                                    AppLocalizations.of(context)!.error,
+                                    e.toString(),
                                     backgroundColor: Colors.red);
                                 // showTopSnackBar(
                                 //   context,
@@ -103,8 +106,8 @@ Future showTutorTimePicker(BuildContext context, Schedule schedules) {
                               }
                             } else {
                               Get.snackbar(
-                                'Error'.tr,
-                                'This time not avaiable due booked'.tr,
+                                AppLocalizations.of(context)!.error,
+                                AppLocalizations.of(context)!.errorBook,
                                 backgroundColor: Colors.red,
                               );
                             }
@@ -182,12 +185,12 @@ Future showTutorDatePicker(BuildContext context, DetailTutorController c) {
                     margin: const EdgeInsets.only(bottom: 10),
                     width: double.infinity,
                     decoration: BoxDecoration(color: Colors.grey[300]),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text("Schedule",
-                            style: TextStyle(
+                        Text(AppLocalizations.of(context)!.schedule,
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                       ],
                     )),

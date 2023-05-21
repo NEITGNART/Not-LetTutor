@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../common/app_sizes.dart';
 import '../../../../../common/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RequestLessonCard extends StatelessWidget {
   const RequestLessonCard(
@@ -53,7 +55,7 @@ class RequestLessonCard extends StatelessWidget {
                           },
                           icon: const Icon(Icons.cancel, color: Colors.red),
                           label: Text(
-                            'Cancel',
+                            AppLocalizations.of(context)!.cancel,
                             style: kSearchPlaceholderStyle.copyWith(
                                 color: Colors.red),
                           ),
@@ -115,14 +117,15 @@ class RequestLessonCard extends StatelessWidget {
                         child: ExpansionTile(
                           collapsedBackgroundColor: historyBackground,
                           initiallyExpanded: isExpanded,
-                          title: const Text('Request for lesson'),
+                          title:
+                              Text(AppLocalizations.of(context)!.requestLesson),
                           // disable border
                           tilePadding: const EdgeInsets.all(0),
                           // change color of top and bottom and expand icon
                           trailing: TextButton(
                             onPressed: () {},
                             child: Text(
-                              'Edit request',
+                              AppLocalizations.of(context)!.editRequest,
                               style: kSearchPlaceholderStyle.copyWith(
                                   color: Colors.blue),
                             ),
@@ -142,7 +145,8 @@ class RequestLessonCard extends StatelessWidget {
                                     width: 0.5,
                                   )),
                               child: Text(
-                                  'Currently there are no requests for this class. Please write down any requests for the teacher.',
+                                  AppLocalizations.of(context)!
+                                      .requestLessonContent,
                                   style: kSearchPlaceholderStyle.copyWith(
                                       fontSize: 15)),
                             ),
@@ -167,7 +171,7 @@ class RequestLessonCard extends StatelessWidget {
                   backgroundColor: scheduleReviewBackground,
                 ),
                 child: Text(
-                  'Go to meeting',
+                  AppLocalizations.of(context)!.goMeeting,
                   style: kSearchPlaceholderStyle.copyWith(
                     color: Colors.blue,
                     //bold

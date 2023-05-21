@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:logger/logger.dart';
 
 import '../../../common/constants.dart';
 import '../data/model/http_response.dart';
@@ -66,11 +65,15 @@ class AuthFunctions {
   static Future<ForgotPasswordResponse?> forgetPassword(String email) async {
     try {
       var url = Uri.https(apiUrl, 'user/forgotPassword');
-      var response = await http.post(url,
-          headers: {'Content-Type': 'application/json'},
-          body: json.encode({
+      var response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(
+          {
             'email': email,
-          }));
+          },
+        ),
+      );
       return ForgotPasswordResponse.fromJson(jsonDecode(response.body));
     } on Error catch (_) {
       return null;

@@ -9,6 +9,7 @@ import '../../../../common/constants.dart';
 import '../../../../route/app_route.dart';
 import '../../service/tutor_functions.dart';
 import '../tutor_home_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReportTeacherDialog extends StatefulWidget {
   const ReportTeacherDialog({super.key});
@@ -41,46 +42,44 @@ class _ReportTeacherDialogState extends State<ReportTeacherDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Help us understand what\'s happening',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context)!.helpUs,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.0,
               ),
             ),
             const SizedBox(height: 16.0),
             CheckboxListTile(
-              title: const Text('This tutor is annoying me'),
+              title: Text(AppLocalizations.of(context)!.annoyTitle),
               value: isAnnoying,
               onChanged: (bool? value) {
                 setState(() {
                   isAnnoying = value ?? false;
                   if (isAnnoying) {
                     additionalDetailsController.text +=
-                        'This tutor is annoying me. ';
+                        AppLocalizations.of(context)!.annoyContent;
                   } else {
                     additionalDetailsController.text =
-                        additionalDetailsController.text
-                            .replaceAll('This tutor is annoying me. ', '');
+                        additionalDetailsController.text.replaceAll(
+                            AppLocalizations.of(context)!.annoyContent, '');
                   }
                 });
               },
             ),
             CheckboxListTile(
-              title: const Text(
-                  'This profile is pretending to be someone or is fake'),
+              title: Text(AppLocalizations.of(context)!.fakeTitle),
               value: isFakeProfile,
               onChanged: (bool? value) {
                 setState(() {
                   isFakeProfile = value ?? false;
                   if (isFakeProfile) {
                     additionalDetailsController.text +=
-                        'This profile is pretending to be someone or is fake. ';
+                        AppLocalizations.of(context)!.fakeContent;
                   } else {
                     additionalDetailsController.text =
                         additionalDetailsController.text.replaceAll(
-                            'This profile is pretending to be someone or is fake. ',
-                            '');
+                            AppLocalizations.of(context)!.fakeContent, '');
                   }
                 });
               },
@@ -105,8 +104,8 @@ class _ReportTeacherDialogState extends State<ReportTeacherDialog> {
             TextField(
               controller: additionalDetailsController,
               maxLines: 2,
-              decoration: const InputDecoration(
-                hintText: 'Please let us know details about your problem',
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context)!.problems,
               ),
             ),
             const SizedBox(height: 16.0),
@@ -117,7 +116,7 @@ class _ReportTeacherDialogState extends State<ReportTeacherDialog> {
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Cancel'),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -127,19 +126,19 @@ class _ReportTeacherDialogState extends State<ReportTeacherDialog> {
                     }
                     if (additionalDetailsController.text.isEmpty) {
                       Get.snackbar(
-                        'Error',
-                        'Please let us know details about your problem',
+                        AppLocalizations.of(context)!.error,
+                        AppLocalizations.of(context)!.problems,
                         backgroundColor: Colors.red[100],
                         snackPosition: SnackPosition.BOTTOM,
                       );
                       return;
                     }
-                    c.reportTutor(
-                        c.tutorValue!.userId, additionalDetailsController.text);
+                    c.reportTutor(c.tutorValue!.userId,
+                        additionalDetailsController.text, context);
                     // );
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Submit'),
+                  child: Text(AppLocalizations.of(context)!.submit),
                 ),
               ],
             ),
@@ -247,7 +246,8 @@ class ReviewCard extends StatelessWidget {
                               style: kSearchPlaceholderStyle,
                             ),
                           } else ...{
-                            Text('No rating', style: kSearchPlaceholderStyle),
+                            Text(AppLocalizations.of(context)!.noRating,
+                                style: kSearchPlaceholderStyle),
                           }
                         ],
                       ),
@@ -298,7 +298,7 @@ class ReviewCard extends StatelessWidget {
                                   )
                                 : const Icon(Icons.favorite_outline),
                             Text(
-                              'Favorite',
+                              AppLocalizations.of(context)!.favorite,
                               style: TextStyle(
                                   color: c.isFavorite.value
                                       ? Colors.red.shade400
@@ -323,10 +323,10 @@ class ReviewCard extends StatelessWidget {
                       // not display shadow and border
                       elevation: MaterialStateProperty.all(0.0),
                     ),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Icon(Icons.report_outlined),
-                        Text('Report'),
+                        const Icon(Icons.report_outlined),
+                        Text(AppLocalizations.of(context)!.report),
                       ],
                     ),
                   ),
@@ -342,10 +342,10 @@ class ReviewCard extends StatelessWidget {
                       // not display shadow and border
                       elevation: MaterialStateProperty.all(0.0),
                     ),
-                    child: const Column(
+                    child: Column(
                       children: [
-                        Icon(Icons.star_border_sharp),
-                        Text('Review'),
+                        const Icon(Icons.star_border_sharp),
+                        Text(AppLocalizations.of(context)!.review),
                       ],
                     ),
                   ),

@@ -86,7 +86,7 @@ class _MyFilterState extends State<MyFilter> {
                 width: 2,
               ),
             ),
-            hintText: 'Enter name, country',
+            hintText: AppLocalizations.of(context)!.searchCourse,
           ),
         ),
         const SizedBox(
@@ -261,7 +261,7 @@ class _MyFilterState extends State<MyFilter> {
               });
             },
             child: Text(
-              'Reset Filters',
+              AppLocalizations.of(context)!.resetFilter,
               style: kCalloutLabelStyle.copyWith(color: Colors.blue),
             )),
       ],

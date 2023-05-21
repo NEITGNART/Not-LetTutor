@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
 
 import '../../../common/constants.dart';
 import '../../../route/app_route.dart';
 import '../data/model/user.dart';
 import 'controller/login_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -49,7 +49,7 @@ class _LoginFormState extends State<LoginForm> {
               : CrossAxisAlignment.center,
           children: [
             Text(
-              'Say hello to your English tutors',
+              'Say hello to your English tutors'.tr,
               style: kTitle1Style.copyWith(color: Colors.blue, fontSize: 30),
             ),
             gapH12,
@@ -84,12 +84,12 @@ class _LoginFormState extends State<LoginForm> {
                   width: 2,
                 ),
               ),
-              hintText: 'Enter name, country',
+              hintText: 'Username',
             )
             // radius: 10,
             ),
         const SizedBox(height: 10),
-        Text('PASSWORD', style: kSubtitleStyle),
+        Text(AppLocalizations.of(context)!.password, style: kSubtitleStyle),
         const SizedBox(height: 10),
         TextField(
             controller: passwordController,
@@ -113,7 +113,7 @@ class _LoginFormState extends State<LoginForm> {
                   width: 2,
                 ),
               ),
-              hintText: 'Enter name, country',
+              hintText: AppLocalizations.of(context)!.password,
             )),
         const SizedBox(height: 10),
         // Text('Forgot Password?', style: kSubtitleStyle),
@@ -129,7 +129,7 @@ class _LoginFormState extends State<LoginForm> {
 
         TextButton(
             child: Text(
-              'Forgot Password?',
+              AppLocalizations.of(context)!.forgotPassword,
               style: kSubtitleStyle.copyWith(
                 color: Colors.blue,
               ),
@@ -163,7 +163,7 @@ class _LoginFormState extends State<LoginForm> {
                   if (c.isLoading.value) {
                     return const CircularProgressIndicator(color: Colors.white);
                   }
-                  return Text('LOG IN',
+                  return Text(AppLocalizations.of(context)!.login,
                       style: kTitle1Style.copyWith(
                         color: Colors.white,
                         fontSize: 20,
@@ -178,7 +178,7 @@ class _LoginFormState extends State<LoginForm> {
         Center(
           child: Column(
             children: [
-              const Text('Or continue with'),
+              Text(AppLocalizations.of(context)!.orContinueWith),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -208,17 +208,17 @@ class _LoginFormState extends State<LoginForm> {
               const SizedBox(height: 10),
               GestureDetector(
                 onTap: () {
-                  context.goNamed(AppRoute.signUp.name);
+                  context.pushNamed(AppRoute.signUp.name);
                 },
                 child: RichText(
                   text: TextSpan(children: [
                     TextSpan(
-                        text: 'Not a member yet?',
+                        text: AppLocalizations.of(context)!.notMember,
                         style: kSubtitleStyle.copyWith(
                           color: Colors.black,
                         )),
                     TextSpan(
-                        text: ' Sign up',
+                        text: ' ${AppLocalizations.of(context)!.signUp}',
                         style: kSubtitleStyle.copyWith(
                             color: const Color.fromARGB(255, 2, 138, 249)))
                   ]),

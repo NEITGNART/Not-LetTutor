@@ -9,6 +9,7 @@ import '../../../../common/presentation/tutor_info_lesson_cart.dart';
 import '../../../../utils/date_format.dart';
 import '../../../tutor/model/tutor.dart';
 import '../domain/history.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
@@ -17,7 +18,7 @@ class HistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('History'),
+        title: Text(AppLocalizations.of(context)!.history),
       ),
       body: const SafeArea(child: HistoryList()),
     );
@@ -38,7 +39,7 @@ class HistoryList extends StatelessWidget {
       }
 
       if (c.bookedClasses.isEmpty) {
-        return const Text("No found");
+        return Center(child: Text(AppLocalizations.of(context)!.historyEmpty));
       }
 
       return ListView.builder(
@@ -89,46 +90,47 @@ class _HistoryLessonState extends State<HistoryLessonCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(16.0),
-        decoration: const BoxDecoration(color: scheduleBackgroundColor),
-        child: MediaQuery.of(context).size.width >= 1000
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: DateLesson(
-                      date: widget.historyInfo.date,
-                      lesson: widget.historyInfo.lesson,
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: TutorInfoLessonCard(tutor: widget.tutor),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: ReviewHistoryCard(
-                      historyInfo: widget.historyInfo,
-                    ),
-                  )
-                ],
-              )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DateLesson(
+      padding: const EdgeInsets.all(16.0),
+      decoration: const BoxDecoration(color: scheduleBackgroundColor),
+      child: MediaQuery.of(context).size.width >= 1000
+          ? Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: DateLesson(
                     date: widget.historyInfo.date,
                     lesson: widget.historyInfo.lesson,
                   ),
-                  gapH32,
-                  TutorInfoLessonCard(tutor: widget.tutor),
-                  gapH32,
-                  ReviewHistoryCard(
+                ),
+                Flexible(
+                  flex: 1,
+                  child: TutorInfoLessonCard(tutor: widget.tutor),
+                ),
+                Flexible(
+                  flex: 2,
+                  child: ReviewHistoryCard(
                     historyInfo: widget.historyInfo,
                   ),
-                ],
-              ));
+                )
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DateLesson(
+                  date: widget.historyInfo.date,
+                  lesson: widget.historyInfo.lesson,
+                ),
+                gapH32,
+                TutorInfoLessonCard(tutor: widget.tutor),
+                gapH32,
+                ReviewHistoryCard(
+                  historyInfo: widget.historyInfo,
+                ),
+              ],
+            ),
+    );
   }
 }

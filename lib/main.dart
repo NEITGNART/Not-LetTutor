@@ -12,10 +12,14 @@ import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_con
 import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
 
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:logger/logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'firebase_options.dart';
 import 'src/route/app_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -29,9 +33,23 @@ class AppScrollBehavior extends MaterialScrollBehavior {
 }
 
 class LocalController extends GetxController {
-  var locale = const Locale('en', 'US').obs;
-  void changeLocale(Locale locale) {
+  Rx<Locale> locale = Rx<Locale>(const Locale('en', 'US'));
+  @override
+  Future<void> onInit() async {
+    super.onInit();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? languageCode = prefs.getString('languageCode');
+    final String? countryCode = prefs.getString('countryCode');
+    if (countryCode != null && languageCode != null) {
+      locale.value = Locale(languageCode, countryCode);
+    }
+  }
+
+  Future<void> changeLocale(Locale locale) async {
     this.locale.value = locale;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('languageCode', locale.languageCode);
+    await prefs.setString('countryCode', locale.countryCode ?? '');
   }
 }
 
@@ -49,12 +67,15 @@ Future<void> main() async {
   //   ..indicatorColor = Colors.white
   //   ..userInteractions = false;
 
-//   import 'package:firebase_core/firebase_core.dart';
-// import 'firebase_options.dart';
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    Logger().e(e);
+  }
 
-// await Firebase.initializeApp(
-//     options: DefaultFirebaseOptions.currentPlatform,
-// );
   await Hive.initFlutter();
   Hive.registerAdapter(AuthUserAdapter());
   Get.put(LocalController());
@@ -126,32 +147,32 @@ class _HomePageState extends State<HomePage> {
       //   child: const Icon(Icons.add),
       // ),
       bottomNavigationBar: NavigationBar(
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.home,
               color: Colors.blue,
             ),
-            label: 'Letutor',
+            label: AppLocalizations.of(context)!.home,
           ),
           NavigationDestination(
-              icon: Icon(
+              icon: const Icon(
                 Icons.search,
                 color: Colors.blue,
               ),
-              label: 'Discovery'),
+              label: AppLocalizations.of(context)!.discovery),
           NavigationDestination(
-              icon: Icon(
+              icon: const Icon(
                 Icons.message_outlined,
                 color: Colors.blue,
               ),
-              label: 'Messages'),
+              label: AppLocalizations.of(context)!.messages),
           NavigationDestination(
-              icon: Icon(
+              icon: const Icon(
                 Icons.schedule,
                 color: Colors.blue,
               ),
-              label: 'Upcoming'),
+              label: AppLocalizations.of(context)!.upcomming),
 
           // NavigationDestination(
           //     icon: Icon(
@@ -161,11 +182,11 @@ class _HomePageState extends State<HomePage> {
           //     label: 'Home'),
 
           NavigationDestination(
-            icon: Icon(
+            icon: const Icon(
               Icons.settings,
               color: Colors.blue,
             ),
-            label: 'Settings',
+            label: AppLocalizations.of(context)!.setting,
           ),
         ],
         selectedIndex: _currentPageIndex,

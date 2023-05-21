@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../common/constants.dart';
 import '../../../common/presentation/elevated_button.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -87,8 +88,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   message.statusCode == 200) {
                                 Get.back();
                                 Get.snackbar(
-                                  "Password reset email sent", // Title
-                                  "Check your email for the password reset link", // Message
+                                  AppLocalizations.of(context)!
+                                      .passwordResetSend, // Title
+                                  AppLocalizations.of(context)!
+                                      .passwordResetSendLink, // Message
                                   duration: const Duration(
                                       seconds:
                                           5), // Duration to show the snackbar
@@ -99,7 +102,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   (message.statusCode == 401 ||
                                       message.statusCode == 400)) {
                                 Get.snackbar(
-                                  "Password reset email sent", // Title
+                                  AppLocalizations.of(context)!
+                                      .passwordResetSend, // Title
                                   message.message!, // Message
                                   duration: const Duration(
                                       seconds:
@@ -109,8 +113,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 );
                               } else {
                                 Get.snackbar(
-                                  "Error", // Title
-                                  "Check your internet connection", // Message
+                                  AppLocalizations.of(context)!.error, // Title
+                                  AppLocalizations.of(context)!
+                                      .internetError, // Message
                                   duration: const Duration(
                                       seconds:
                                           5), // Duration to show the snackbar
@@ -130,12 +135,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     child: RichText(
                       text: TextSpan(
                         children: [
-                          const TextSpan(
-                            text: "Don't remember your email?",
+                          TextSpan(
+                            text:
+                                AppLocalizations.of(context)!.dontRememberEmail,
                             // style: bodyLarge(context),
                           ),
                           TextSpan(
-                            text: ' Ask for help',
+                            text:
+                                ' ${AppLocalizations.of(context)!.askForHelp}',
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 // Navigator.pushNamed(context, MyRouter.login);

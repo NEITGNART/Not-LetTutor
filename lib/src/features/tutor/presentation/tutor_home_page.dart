@@ -11,6 +11,7 @@ import 'widget/up_coming_lesson.dart';
 import '../../../utils/countries_list.dart';
 import '../model/tutor.dart';
 import 'controller/tutor_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 var logger = Logger();
 
@@ -80,7 +81,8 @@ class TutorHomePage extends StatelessWidget {
                           //   color: Colors.grey,
                           //   thickness: 1,
                           // ),
-                          Text('Recommended Tutors', style: kTitle1Style),
+                          Text(AppLocalizations.of(context)!.recTutors,
+                              style: kTitle1Style),
                           const SizedBox(
                             height: 10,
                           ),
@@ -97,8 +99,9 @@ class TutorHomePage extends StatelessWidget {
                                     "asset/svg/ic_notfound.svg",
                                     width: 200,
                                   ),
-                                  const Center(
-                                    child: Text('No tutor found'),
+                                  Center(
+                                    child: Text(
+                                        AppLocalizations.of(context)!.noTutor),
                                   ),
                                 ],
                               );

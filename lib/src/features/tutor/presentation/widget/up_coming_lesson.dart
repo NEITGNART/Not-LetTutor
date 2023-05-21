@@ -44,7 +44,7 @@ class UpComingLesson extends StatelessWidget {
           children: [
             if (isUpComingLesson) ...[
               Text(
-                'Upcoming lesson',
+                AppLocalizations.of(context)!.upcomming,
                 style: kTitle1Style.copyWith(color: Colors.white),
               ),
               const SizedBox(height: 30),
@@ -53,7 +53,7 @@ class UpComingLesson extends StatelessWidget {
               Expanded(
                 child: Text(
                   // 'Total lesson time is ${totalLessonTime.inHours} hours ${totalLessonTime.} minutes',
-                  'Total lesson time is ${totalLessonTime.inHours} hours ${totalLessonTime.inMinutes - (totalLessonTime.inHours * 60)} minutes',
+                  '${AppLocalizations.of(context)!.totalLesson} ${totalLessonTime.inHours} ${AppLocalizations.of(context)!.hours} ${totalLessonTime.inMinutes - (totalLessonTime.inHours * 60)} ${AppLocalizations.of(context)!.minutes}',
                   style: kBodyLabelStyle.copyWith(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
@@ -109,7 +109,7 @@ class UpComingLesson extends StatelessWidget {
                 onPressed: () {},
                 icon: const Icon(Icons.play_arrow),
                 // color white
-                label: const Text('Enter lesson room'),
+                label: Text(AppLocalizations.of(context)!.enterRoom),
                 // background color white
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.white),

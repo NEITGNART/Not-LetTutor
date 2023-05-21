@@ -8,6 +8,7 @@ import '../../../../common/constants.dart';
 import '../../../../common/presentation/group_button_ui.dart';
 import '../../../../route/app_route.dart';
 import '../../model/suggested_course.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TutorInfoCard extends StatelessWidget {
   const TutorInfoCard({
@@ -32,7 +33,7 @@ class TutorInfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Languages', style: kTitle1Style),
+          Text(AppLocalizations.of(context)!.language, style: kTitle1Style),
           gapH12,
           SizedBox(
             height: 50,
@@ -42,11 +43,12 @@ class TutorInfoCard extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           gapH12,
-          Text('Specialties', style: kTitle1Style),
+          Text(AppLocalizations.of(context)!.specialized, style: kTitle1Style),
           gapH12,
           SizedBox(height: 50, child: GroupButtonColor(titles: specialties)),
           if (suggestedCourses.isNotEmpty) ...{
-            Text('Suggested Courses', style: kTitle1Style),
+            Text(AppLocalizations.of(context)!.suggestCourse,
+                style: kTitle1Style),
             gapH12,
             Column(
               children: [
@@ -87,7 +89,7 @@ class TutorInfoCard extends StatelessWidget {
             ),
           },
           gapH12,
-          Text('Interests', style: kTitle1Style),
+          Text(AppLocalizations.of(context)!.interests, style: kTitle1Style),
           gapH12,
           Text(
             interests,
@@ -96,7 +98,7 @@ class TutorInfoCard extends StatelessWidget {
             ),
           ),
           gapH12,
-          Text('Teaching Experience', style: kTitle1Style),
+          Text(AppLocalizations.of(context)!.teachingExp, style: kTitle1Style),
           gapH12,
           Text(
             teachingExperience,
