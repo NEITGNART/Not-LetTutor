@@ -1,5 +1,6 @@
 import 'package:beatiful_ui/src/features/schedule/history/presentation/controller/history_controller.dart';
 import 'package:beatiful_ui/src/features/schedule/history/presentation/widgets/index.dart';
+import 'package:beatiful_ui/src/features/tutor/model/booking_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -56,6 +57,7 @@ class HistoryList extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 16),
             padding: const EdgeInsets.all(8),
             child: HistoryLessonCard(
+              bookingInfo: c.bookedClasses[index],
               tutor: c.bookedClasses[index].scheduleDetailInfo!.scheduleInfo!
                   .tutorInfo!,
               historyInfo: HistoryInfo(
@@ -78,8 +80,12 @@ class HistoryList extends StatelessWidget {
 class HistoryLessonCard extends StatefulWidget {
   final HistoryInfo historyInfo;
   final Tutor tutor;
+  final BookingInfo bookingInfo;
   const HistoryLessonCard(
-      {super.key, required this.historyInfo, required this.tutor});
+      {super.key,
+      required this.historyInfo,
+      required this.tutor,
+      required this.bookingInfo});
   @override
   State<HistoryLessonCard> createState() => _HistoryLessonState();
 }
@@ -112,6 +118,7 @@ class _HistoryLessonState extends State<HistoryLessonCard> {
                   flex: 2,
                   child: ReviewHistoryCard(
                     historyInfo: widget.historyInfo,
+                    bookingInfo: widget.bookingInfo,
                   ),
                 )
               ],
@@ -127,6 +134,7 @@ class _HistoryLessonState extends State<HistoryLessonCard> {
                 TutorInfoLessonCard(tutor: widget.tutor),
                 gapH32,
                 ReviewHistoryCard(
+                  bookingInfo: widget.bookingInfo,
                   historyInfo: widget.historyInfo,
                 ),
               ],

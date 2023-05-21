@@ -110,3 +110,7 @@ class AIChatCard extends StatelessWidget {
 String handleOverflow(String message) {
   return message.length > 15 ? '${message.substring(0, 15)}...' : message;
 }
+
+String handleCountryOverflow(String message) {
+  return message.length > 10 ? '${message.substring(0, 10)}...' : message;
+}

@@ -1,6 +1,8 @@
+import 'package:beatiful_ui/src/common/app_sizes.dart';
+import 'package:beatiful_ui/src/features/chat/presentation/chat_page.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/bottom_dialog.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
@@ -11,6 +13,7 @@ import '../../model/tutor_search.dart';
 import '../controller/tutor_detail_controller.dart';
 import '../tutor_home_page.dart';
 import 'detail_review_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyTutorCardReview extends StatelessWidget {
   const MyTutorCardReview({
@@ -50,68 +53,77 @@ class MyTutorCardReview extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 100,
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 30.0,
-                    backgroundImage: NetworkImage(avatarUrl),
-                  ),
-                  const SizedBox(width: 15.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (tutor.name != null) ...{
-                        Text(
-                          tutor.name!.length > 10
-                              ? '${tutor.name!.substring(0, 10)}...'
-                              : tutor.name!,
-                          style: kHeadlineLabelStyle,
-                        ),
-                      },
-                      const SizedBox(height: 5.0),
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 30.0,
+                  backgroundImage: NetworkImage(avatarUrl),
+                ),
+                const SizedBox(width: 15.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    if (tutor.name != null) ...{
                       Row(
                         children: [
-                          SvgPicture.network(
-                            'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/${"vn"}.svg',
-                            width: 20,
+                          Text(
+                            tutor.name!.length > 10
+                                ? '${tutor.name!.substring(0, 10)}...'
+                                : tutor.name!,
+                            style: kHeadlineLabelStyle,
                           ),
-                          const SizedBox(width: 5.0),
-                          Text(getCountry(tutor.country),
-                              style: kSearchPlaceholderStyle),
-                          const SizedBox(width: 5.0),
                         ],
-                      ),
-                      const SizedBox(height: 5.0),
-                      tutor.rating != null
-                          ? getStarsWidget(5, tutor.rating!.floor())
-                          : Text('No rating', style: kSearchPlaceholderStyle),
-                    ],
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding:
-                          const EdgeInsets.only(right: 10.0, left: 10, top: 15),
-                      child: Align(
-                        alignment: Alignment.topRight,
-                        child: tutor.isfavoritetutor != null &&
-                                tutor.isfavoritetutor! == "1"
-                            ? const Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              )
-                            : const Icon(
-                                Icons.favorite_border,
+                      )
+                    },
+                    const SizedBox(height: 5.0),
+                    Row(
+                      children: [
+                        Flag.fromString(
+                          tutor.country ?? 'VN',
+                          height: 20,
+                          width: 20,
+                          replacement: const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: Icon(
+                                Icons.flag,
                                 color: Colors.blue,
-                              ),
-                      ),
+                              )),
+                        ),
+                        gapW4,
+                        Text(
+                          handleOverflow(getCountry(tutor.country)),
+                          style: kSearchPlaceholderStyle.copyWith(
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(width: 5.0),
+                      ],
                     ),
-                  ),
-                ],
-              ),
+                    const SizedBox(height: 5.0),
+                    tutor.rating != null
+                        ? getStarsWidget(5, tutor.rating!.floor())
+                        : Text('No rating', style: kSearchPlaceholderStyle),
+                  ],
+                ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50.0),
+                  child: tutor.isfavoritetutor != null &&
+                          tutor.isfavoritetutor! == "1"
+                      ? const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        )
+                      : const Icon(
+                          Icons.favorite_border,
+                          color: Colors.blue,
+                        ),
+                )
+              ],
             ),
             const SizedBox(height: 10.0),
             // make row scrollable by horizontal
@@ -179,7 +191,7 @@ class MyTutorCardReview extends StatelessWidget {
                       color: Colors.blue,
                       size: 15,
                     ),
-                    label: Text('Book',
+                    label: Text(AppLocalizations.of(context)!.book,
                         style: kCalloutLabelStyle.copyWith(
                             color: Colors.blue, fontSize: 13)))
               ],

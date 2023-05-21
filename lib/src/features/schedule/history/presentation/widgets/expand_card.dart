@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../common/app_sizes.dart';
 import '../../../../../common/constants.dart';
@@ -38,24 +39,24 @@ class HistoryExpandCard extends StatelessWidget {
           Column(
             children: [
               historyInfo.requestContent == null
-                  ? const EmptyExpansionTile(title: 'No request for lesson')
+                  ? EmptyExpansionTile(title: 'No request for lesson'.tr)
                   : CustomExpansionTile(
                       isExpanded: isExpanded,
                       content: historyInfo.requestContent!,
                       title: 'Request for lesson'),
               historyInfo.reviewContent == null
-                  ? const EmptyExpansionTile(title: 'No review from tutor')
+                  ? EmptyExpansionTile(title: 'No review from tutor'.tr)
                   : CustomExpansionTile(
                       isExpanded: isExpanded,
                       content: historyInfo.reviewContent!,
-                      title: 'Review from tutor'),
+                      title: 'Review from tutor'.tr),
               ListTile(
                 leading: TextButton(
                   style: TextButton.styleFrom(
                     padding: const EdgeInsets.all(0),
                   ),
                   onPressed: () {},
-                  child: Text('Add a Rating',
+                  child: Text('Add a Rating'.tr,
                       style: kSearchPlaceholderStyle.copyWith(
                           color: Colors.blue, fontSize: 14)),
                 ),
@@ -65,7 +66,7 @@ class HistoryExpandCard extends StatelessWidget {
                   ),
                   onPressed: () {},
                   child: Text(
-                    'Edit request',
+                    'Edit request'.tr,
                     style: kSearchPlaceholderStyle.copyWith(
                         color: Colors.blue, fontSize: 14),
                   ),

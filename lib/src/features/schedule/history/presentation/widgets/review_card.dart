@@ -1,13 +1,18 @@
+import 'package:beatiful_ui/src/features/tutor/model/booking_info.dart';
+import 'package:beatiful_ui/src/utils/join_meeting.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../common/app_sizes.dart';
 import '../../../../../common/constants.dart';
 import '../../domain/history.dart';
 import 'expand_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ReviewHistoryCard extends StatefulWidget {
   final HistoryInfo historyInfo;
-  const ReviewHistoryCard({super.key, required this.historyInfo});
+  final BookingInfo bookingInfo;
+  const ReviewHistoryCard(
+      {super.key, required this.historyInfo, required this.bookingInfo});
   @override
   State<ReviewHistoryCard> createState() => _ReviewHistoryCardState();
 }
@@ -37,23 +42,23 @@ class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
                         fontWeight: FontWeight.normal,
                       )),
                 ),
-                ElevatedButton.icon(
-                  style: const ButtonStyle(
-                    // border red
-                    // background red
-                    backgroundColor: MaterialStatePropertyAll(
-                      Colors.blue,
-                    ),
-                    // border color red
-                  ),
-                  onPressed: () {},
-                  icon: const Icon(Icons.play_arrow, color: Colors.white),
-                  label: Text(
-                    'Record',
-                    style:
-                        kSearchPlaceholderStyle.copyWith(color: Colors.white),
-                  ),
-                )
+                // ElevatedButton.icon(
+                //   style: const ButtonStyle(
+                //     // border red
+                //     // background red
+                //     backgroundColor: MaterialStatePropertyAll(
+                //       Colors.blue,
+                //     ),
+                //     // border color red
+                //   ),
+                //   onPressed: () {},
+                //   icon: const Icon(Icons.play_arrow, color: Colors.white),
+                //   label: Text(
+                //     'Record',
+                //     style:
+                //         kSearchPlaceholderStyle.copyWith(color: Colors.white),
+                //   ),
+                // )
               ],
             ),
           ),
@@ -67,8 +72,10 @@ class _ReviewHistoryCardState extends State<ReviewHistoryCard> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ElevatedButton(
-                onPressed: () {},
-                child: Text('Go to meeting',
+                onPressed: () async {
+                  await joinMeeting(widget.bookingInfo);
+                },
+                child: Text(AppLocalizations.of(context)!.goMeeting,
                     style: kCaptionLabelStyle.copyWith(
                       color: Colors.white,
                     )),

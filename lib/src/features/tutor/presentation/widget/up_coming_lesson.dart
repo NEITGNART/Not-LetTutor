@@ -144,7 +144,7 @@ class UpComingLesson extends StatelessWidget {
               },
               icon: const Icon(Icons.play_arrow),
               // color white
-              label: const Text('Enter lesson room'),
+              label: Text('Enter lesson room'.tr),
               // background color white
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),

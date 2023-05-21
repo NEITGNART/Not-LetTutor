@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
+import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../features/tutor/model/tutor.dart';
 import '../app_sizes.dart';
@@ -46,9 +46,17 @@ class TutorInfoLessonCard extends StatelessWidget {
               const SizedBox(height: 5.0),
               Row(
                 children: [
-                  SvgPicture.network(
-                    'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
+                  Flag.fromString(
+                    tutor.country ?? 'VN',
+                    height: 20,
                     width: 20,
+                    replacement: const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: Icon(
+                          Icons.flag,
+                          color: Colors.blue,
+                        )),
                   ),
                   const SizedBox(width: 5.0),
                   Text(getCountry(tutor.country),

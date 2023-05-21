@@ -1,5 +1,6 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
+import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -254,9 +255,17 @@ class ReviewCard extends StatelessWidget {
                       const SizedBox(height: 5.0),
                       Row(
                         children: [
-                          SvgPicture.network(
-                            'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/4x3/vn.svg',
+                          Flag.fromString(
+                            tutor.country ?? 'VN',
+                            height: 20,
                             width: 20,
+                            replacement: const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: Icon(
+                                  Icons.flag,
+                                  color: Colors.blue,
+                                )),
                           ),
                           const SizedBox(width: 5.0),
                           Text(getCountry(tutor.country),

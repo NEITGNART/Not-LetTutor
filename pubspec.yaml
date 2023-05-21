@@ -43,7 +43,8 @@ dependencies:
   flutter_riverpod: ^2.3.0
   flutter_secure_storage: ^8.0.0
   flutter_staggered_animations: ^1.1.1
-  flutter_svg: ^2.0.2
+  flutter_svg: ^1.0.1
+  flag: ^6.0.0
   get: ^4.6.5
   jitsi_meet_wrapper: ^0.0.6
   go_router: ^6.0.6

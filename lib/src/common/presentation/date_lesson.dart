@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../app_sizes.dart';
 import '../constants.dart';
 
 class DateLesson extends StatelessWidget {
@@ -20,10 +19,10 @@ class DateLesson extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(date, style: kCalloutLabelStyle.copyWith(fontSize: 18)),
-        gapH4,
-        Text(lesson == 1 ? '1 lesson' : '$lesson consecutive lessons',
-            style: kSearchPlaceholderStyle.copyWith(
-                color: Colors.black, fontSize: 16)),
+        // gapH4,
+        // Text(lesson == 1 ? '1 lesson' : '$lesson consecutive lessons',
+        //     style: kSearchPlaceholderStyle.copyWith(
+        //         color: Colors.black, fontSize: 16)),
       ],
     );
   }

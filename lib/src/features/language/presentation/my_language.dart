@@ -65,11 +65,18 @@ class _MyLanguageState extends State<MyLanguage> {
                         height: 30,
                       ),
                       title: Text(languages[index].name),
-                      onTap: () {
+                      onTap: () async {
                         LocalController c = Get.find();
                         final locale = Locale(languages[index].code,
                             languages[index].countryCode);
-                        c.changeLocale(locale);
+                        await c.changeLocale(locale);
+                        Get.snackbar(
+                          AppLocalizations.of(context)!.success,
+                          '${AppLocalizations.of(context)!.language} ${languages[index].name}',
+                          //bottom
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.blue[100],
+                        );
                       },
                     );
                   },

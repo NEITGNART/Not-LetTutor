@@ -96,12 +96,14 @@ class DetailTutorController extends GetxController {
           looping: false,
           allowFullScreen: false,
           errorBuilder: (context, errorMessage) {
-            return Center(
+            return const Center(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  errorMessage,
-                  style: const TextStyle(color: Colors.white),
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    'Tutor has not uploaded any video yet',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             );

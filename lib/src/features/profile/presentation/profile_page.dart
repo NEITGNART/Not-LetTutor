@@ -103,9 +103,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         Text(AppLocalizations.of(context)!.phone,
                             style: kHeadlineLabelStyle),
                         gapH4,
-                        InputFieldWidget(
-                            controller: c.phoneController,
-                            type: TextInputType.number),
+                        c.user!.isPhoneActivated! == false
+                            ? InputFieldWidget(
+                                controller: c.phoneController,
+                                type: TextInputType.number)
+                            : AbsorbPointer(
+                                child: InputFieldWidget(
+                                    controller: c.phoneController,
+                                    type: TextInputType.number),
+                              ),
                         c.user!.isPhoneActivated! == false
                             ? Container()
                             : Row(
@@ -163,83 +169,77 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Colors.grey, fontSize: 14),
                         ),
                         gapH4,
-                        if (c.newTopics.value.isNotEmpty) ...{
-                          ChipsChoice<String>.multiple(
-                            padding: const EdgeInsets.all(0),
-                            value: c.newTopics.value,
-                            onChanged: (List<String> val) {
-                              if (val.isEmpty) {
-                                c.newTopics.value
-                                    .assignAll(topicsList.keys.toList());
-                                Get.snackbar(
-                                    'Error', 'Please select at least 1',
-                                    backgroundColor: Colors.red,
-                                    colorText: Colors.white);
-                              } else {
-                                c.newTopics.value.assignAll(val);
-                              }
-                              setState(() {});
-                            },
-                            choiceItems: C2Choice.listFrom<String, String>(
-                              source: topicsList.keys.toList(),
-                              value: (i, v) => v,
-                              label: (i, v) => v,
+                        ChipsChoice<String>.multiple(
+                          padding: const EdgeInsets.all(0),
+                          value: c.newTopics.value,
+                          onChanged: (List<String> val) {
+                            if (val.isEmpty) {
+                              c.newTopics.value
+                                  .assignAll(topicsList.keys.toList());
+                              Get.snackbar('Error', 'Please select at least 1',
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white);
+                            } else {
+                              c.newTopics.value.assignAll(val);
+                            }
+                            setState(() {});
+                          },
+                          choiceItems: C2Choice.listFrom<String, String>(
+                            source: topicsList.keys.toList(),
+                            value: (i, v) => v,
+                            label: (i, v) => v,
+                          ),
+                          wrapped: true,
+                          // choiceCheckmark: true,
+                          choiceStyle: C2ChipStyle.outlined(
+                            color: Colors.blue,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(25),
                             ),
-                            wrapped: true,
-                            // choiceCheckmark: true,
-                            choiceStyle: C2ChipStyle.outlined(
-                              color: Colors.blue,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              selectedStyle: C2ChipStyle.filled(
-                                  color: Colors.blue,
-                                  foregroundColor: Colors.white),
-                            ),
-                          )
-                        },
+                            selectedStyle: C2ChipStyle.filled(
+                                color: Colors.blue,
+                                foregroundColor: Colors.white),
+                          ),
+                        ),
                         Text(
                           AppLocalizations.of(context)!.testPre,
                           style: kHeadlineLabelStyle.copyWith(
                               color: Colors.grey, fontSize: 14),
                         ),
                         gapH4,
-                        if (c.newPreparation.value.isNotEmpty) ...{
-                          ChipsChoice<String>.multiple(
-                            padding: const EdgeInsets.all(0),
-                            value: c.newPreparation.value,
-                            onChanged: (List<String> val) {
-                              if (val.isEmpty) {
-                                Get.snackbar(
-                                    AppLocalizations.of(context)!.error,
-                                    'Please select at least 1',
-                                    backgroundColor: Colors.red,
-                                    colorText: Colors.white);
-                                c.newPreparation.value
-                                    .assignAll(prepareList.keys.toList());
-                              } else {
-                                c.newPreparation.value.assignAll(val);
-                              }
-                              setState(() {});
-                            },
-                            choiceItems: C2Choice.listFrom<String, String>(
-                              source: prepareList.keys.toList(),
-                              value: (i, v) => v,
-                              label: (i, v) => v,
+                        ChipsChoice<String>.multiple(
+                          padding: const EdgeInsets.all(0),
+                          value: c.newPreparation.value,
+                          onChanged: (List<String> val) {
+                            if (val.isEmpty) {
+                              Get.snackbar(AppLocalizations.of(context)!.error,
+                                  'Please select at least 1',
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white);
+                              c.newPreparation.value
+                                  .assignAll(prepareList.keys.toList());
+                            } else {
+                              c.newPreparation.value.assignAll(val);
+                            }
+                            setState(() {});
+                          },
+                          choiceItems: C2Choice.listFrom<String, String>(
+                            source: prepareList.keys.toList(),
+                            value: (i, v) => v,
+                            label: (i, v) => v,
+                          ),
+                          wrapped: true,
+                          // choiceCheckmark: true,
+                          choiceStyle: C2ChipStyle.outlined(
+                            color: Colors.blue,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(25),
                             ),
-                            wrapped: true,
-                            // choiceCheckmark: true,
-                            choiceStyle: C2ChipStyle.outlined(
-                              color: Colors.blue,
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(25),
-                              ),
-                              selectedStyle: C2ChipStyle.filled(
-                                  color: Colors.blue,
-                                  foregroundColor: Colors.white),
-                            ),
-                          )
-                        },
+                            selectedStyle: C2ChipStyle.filled(
+                                color: Colors.blue,
+                                foregroundColor: Colors.white),
+                          ),
+                        ),
                         gapH4,
                         TextFieldWidget(
                           // label: lang.schedule,
