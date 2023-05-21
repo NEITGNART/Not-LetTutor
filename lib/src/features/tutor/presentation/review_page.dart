@@ -3,7 +3,6 @@ import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/detail_review_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -39,7 +38,7 @@ class _ReviewPageState extends State<ReviewPage> {
                     }
                     if (c.reviews.isEmpty) {
                       return Center(
-                          child: SvgPicture.asset('asset/svg/ic_notfound.svg'));
+                          child: Image.asset('asset/images/empty.png'));
                     }
                     return ListView.builder(
                       itemCount: c.reviews.length,

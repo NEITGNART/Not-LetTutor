@@ -2,7 +2,6 @@ import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
@@ -203,10 +202,8 @@ class ReviewCard extends StatelessWidget {
           if (c.tutorValue == null) {
             return Column(
               children: [
-                SvgPicture.asset(
-                  "asset/svg/ic_notfound.svg",
-                  width: 200,
-                ),
+                SizedBox(
+                    width: 200, child: Image.asset('asset/images/empty.png')),
                 const Center(child: Text('No data')),
               ],
             );

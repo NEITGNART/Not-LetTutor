@@ -2,7 +2,6 @@ import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/tutor_review_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
@@ -95,10 +94,10 @@ class TutorHomePage extends StatelessWidget {
                             if (tutorC.tutorList.isEmpty) {
                               return Column(
                                 children: [
-                                  SvgPicture.asset(
-                                    "asset/svg/ic_notfound.svg",
-                                    width: 200,
-                                  ),
+                                  SizedBox(
+                                      height: 200,
+                                      child: Image.asset(
+                                          'asset/images/empty.png')),
                                   Center(
                                     child: Text(
                                         AppLocalizations.of(context)!.noTutor),

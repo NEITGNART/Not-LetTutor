@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '868032773881',
     projectId: 'lettutor-94469',
     storageBucket: 'lettutor-94469.appspot.com',
+    androidClientId: '868032773881-ccssabifm9caek5mjtoros2q344uve5a.apps.googleusercontent.com',
     iosClientId: '868032773881-h4dutdhomjnb179u6vvfdul5p03npeoo.apps.googleusercontent.com',
     iosBundleId: 'com.example.beatifulUi.wao',
   );

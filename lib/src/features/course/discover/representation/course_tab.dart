@@ -626,9 +626,9 @@ class EmptyData extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(
-            "asset/svg/ic_notfound.svg",
+          SizedBox(
             width: 200,
+            child: Image.asset('asset/images/empty.png'),
           ),
           Container(
             margin: const EdgeInsets.only(top: 20),

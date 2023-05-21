@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:beatiful_ui/src/features/authentication/data/model/user_auth.dart';
 import 'package:beatiful_ui/src/features/authentication/presentation/controller/login_controller.dart';
@@ -10,15 +11,17 @@ import 'package:beatiful_ui/src/features/course/discover/representation/discover
 import 'package:beatiful_ui/src/common/presentation/sidebar/presentation/sidebar_screen.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_controller.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
-
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'firebase_options.dart';
 import 'src/route/app_route.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -30,6 +33,13 @@ class AppScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.mouse,
         PointerDeviceKind.trackpad,
       };
+}
+
+Future<void> launchUrlAsync(Uri url) async {
+  if (!await launchUrl(
+    url,
+    mode: LaunchMode.externalApplication,
+  )) throw 'Could not launch $url';
 }
 
 class LocalController extends GetxController {
@@ -54,23 +64,124 @@ class LocalController extends GetxController {
 }
 
 Future<void> main() async {
-  // EasyLoading.instance
-  //   ..displayDuration = const Duration(milliseconds: 2000)
-  //   ..indicatorType = EasyLoadingIndicatorType.cubeGrid
-  //   ..maskType = EasyLoadingMaskType.clear
-  //   ..loadingStyle = EasyLoadingStyle.custom
-  //   ..textColor = Colors.black
-  //   ..animationStyle = EasyLoadingAnimationStyle.scale
-  //   ..indicatorSize = 45.0
-  //   ..radius = 10.0
-  //   ..backgroundColor = Color.fromARGB(255, 7, 199, 238)
-  //   ..indicatorColor = Colors.white
-  //   ..userInteractions = false;
-
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
+    );
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+
+    final message = FirebaseMessaging.instance;
+
+    if (Platform.isIOS) {
+      await message.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
+
+    message.subscribeToTopic('all_users');
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) {
+        if (Platform.isIOS) {
+          if (message.data['iosUrl'] != null) {
+            Get.snackbar(
+              message.notification?.title ?? '',
+              message.notification?.body ?? '',
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.white,
+              colorText: Colors.black,
+              margin: const EdgeInsets.all(10),
+              borderRadius: 10,
+              duration: const Duration(seconds: 10),
+              onTap: (snack) {
+                launchUrlAsync(
+                  Uri.parse(
+                    '${message.data['iosUrl']}}',
+                  ),
+                );
+              },
+            );
+          }
+        } else {
+          if (message.data['androidUrl'] != null) {
+            Get.snackbar(
+              message.notification?.title ?? '',
+              message.notification?.body ?? '',
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.white,
+              colorText: Colors.black,
+              margin: const EdgeInsets.all(10),
+              borderRadius: 10,
+              duration: const Duration(seconds: 10),
+              onTap: (snack) {
+                launchUrlAsync(
+                  Uri.parse(
+                    '${message.data['androidUrl']}}',
+                  ),
+                );
+              },
+            );
+          } else if (message.data['url'] != null) {
+            Get.snackbar(
+              message.notification?.title ?? '',
+              message.notification?.body ?? '',
+              snackPosition: SnackPosition.BOTTOM,
+              backgroundColor: Colors.white,
+              colorText: Colors.black,
+              margin: const EdgeInsets.all(10),
+              borderRadius: 10,
+              duration: const Duration(seconds: 10),
+              onTap: (snack) {
+                launchUrlAsync(
+                  Uri.parse(
+                    '${message.data['androidUrl']}}',
+                  ),
+                );
+              },
+            );
+          }
+        }
+      },
+    );
+    // // get token
+    // FirebaseMessaging.instance.getToken().then((token) {
+    //   Logger().e('token $token');
+    // });
+
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (RemoteMessage message) {
+        // Logger().e('A new onMessageOpenedApp event was published!');
+        if (Platform.isIOS) {
+          if (message.data['iosUrl'] != null) {
+            launchUrl(
+              Uri.parse(
+                '${message.data['iosUrl']}}',
+              ),
+            );
+          }
+        } else {
+          if (message.data['androidUrl'] != null) {
+            launchUrlAsync(
+              Uri.parse(
+                '${message.data['androidUrl']}}',
+              ),
+            );
+          } else if (message.data['url'] != null) {
+            launchUrlAsync(
+              Uri.parse(
+                '${message.data['url']}}',
+              ),
+            );
+          }
+        }
+      },
     );
   } catch (e) {
     Logger().e(e);
@@ -86,8 +197,9 @@ Future<void> main() async {
   Get.put(DetailTutorController());
   Get.put(MeetingController());
   runApp(const MyApp());
-  // runApp(const ChewieDemo());
 }
+
+// runApp(const ChewieDemo());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

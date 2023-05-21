@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "868032773881-ccssabifm9caek5mjtoros2q344uve5a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pdt.lettutor",
+            "certificate_hash": "57ab1fe5310e17520b76ef0f144fdff7be0847cf"
+          }
+        },
+        {
           "client_id": "868032773881-fb8h076ikkokm67j8js2k89hiu2c5ri3.apps.googleusercontent.com",
           "client_type": 3
         }
