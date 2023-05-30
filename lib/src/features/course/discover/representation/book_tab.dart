@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:beatiful_ui/src/features/course/discover/representation/course_tab.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -216,7 +216,9 @@ class _BookTabState extends State<BookTab> {
                 child: CircularProgressIndicator(),
               )
             : Expanded(
-                child: _results.isEmpty ? const EmptyData() : getCourseCard(),
+                child: _results.isEmpty
+                    ? const MyEmptyResult(text: "No data")
+                    : getCourseCard(),
               ),
         if (isLoadMore)
           const SizedBox(

@@ -1,5 +1,6 @@
 import 'package:beatiful_ui/src/features/schedule/history/presentation/controller/history_controller.dart';
 import 'package:beatiful_ui/src/features/schedule/history/presentation/widgets/index.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_page.dart';
 import 'package:beatiful_ui/src/features/tutor/model/booking_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,7 +41,7 @@ class HistoryList extends StatelessWidget {
       }
 
       if (c.bookedClasses.isEmpty) {
-        return Center(child: Text(AppLocalizations.of(context)!.historyEmpty));
+        return MyEmptyResult(text: AppLocalizations.of(context)!.historyEmpty);
       }
 
       return ListView.builder(

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/breakpoint.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -423,7 +424,9 @@ class _CourseTabState extends State<CourseTab> {
                 child: CircularProgressIndicator(),
               )
             : Expanded(
-                child: _results.isEmpty ? const EmptyData() : getCourseCard()),
+                child: _results.isEmpty
+                    ? const MyEmptyResult(text: "No data")
+                    : getCourseCard()),
         if (isLoadMore)
           const SizedBox(
             height: 50,
@@ -605,37 +608,6 @@ class DiscoveryChip extends StatelessWidget {
             Icons.arrow_drop_down_sharp,
             size: 25,
             color: isSelect ? Colors.blue : Colors.grey,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class EmptyData extends StatelessWidget {
-  const EmptyData({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: 200,
-            child: Image.asset('asset/images/empty.png'),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-            child: Text(
-              "No data",
-              style: TextStyle(color: Colors.grey[700]),
-            ),
           ),
         ],
       ),

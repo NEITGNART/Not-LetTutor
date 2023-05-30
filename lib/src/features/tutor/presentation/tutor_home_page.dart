@@ -1,5 +1,6 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/common/constants.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_page.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/tutor_review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -92,18 +93,8 @@ class TutorHomePage extends StatelessWidget {
                               );
                             }
                             if (tutorC.tutorList.isEmpty) {
-                              return Column(
-                                children: [
-                                  SizedBox(
-                                      height: 200,
-                                      child: Image.asset(
-                                          'asset/images/empty.png')),
-                                  Center(
-                                    child: Text(
-                                        AppLocalizations.of(context)!.noTutor),
-                                  ),
-                                ],
-                              );
+                              return MyEmptyResult(
+                                  text: AppLocalizations.of(context)!.noTutor);
                             }
                             if (tutorC.tutorList.isNotEmpty) {
                               return ListView.builder(

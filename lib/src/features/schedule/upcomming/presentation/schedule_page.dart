@@ -1,3 +1,4 @@
+import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/controller/schedule_controller.dart';
 import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/widgets/schedule_card.dart';
 import 'package:beatiful_ui/src/utils/date_format.dart';
@@ -43,8 +44,9 @@ class _ScheduleListState extends State<ScheduleList> {
             }
 
             if (widget.c.upcomingClasses.isEmpty) {
-              return Center(
-                  child: Text(AppLocalizations.of(context)!.noClassBook));
+              return MyEmptyResult(
+                text: AppLocalizations.of(context)!.noClassBook,
+              );
             }
 
             return ListView.builder(
@@ -93,6 +95,34 @@ class _ScheduleListState extends State<ScheduleList> {
               });
         })
       ],
+    );
+  }
+}
+
+class MyEmptyResult extends StatelessWidget {
+  const MyEmptyResult({
+    super.key,
+    required this.text,
+  });
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 200,
+            child: Image.asset('asset/images/empty.png'),
+          ),
+          Text(text,
+              style: kCaptionLabelStyle.copyWith(
+                fontSize: 16,
+              )),
+        ],
+      ),
     );
   }
 }

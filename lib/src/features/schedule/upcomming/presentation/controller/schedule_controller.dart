@@ -62,12 +62,12 @@ class ScheduleController extends GetxController {
       isLoading.value = false;
     } catch (e) {
       isLoading.value = false;
-      Get.snackbar(
-        'Error',
-        e.toString(),
-        // bottom
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      // Get.snackbar(
+      //   'Error',
+      //   e.toString(),
+      //   // bottom
+      //   snackPosition: SnackPosition.BOTTOM,
+      // );
     }
   }
 

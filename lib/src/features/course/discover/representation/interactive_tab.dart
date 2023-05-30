@@ -1,5 +1,5 @@
 import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/features/course/discover/representation/course_tab.dart';
+import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_page.dart';
 import 'package:flutter/material.dart';
 
 class InteractiveTab extends StatelessWidget {
@@ -11,7 +11,7 @@ class InteractiveTab extends StatelessWidget {
       child: Column(
         children: [
           gapH16,
-          EmptyData(),
+          MyEmptyResult(text: "No data"),
         ],
       ),
     );

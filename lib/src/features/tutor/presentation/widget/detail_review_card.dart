@@ -203,7 +203,7 @@ class ReviewCard extends StatelessWidget {
             return Column(
               children: [
                 SizedBox(
-                    width: 200, child: Image.asset('asset/images/empty.png')),
+                    height: 200, child: Image.asset('asset/images/empty.png')),
                 const Center(child: Text('No data')),
               ],
             );
