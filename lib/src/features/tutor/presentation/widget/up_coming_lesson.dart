@@ -1,9 +1,8 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../common/constants.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/breakpoint.dart';
+import '../../../../constants/constants.dart';
 import '../../../../utils/join_meeting.dart';
 import '../controller/tutor_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

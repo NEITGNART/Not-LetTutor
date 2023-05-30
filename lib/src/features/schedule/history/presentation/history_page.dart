@@ -5,9 +5,9 @@ import 'package:beatiful_ui/src/features/tutor/model/booking_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/app_sizes.dart';
-import '../../../../common/presentation/date_lesson.dart';
-import '../../../../common/presentation/tutor_info_lesson_cart.dart';
+import '../../../../common_widget/date_lesson.dart';
+import '../../../../common_widget/tutor_info_lesson_cart.dart';
+import '../../../../constants/app_sizes.dart';
 import '../../../../utils/date_format.dart';
 import '../../../tutor/model/tutor.dart';
 import '../domain/history.dart';

@@ -1,13 +1,13 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_controller.dart';
 import 'package:beatiful_ui/src/utils/learning_topics.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../features/tutor/presentation/tutor_home_page.dart';
-import '../constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../constants/app_sizes.dart';
+import '../constants/constants.dart';
 
 class MyFilter extends StatefulWidget {
   const MyFilter({super.key});
@@ -101,7 +101,6 @@ class _MyFilterState extends State<MyFilter> {
           padding: const EdgeInsets.all(0),
           value: nationalityTutor,
           onChanged: (val) => setState(() {
-            logger.i('You just selected $val');
             c.filterByNationality(val);
             nationalityTutor = val;
           }),
@@ -122,61 +121,6 @@ class _MyFilterState extends State<MyFilter> {
           ),
         ),
         gapH12,
-        // Text(
-        //   'Select available tutoring time:',
-        //   style: kTitle2Style.copyWith(
-        //     // fontsize
-        //     fontSize: 14,
-        //   ),
-        // ),
-        // gapH12,
-        // Wrap(
-        //   children: [
-        //     Container(
-        //         decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.circular(30),
-        //           border: Border.all(color: Colors.grey, width: 1),
-        //         ),
-        //         child: const MyDatePicker()),
-        //   ],
-        // ),
-        // gapH12,
-        // Container(
-        //   padding: const EdgeInsets.all(10),
-        //   decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(30),
-        //     border: Border.all(color: Colors.grey, width: 1),
-        //   ),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //     children: [
-        //       Flexible(
-        //         flex: 1,
-        //         child: TextButton(
-        //           onPressed: () {},
-        //           child: Text('Start time:',
-        //               style: kSearchPlaceholderStyle.copyWith(
-        //                 // fontsize
-        //                 fontSize: 16,
-        //               )),
-        //         ),
-        //       ),
-        //       const Icon(Icons.turn_right_rounded),
-        //       Flexible(
-        //         flex: 1,
-        //         child: TextButton(
-        //           onPressed: () {},
-        //           child: Text('End time:',
-        //               style: kSearchPlaceholderStyle.copyWith(
-        //                 // fontsize
-        //                 fontSize: 16,
-        //               )),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-
         Text(
           AppLocalizations.of(context)!.spe,
           style: kTitle1Style,
@@ -211,33 +155,6 @@ class _MyFilterState extends State<MyFilter> {
                 c.filterBySpecialty(specialty);
               });
             }),
-        // GroupButton(titles: allSkillFilter),
-        // Wrap(
-        //   children: <Widget>[
-        //     ...allSkillFilter.map(
-        //       (title) => Padding(
-        //           padding: const EdgeInsets.all(5.0),
-        //           child: ElevatedButton(
-        //               onPressed: () {
-        //                 // change blue color
-        //                 logger.i('You just selected $title');
-        //               },
-
-        //               // border for button
-        //               style: ElevatedButton.styleFrom(
-        //                 backgroundColor:
-        //                     const Color.fromARGB(255, 228, 230, 235),
-        //                 shape: RoundedRectangleBorder(
-        //                   borderRadius: BorderRadius.circular(30),
-        //                 ),
-        //               ),
-        //               child: Text(title,
-        //                   style: kSearchTextStyle.copyWith(
-        //                       color: const Color.fromARGB(
-        //                           255, 100, 100, 100))))),
-        //     ),
-        //   ],
-        // ),
         const SizedBox(
           height: 10,
         ),

@@ -8,9 +8,9 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pdf_render/pdf_render_widgets.dart';
 
-import '../../../../common/app_sizes.dart';
-import '../../../../common/breakpoint.dart';
-import '../../../../common/constants.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/breakpoint.dart';
+import '../../../../constants/constants.dart';
 import '../../../../route/app_route.dart';
 import '../../../tutor/presentation/tutor_home_page.dart';
 import '../../discover/model/course.dart';

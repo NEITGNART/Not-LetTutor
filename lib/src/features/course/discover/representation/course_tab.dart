@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/breakpoint.dart';
 import '../data/repository.dart';
 import '../model/course.dart';
 import '../model/course_category.dart';

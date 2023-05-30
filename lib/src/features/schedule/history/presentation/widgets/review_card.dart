@@ -2,8 +2,8 @@ import 'package:beatiful_ui/src/features/tutor/model/booking_info.dart';
 import 'package:beatiful_ui/src/utils/join_meeting.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../common/app_sizes.dart';
-import '../../../../../common/constants.dart';
+import '../../../../../constants/app_sizes.dart';
+import '../../../../../constants/constants.dart';
 import '../../domain/history.dart';
 import 'expand_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

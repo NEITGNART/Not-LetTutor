@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/tutor/presentation/tutor_home_page.dart';
+import '../features/tutor/presentation/tutor_home_page.dart';
 
 class CircleImage extends StatelessWidget {
   const CircleImage({

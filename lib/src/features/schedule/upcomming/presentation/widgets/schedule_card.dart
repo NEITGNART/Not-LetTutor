@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../common/app_sizes.dart';
-import '../../../../../common/presentation/date_lesson.dart';
-import '../../../../../common/presentation/tutor_info_lesson_cart.dart';
+import '../../../../../common_widget/date_lesson.dart';
+import '../../../../../common_widget/tutor_info_lesson_cart.dart';
+import '../../../../../constants/app_sizes.dart';
 import '../../../../../route/app_route.dart';
 import '../../../../tutor/model/tutor.dart';
 import '../controller/schedule_controller.dart';

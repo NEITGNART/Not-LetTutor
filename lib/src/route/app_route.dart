@@ -9,13 +9,12 @@ import 'package:beatiful_ui/src/features/tutor/presentation/tutor_detail_page.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../main.dart';
 import '../features/authentication/presentation/forget_password.dart';
 import '../features/authentication/presentation/register.dart';
 import '../features/course/details/presentation/detail_lesson_page.dart';
 import '../features/course/discover/model/course.dart';
 import '../features/schedule/history/presentation/history_page.dart';
+import '../features/tutor/presentation/home_page.dart';
 import '../features/tutor/presentation/review_page.dart';
 
 enum AppRoute {
@@ -50,7 +49,6 @@ final configRouter = GoRouter(
         GoRoute(
           path: 'sign_out',
           name: AppRoute.signOut.name,
-          // builder: (context, state) => const ProfilePage(),
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
             child: const LoginPage(),
@@ -60,7 +58,6 @@ final configRouter = GoRouter(
         GoRoute(
           path: 'profile',
           name: AppRoute.profile.name,
-          // builder: (context, state) => const ProfilePage(),
           pageBuilder: (context, state) => MaterialPage<void>(
             key: state.pageKey,
             child: const ProfilePage(),
@@ -128,10 +125,8 @@ final configRouter = GoRouter(
         ),
         GoRoute(
           name: AppRoute.courseDiscovery.name,
-          // path: 'discovery_course/:courseId',
           path: 'discovery_course',
           pageBuilder: (context, state) {
-            // final courseId = state.params['courseId'] ?? '';
             final Course course = state.extra as Course;
             return MaterialPage<void>(
               key: state.pageKey,

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/features/profile/presentation/controller/user_controller.dart';
 import 'package:beatiful_ui/src/features/profile/presentation/widget/textfield.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
@@ -10,9 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../common/constants.dart';
-import '../../../common/presentation/my_date_picker.dart';
-import '../../../common/presentation/sidebar/presentation/drop_down_button.dart';
+import '../../../common_widget/drop_down_button.dart';
+import '../../../common_widget/my_date_picker.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../constants/constants.dart';
 import '../../../utils/countries_list.dart';
 import '../../authentication/presentation/controller/login_controller.dart';
 import 'widget/avatar.dart';

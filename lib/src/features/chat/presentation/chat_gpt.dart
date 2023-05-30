@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../common/app_sizes.dart';
+import '../../../constants/app_sizes.dart';
 import '../models/chat.dart';
 import '../models/custom_chat_request.dart';
 import '../models/custom_chat_response.dart';

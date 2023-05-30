@@ -4,9 +4,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../common/constants.dart';
-import '../../../common/presentation/elevated_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logger/logger.dart';
+
+import '../../../common_widget/elevated_button.dart';
+import '../../../constants/constants.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -84,12 +86,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                               final message =
                                   await AuthFunctions.forgetPassword(
                                       nameController.text.trim());
+                              Logger().i(message);
                               if (message != null &&
-                                  message.statusCode == 200) {
+                                  message.statusCode == null) {
                                 Get.back();
                                 Get.snackbar(
+                                  // ignore: use_build_context_synchronously
                                   AppLocalizations.of(context)!
                                       .passwordResetSend, // Title
+                                  // ignore: use_build_context_synchronously
                                   AppLocalizations.of(context)!
                                       .passwordResetSendLink, // Message
                                   duration: const Duration(
@@ -102,6 +107,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                   (message.statusCode == 401 ||
                                       message.statusCode == 400)) {
                                 Get.snackbar(
+                                  // ignore: use_build_context_synchronously
                                   AppLocalizations.of(context)!
                                       .passwordResetSend, // Title
                                   message.message!, // Message
@@ -113,7 +119,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                 );
                               } else {
                                 Get.snackbar(
+                                  // ignore: use_build_context_synchronously
                                   AppLocalizations.of(context)!.error, // Title
+                                  // ignore: use_build_context_synchronously
                                   AppLocalizations.of(context)!
                                       .internetError, // Message
                                   duration: const Duration(

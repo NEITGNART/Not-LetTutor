@@ -1,11 +1,11 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
 import 'package:flag/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../common/constants.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/constants.dart';
 import '../../../../route/app_route.dart';
 import '../../service/tutor_functions.dart';
 import '../tutor_home_page.dart';

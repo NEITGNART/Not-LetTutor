@@ -5,8 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../common/breakpoint.dart';
+import '../../../../constants/breakpoint.dart';
 import '../data/repository.dart';
 import '../model/Ebook.dart';
 import '../model/course_category.dart';

@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/common/breakpoint.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/controller/tutor_detail_controller.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/bottom_dialog.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/tutor_info_card.dart';
@@ -9,6 +7,8 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../constants/app_sizes.dart';
+import '../../../constants/breakpoint.dart';
 import '../../../utils/learning_topics.dart';
 import 'controller/tutor_controller.dart';
 import 'widget/detail_review_card.dart';

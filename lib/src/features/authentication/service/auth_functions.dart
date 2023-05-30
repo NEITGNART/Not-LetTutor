@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../common/constants.dart';
+import '../../../constants/constants.dart';
 import '../data/model/http_response.dart';
 import '../data/model/login_response.dart';
 import '../data/model/user.dart';
@@ -27,6 +27,10 @@ class ForgotPasswordResponse {
     data['message'] = message;
     return data;
   }
+
+  @override
+  String toString() =>
+      'ForgotPasswordResponse(statusCode: $statusCode, message: $message)';
 }
 
 class AuthFunctions {

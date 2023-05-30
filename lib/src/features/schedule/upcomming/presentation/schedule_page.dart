@@ -1,12 +1,12 @@
-import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/controller/schedule_controller.dart';
 import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/widgets/schedule_card.dart';
 import 'package:beatiful_ui/src/utils/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../common/presentation/pagination.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../../common_widget/pagination.dart';
+import '../../../../constants/constants.dart';
 
 class SchedulePage extends StatelessWidget {
   const SchedulePage({super.key});
@@ -126,40 +126,3 @@ class MyEmptyResult extends StatelessWidget {
     );
   }
 }
-
-// class ScheduleBanner extends StatelessWidget {
-//   const ScheduleBanner({
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: <Widget>[
-//         SizedBox(
-//           width: 120,
-//           height: 120,
-//           child: SvgPicture.network(
-//               'https://sandbox.app.lettutor.com/static/media/calendar-check.7cf3b05d.svg'),
-//         ),
-//         gapW16,
-//         Expanded(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: <Widget>[
-//               Text('Schedule', style: kTitle1Style),
-//               gapH12,
-//               const BlockQuote(
-//                 blockColor: Colors.grey,
-//                 child: Text(
-//                     '''Here is a list of the sessions you have booked\n\nYou can track when the meeting starts, join the meeting with one click or can cancel the meeting before 2 hours'''),
-//               ),
-//               // create blockquote using flutter-quill
-//             ],
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }

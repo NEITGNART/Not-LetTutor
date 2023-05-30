@@ -1,6 +1,6 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 
+import '../../../constants/app_sizes.dart';
 import 'login_form.dart';
 
 class LoginPage extends StatelessWidget {

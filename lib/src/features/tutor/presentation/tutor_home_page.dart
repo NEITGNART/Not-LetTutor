@@ -1,12 +1,12 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:beatiful_ui/src/features/schedule/upcomming/presentation/schedule_page.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/tutor_review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 
-import '../../../common/presentation/my_filter.dart';
+import '../../../common_widget/my_filter.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../constants/constants.dart';
 import 'widget/up_coming_lesson.dart';
 import '../../../utils/countries_list.dart';
 import '../model/tutor.dart';

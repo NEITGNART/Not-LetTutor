@@ -4,16 +4,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -63,8 +53,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '868032773881',
     projectId: 'lettutor-94469',
     storageBucket: 'lettutor-94469.appspot.com',
-    androidClientId: '868032773881-ccssabifm9caek5mjtoros2q344uve5a.apps.googleusercontent.com',
-    iosClientId: '868032773881-h4dutdhomjnb179u6vvfdul5p03npeoo.apps.googleusercontent.com',
+    androidClientId:
+        '868032773881-ccssabifm9caek5mjtoros2q344uve5a.apps.googleusercontent.com',
+    iosClientId:
+        '868032773881-h4dutdhomjnb179u6vvfdul5p03npeoo.apps.googleusercontent.com',
     iosBundleId: 'com.example.beatifulUi.wao',
   );
 }

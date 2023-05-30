@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 
-import '../../../../main.dart';
+import '../../tutor/presentation/home_page.dart';
 import '../data/model/user_auth.dart';
 import 'controller/login_controller.dart';
 import 'login_page.dart';

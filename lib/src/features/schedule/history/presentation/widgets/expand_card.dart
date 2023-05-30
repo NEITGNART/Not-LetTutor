@@ -1,23 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../../common/app_sizes.dart';
-import '../../../../../common/constants.dart';
 import '../../domain/history.dart';
-
-// create a data class has title and content for expand card
-
-// class Enum {
-//   static const String request = 'request';
-//   static const String review = 'review';
-// }
-
-// class HistoryReview {
-//   final String? title;
-//   final String? content;
-//   HistoryReview({this.title, this.content});
-// }
+import '../../../../../constants/app_sizes.dart';
+import '../../../../../constants/constants.dart';
 
 class HistoryExpandCard extends StatelessWidget {
   final HistoryInfo historyInfo;

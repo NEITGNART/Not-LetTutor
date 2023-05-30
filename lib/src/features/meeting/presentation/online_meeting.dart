@@ -1,8 +1,8 @@
-import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../constants/constants.dart';
 import '../../tutor/model/booking_info.dart';
 import 'controller/meeting_controller.dart';
 

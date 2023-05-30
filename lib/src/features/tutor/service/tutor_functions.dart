@@ -6,7 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
-import '../../../common/constants.dart';
+import '../../../constants/constants.dart';
 import '../model/filter_tutor.dart';
 import '../model/tutor.dart';
 import '../model/tutor_review.dart';
@@ -42,11 +42,6 @@ class TutorFunctions {
         body['search'] = filters.search!;
       }
 
-      // if (filters.filters?.nationality != null) {
-      //   Logger().i(filters.filters!.nationality!);
-      //   body['filters']!['nationality'] = filters.filters!.nationality!;
-      // }
-
       var response = await http.post(
         url,
         headers: {
@@ -68,38 +63,6 @@ class TutorFunctions {
       return null;
     }
   }
-
-  // static Future<List<Tutor>?> getTutorList(int page, int perPage) async {
-  //   List<Tutor> tutorList = <Tutor>[];
-  //   try {
-  //     var storage = const FlutterSecureStorage();
-  //     String? token = await storage.read(key: 'accessToken');
-  //     final queryParameters = {
-  //       'perPage': '$perPage',
-  //       'page': '$page',
-  //     };
-  //     var url = Uri.https(apiUrl, 'tutor/more', queryParameters);
-  //     var response = await http.get(
-  //       url,
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer $token'
-  //       },
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       var tutorArray = jsonDecode(response.body)['tutors']['rows'];
-  //       for (var tutor in tutorArray) {
-  //         tutorList.add(Tutor.fromJson(tutor));
-  //       }
-  //       return tutorList;
-  //     } else {
-  //       return null;
-  //     }
-  //   } on Error catch (_) {
-  //     return null;
-  //   }
-  // }
 
   static Future<Tutor?> getTutorInfomation(String id) async {
     try {

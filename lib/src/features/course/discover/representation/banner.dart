@@ -1,8 +1,8 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../common/presentation/blockquote.dart';
+import '../../../../common_widget/blockquote.dart';
+import '../../../../constants/app_sizes.dart';
 
 class DiscoveryBanner extends StatelessWidget {
   const DiscoveryBanner({

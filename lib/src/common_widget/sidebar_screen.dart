@@ -1,9 +1,8 @@
 import 'dart:io';
 
-import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:beatiful_ui/src/features/authentication/presentation/controller/login_controller.dart';
 import 'package:beatiful_ui/src/features/chat/presentation/chat_page.dart';
-import 'package:beatiful_ui/src/features/language/presentation/my_language.dart';
+import 'package:beatiful_ui/src/features/localization/presentation/my_language.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/becom_tutor.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +10,11 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../route/app_route.dart';
-import '../../../constants.dart';
-import '../../../../features/course/details/temp/models/sidebar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../constants/app_sizes.dart';
+import '../constants/constants.dart';
+import '../route/app_route.dart';
 
 class SideBarScreen extends StatefulWidget {
   const SideBarScreen({
@@ -261,6 +261,15 @@ class _SideBarScreenState extends State<SideBarScreen> {
       ),
     );
   }
+}
+
+class SidebarItem {
+  SidebarItem(
+      {required this.title, required this.background, required this.icon});
+
+  String title;
+  LinearGradient background;
+  Icon icon;
 }
 
 class SideBarRow extends StatelessWidget {

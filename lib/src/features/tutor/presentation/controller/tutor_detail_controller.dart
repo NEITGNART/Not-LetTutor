@@ -129,6 +129,8 @@ class DetailTutorController extends GetxController {
 
   Future<void> getSchedules(String tutorId) async {
     List<Schedule>? res = await ScheduleFunctions.getScheduleByTutorId(tutorId);
+
+    // Filter the schedule that has passed
     res = res!.where((schedule) {
       final now = DateTime.now();
       final start =
@@ -138,12 +140,16 @@ class DetailTutorController extends GetxController {
               start.month == now.month &&
               start.year == now.year);
     }).toList();
+
+    // Sort the schedule by startTimestamp
     res.sort((s1, s2) => s1.startTimestamp.compareTo(s2.startTimestamp));
 
     List<Schedule> tempRes = [];
 
     for (int index = 0; index < res.length; index++) {
       bool isExist = false;
+
+      //so group the schedule by day
       for (int index_2 = 0; index_2 < tempRes.length; index_2++) {
         final DateTime first =
             DateTime.fromMillisecondsSinceEpoch(res[index].startTimestamp);
@@ -152,17 +158,17 @@ class DetailTutorController extends GetxController {
         if (first.day == second.day &&
             first.month == second.month &&
             first.year == second.year) {
+          // If exist, add the scheduleDetails to the scheduleDetails of the schedule in tempRes
           tempRes[index_2].scheduleDetails.addAll(res[index].scheduleDetails);
           isExist = true;
           break;
         }
       }
-
       if (!isExist) {
         tempRes.add(res[index]);
       }
     }
-
+    // sort timestamp for each schedule
     for (int index = 0; index < tempRes.length; index++) {
       tempRes[index].scheduleDetails.sort((s1, s2) => DateTime
               .fromMillisecondsSinceEpoch(s1.startPeriodTimestamp)

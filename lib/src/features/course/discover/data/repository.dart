@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../../common/constants.dart';
+import '../../../../constants/constants.dart';
 import '../model/Ebook.dart';
 import '../model/course.dart';
 import '../model/course_category.dart';

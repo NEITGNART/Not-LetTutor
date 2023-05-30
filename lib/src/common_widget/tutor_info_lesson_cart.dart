@@ -2,11 +2,11 @@
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
-
-import '../../features/tutor/model/tutor.dart';
-import '../app_sizes.dart';
-import '../constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../constants/app_sizes.dart';
+import '../constants/constants.dart';
+import '../features/tutor/model/tutor.dart';
 
 class TutorInfoLessonCard extends StatelessWidget {
   final Tutor tutor;

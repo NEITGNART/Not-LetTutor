@@ -1,10 +1,10 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../common/constants.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../constants/constants.dart';
 import '../../../route/app_route.dart';
 import '../data/model/user.dart';
 import 'controller/login_controller.dart';
@@ -53,11 +53,6 @@ class _LoginFormState extends State<LoginForm> {
               style: kTitle1Style.copyWith(color: Colors.blue, fontSize: 30),
             ),
             gapH12,
-            // Container(
-            //   child: Text(
-            //       'Become fluent faster through one on one video chat lessons tailored to your goals.',
-            //       style: kCalloutLabelStyle),
-            // ),
           ],
         ),
 

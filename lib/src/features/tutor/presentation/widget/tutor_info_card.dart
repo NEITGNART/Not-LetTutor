@@ -3,9 +3,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../common/app_sizes.dart';
-import '../../../../common/constants.dart';
-import '../../../../common/presentation/group_button_ui.dart';
+import '../../../../common_widget/group_button_ui.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/constants.dart';
 import '../../../../route/app_route.dart';
 import '../../model/suggested_course.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

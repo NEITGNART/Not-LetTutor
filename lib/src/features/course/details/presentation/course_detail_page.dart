@@ -1,11 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/common/breakpoint.dart';
-import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../common/presentation/circle_image.dart';
+import '../../../../common_widget/circle_image.dart';
+import '../../../../constants/app_sizes.dart';
+import '../../../../constants/breakpoint.dart';
+import '../../../../constants/constants.dart';
 import '../../../../route/app_route.dart';
 import '../../discover/model/course.dart';
 import '../../discover/model/course_topic.dart';

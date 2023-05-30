@@ -1,12 +1,12 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
-import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/tutor_home_page.dart';
 import 'package:beatiful_ui/src/features/tutor/presentation/widget/detail_review_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../common/presentation/pagination.dart';
+import '../../../common_widget/pagination.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../constants/constants.dart';
 import '../model/tutor_review.dart';
 import 'controller/tutor_detail_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../features/tutor/presentation/tutor_home_page.dart';
-
 class MyTimePicker extends StatefulWidget {
   final String title;
   const MyTimePicker({super.key, required this.title});
@@ -39,11 +37,7 @@ class _MyTimePickerState extends State<MyTimePicker> {
               lastDate: DateTime(2024));
 
           if (pickedDate != null) {
-            logger.i(
-                pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
             String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-            logger.i(
-                formattedDate); //formatted date output using intl package =>  2021-03-16
             setState(() {
               dateInput.text =
                   formattedDate; //set output date to TextField value.

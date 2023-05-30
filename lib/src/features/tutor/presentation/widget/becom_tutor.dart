@@ -1,7 +1,8 @@
-import 'package:beatiful_ui/src/common/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../../../constants/app_sizes.dart';
 
 class BecomeTutor extends StatelessWidget {
   const BecomeTutor({super.key});

@@ -1,8 +1,8 @@
-import 'package:beatiful_ui/src/common/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../common/app_sizes.dart';
+import '../../../constants/app_sizes.dart';
+import '../../../constants/constants.dart';
 import '../../tutor/presentation/tutor_home_page.dart';
 import 'chat_gpt.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
